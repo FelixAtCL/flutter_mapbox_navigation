@@ -10,7 +10,6 @@ import 'package:flutter_mapbox_navigation/src/models/voice_units.dart';
 /// 'do not change this configuration option'.
 ///
 class MapBoxOptions {
-
   MapBoxOptions({
     this.initialLatitude,
     this.initialLongitude,
@@ -35,6 +34,8 @@ class MapBoxOptions {
     this.showReportFeedbackButton = true,
     this.showEndOfRouteFeedback = true,
     this.enableOnMapTapCallback = false,
+    this.isTopBarDisabled = false,
+    this.isBottomBarDisabled = false,
   });
 
   MapBoxOptions.from(MapBoxOptions option) {
@@ -168,6 +169,18 @@ class MapBoxOptions {
   /// to where you tap on the map.
   bool? enableOnMapTapCallback;
 
+  /// Gives you the ability to disable the top bar
+  /// (where the ETA and the distance are displayed)
+  /// With this option you can still receive the callbacks from the onRouteEvent
+  /// and can style your own component on top of the map
+  bool? isTopBarDisabled;
+
+  /// Gives you the ability to disable the bottom bar
+  /// (where the maneuver arrow and the next road name are displayed)
+  /// With this option you can still receive the callbacks from the onRouteEvent
+  /// and can style your own component on top of the map
+  bool? isBottomBarDisabled;
+
   Map<String, dynamic> toMap() {
     final optionsMap = <String, dynamic>{};
     void addIfNonNull(String fieldName, dynamic value) {
@@ -225,6 +238,9 @@ class MapBoxOptions {
     addIfNonNull('showReportFeedbackButton', showReportFeedbackButton);
     addIfNonNull('showEndOfRouteFeedback', showEndOfRouteFeedback);
     addIfNonNull('enableOnMapTapCallback', enableOnMapTapCallback);
+
+    addIfNonNull('isTopBarDisabled', isTopBarDisabled);
+    addIfNonNull('isBottomBarDisabled', isBottomBarDisabled);
 
     return optionsMap;
   }

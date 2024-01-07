@@ -16,7 +16,9 @@ public class MapBoxRouteProgressEvent : Codable
     let stepIndex: Int
     let currentLeg: MapBoxRouteLeg
     var priorLeg: MapBoxRouteLeg? = nil
+    var upcomingLeg: MapBoxRouteLeg? = nil
     var remainingLegs: [MapBoxRouteLeg] = []
+    var currentLegProgress: MapBoxRouteLegProgress? = nil
 
     init(progress: RouteProgress) {
 
@@ -32,6 +34,16 @@ public class MapBoxRouteProgressEvent : Codable
         if(progress.priorLeg != nil)
         {
             priorLeg = MapBoxRouteLeg(leg: progress.priorLeg!)
+        }
+
+        if(progress.upcomingLeg != nil)
+        {
+            upcomingLeg = MapBoxRouteLeg(leg: progress.upcomingLeg!)
+        }
+
+        if(progress.currentLegProgress != nil) 
+        {
+            currentLegProgress = MapBoxRouteLegProgress(progress: progress.currentLegProgress)
         }
 
         for leg in progress.remainingLegs

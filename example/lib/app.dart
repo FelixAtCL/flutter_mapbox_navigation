@@ -82,6 +82,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     _navigationOption = MapBoxNavigation.instance.getDefaultOptions();
     _navigationOption.simulateRoute = true;
     _navigationOption.language = "en";
+    _navigationOption.isBottomBarDisabled = true;
+    _navigationOption.isTopBarDisabled = true;
+
     //_navigationOption.initialLatitude = 36.1175275;
     //_navigationOption.initialLongitude = -115.1839524;
     MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
@@ -143,8 +146,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                             opt.bannerInstructionsEnabled = true;
                             opt.units = VoiceUnits.metric;
                             opt.language = "de-DE";
-                            await MapBoxNavigation.instance
-                                .startNavigation(wayPoints: wayPoints, options: opt);
+                            opt.isTopBarDisabled = true;
+                            await MapBoxNavigation.instance.startNavigation(
+                                wayPoints: wayPoints, options: opt);
                           },
                         ),
                         const SizedBox(

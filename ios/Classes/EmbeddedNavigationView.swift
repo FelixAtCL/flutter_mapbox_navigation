@@ -112,7 +112,6 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
 
         if(self.arguments != nil)
         {
-           
             parseFlutterArguments(arguments: arguments)
             
             if(_mapStyleUrlDay != nil)
@@ -290,7 +289,13 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         if(_mapStyleUrlNight != nil){
             nightStyle.mapStyleURL = URL(string: _mapStyleUrlNight!)!
         }
-        let navigationOptions = NavigationOptions(styles: [dayStyle, nightStyle], navigationService: navigationService)
+        let disabledTopBanner = DisabledTopBarViewController()
+        let disabledBottomBanner = DisabledBottomBarViewController()
+        let navigationOptions = NavigationOptions(
+                                        styles: [dayStyle, nightStyle], 
+                                        navigationService: navigationService, 
+                                        topBanner: _isTopBarDisabled ? disabledTopBanner : nil, 
+                                        bottomBanner: _isBottomBarDisabled ? disabledBottomBanner : nil)
 
         // Remove previous navigation view and controller if any
         if(_navigationViewController?.view != nil){
@@ -483,11 +488,7 @@ extension FlutterMapboxNavigationView : UIGestureRecognizerDelegate {
                     strongSelf.navigationMapView.show(routes)
                     strongSelf.navigationMapView.showWaypoints(on: route)
                 }
-
             }
-
-
         }
     }
-
 }

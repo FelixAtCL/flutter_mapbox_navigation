@@ -30,6 +30,8 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     var _voiceUnits = "imperial"
     var _mapStyleUrlDay: String?
     var _mapStyleUrlNight: String?
+    var _isTopBarDisabled: Bool = false
+    var _isBottomBarDisabled: Bool = false
     var _zoom: Double = 13.0
     var _tilt: Double = 0.0
     var _bearing: Double = 0.0
@@ -146,7 +148,12 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
                     if(strongSelf._mapStyleUrlNight != nil){
                         nightStyle.mapStyleURL = URL(string: strongSelf._mapStyleUrlNight!)!
                     }
-                    let navigationOptions = NavigationOptions(styles: [dayStyle, nightStyle], navigationService: navigationService)
+                    let disabledTopBanner = DisabledTopBarViewController()
+                    let disabledBottomBanner = DisabledBottomBarViewController()
+                    let navigationOptions = NavigationOptions(styles: [dayStyle, nightStyle], 
+                                        navigationService: navigationService,
+                                        topBanner: strongSelf._isTopBarDisabled ? disabledTopBanner : nil, 
+                                        bottomBanner: strongSelf._isBottomBarDisabled ? disabledBottomBanner : nil)
                     if (isUpdatingWaypoints) {
                         strongSelf._navigationViewController?.navigationService.router.updateRoute(with: IndexedRouteResponse(routeResponse: response, routeIndex: 0), routeOptions: strongSelf._options) { success in
                             if (success) {
@@ -226,6 +233,8 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         _animateBuildRoute = arguments?["animateBuildRoute"] as? Bool ?? _animateBuildRoute
         _longPressDestinationEnabled = arguments?["longPressDestinationEnabled"] as? Bool ?? _longPressDestinationEnabled
         _alternatives = arguments?["alternatives"] as? Bool ?? _alternatives
+        _isBottomBarDisabled = arguments?["isBottomBarDisabled"] as? Bool ?? _isBottomBarDisabled
+        _isTopBarDisabled = arguments?["isTopBarDisabled"] as? Bool ?? _isTopBarDisabled
     }
     
     
@@ -455,4 +464,65 @@ extension NavigationFactory : NavigationViewControllerDelegate {
             
         }
     }
+}
+
+// MARK: - DisabledTopBarViewController
+
+class DisabledTopBarViewController: ContainerViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+    }
+    
+    open override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+    }
+    
+    // MARK: - NavigationServiceDelegate implementation
+    
+    public func navigationService(_ service: NavigationService, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {
+    }
+    
+    public func navigationService(_ service: NavigationService, didPassVisualInstructionPoint instruction: VisualInstructionBanner, routeProgress: RouteProgress) {
+    }
+    
+    public func navigationService(_ service: NavigationService, didRerouteAlong route: Route, at location: CLLocation?, proactive: Bool) {
+    }
+}
+
+// MARK: - DisabledBottomBarViewController
+
+class DisabledBottomBarViewController: ContainerViewController, DisabledBottomBannerViewDelegate {
+       
+    override func loadView() {
+        super.loadView()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+    
+    private func setupConstraints() {}
+    
+    // MARK: - NavigationServiceDelegate implementation
+    
+    func navigationService(_ service: NavigationService, didUpdate progress: RouteProgress, with location: CLLocation, rawLocation: CLLocation) {   }
+    
+    // MARK: - DisabledBottomBannerViewDelegate implementation
+    
+    func disabledBottomBannerDidCancel() {
+    
+    }
+}
+
+protocol DisabledBottomBannerViewDelegate: AnyObject {
+    func disabledBottomBannerDidCancel()
 }
