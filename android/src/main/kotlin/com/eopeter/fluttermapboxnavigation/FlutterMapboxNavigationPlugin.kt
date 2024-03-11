@@ -100,6 +100,9 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
             "addWayPoints" -> {
                 addWayPointsToNavigation(call, result)
             }
+            "updateWayPoints" -> {
+                updateWayPointsToNavigation(call, result)
+            }
             "finishNavigation" -> {
                 NavigationLauncher.stopNavigation(currentActivity)
             }
@@ -240,6 +243,25 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
             wayPoints.add(Waypoint(name, latitude, longitude, isSilent))
         }
         NavigationLauncher.addWayPoints(currentActivity, wayPoints)
+    }
+
+    private fun updateWayPointsToNavigation(
+        call: MethodCall,
+        result: Result
+    ) {
+        val arguments = call.arguments as? Map<String, Any>
+        val points = arguments?.get("wayPoints") as HashMap<Int, Any>
+
+        wayPoints.clear()
+        for (item in points) {
+            val point = item.value as HashMap<*, *>
+            val name = point["Name"] as String
+            val latitude = point["Latitude"] as Double
+            val longitude = point["Longitude"] as Double
+            val isSilent = point["IsSilent"] as Boolean
+            wayPoints.add(Waypoint(name, latitude, longitude, isSilent))
+        }
+        NavigationLauncher.updateWayPoints(currentActivity, wayPoints)
     }
 
     override fun onListen(args: Any?, events: EventChannel.EventSink?) {

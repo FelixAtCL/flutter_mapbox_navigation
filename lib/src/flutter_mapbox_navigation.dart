@@ -66,6 +66,15 @@ class MapBoxNavigation {
         .addWayPoints(wayPoints: wayPoints);
   }
 
+  /// Updates waypoints
+  ///
+  /// [wayPoints] must not be null and have at least 1 item. These are the new
+  /// waypoints on the rizte
+  Future<dynamic> updateWayPoints({required List<WayPoint> wayPoints}) async {
+    return FlutterMapboxNavigationPlatform.instance
+        .addWayPoints(wayPoints: wayPoints);
+  }
+
   /// Free-drive mode is a unique Mapbox Navigation SDK feature that allows
   /// drivers to navigate without a set destination.
   /// This mode is sometimes referred to as passive navigation.

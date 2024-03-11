@@ -53,6 +53,7 @@ import com.mapbox.navigation.utils.internal.ifNonNull
 class NavigationActivity : AppCompatActivity() {
     private var finishBroadcastReceiver: BroadcastReceiver? = null
     private var addWayPointsBroadcastReceiver: BroadcastReceiver? = null
+    private var updateWayPointsBroadcastReceiver: BroadcastReceiver? = null
     private var points: MutableList<Waypoint> = mutableListOf()
     private var waypointSet: WaypointSet = WaypointSet()
     private var canResetRoute: Boolean = false
@@ -146,6 +147,18 @@ class NavigationActivity : AppCompatActivity() {
             }
         }
 
+        updateWayPointsBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                //get waypoints
+                val stops = intent.getSerializableExtra("waypoints") as? MutableList<Waypoint>
+                points.clear()
+                if (stops != null) {
+                    //append to points
+                    points.addAll(stops)
+                }
+            }
+        }
+
         registerReceiver(
             finishBroadcastReceiver,
             IntentFilter(NavigationLauncher.KEY_STOP_NAVIGATION)
@@ -154,6 +167,11 @@ class NavigationActivity : AppCompatActivity() {
         registerReceiver(
             addWayPointsBroadcastReceiver,
             IntentFilter(NavigationLauncher.KEY_ADD_WAYPOINTS)
+        )
+
+        registerReceiver(
+            updateWayPointsBroadcastReceiver,
+            IntentFilter(NavigationLauncher.KEY_UPDATE_WAYPOINTS)
         )
 
         // TODO set the style Uri

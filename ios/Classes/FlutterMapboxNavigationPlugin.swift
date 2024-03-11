@@ -55,6 +55,10 @@ public class FlutterMapboxNavigationPlugin: NavigationFactory, FlutterPlugin {
         {
             downloadOfflineRoute(arguments: arguments, flutterResult: result)
         }
+        else if(call.method = "updateWayPoints") 
+        {
+            updateWayPoints(arguments: arguments, result: result)
+        }
         else
         {
             result("Method is Not Implemented");

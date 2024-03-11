@@ -109,10 +109,33 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
             {
                 startNavigationWithWayPoints(wayPoints: _wayPoints, flutterResult: result, isUpdatingWaypoints: false)
             }
-            
         }
     }
-    
+
+    func updateWayPoints(arguments: NSDictionary?, result: @escaping FlutterResult) 
+    {
+        _wayPoints.removeAll()
+        _wayPointOrder.removeAll()
+     
+        guard var locations = getLocationsFromFlutterArgument(arguments: arguments) else { return }
+
+        for loc in locations
+        {
+            let location = Waypoint(coordinate: CLLocationCoordinate2D(latitude: loc.latitude!, longitude: loc.longitude!), name: loc.name)
+            
+            location.separatesLegs = !loc.isSilent
+            
+            _wayPoints.append(location)
+            _wayPointOrder[loc.order!] = location
+        }
+
+        if(_wayPoints.count > 3 && arguments?["mode"] == nil)
+        {
+            _navigationMode = "driving"
+        }
+                
+        startNavigationWithWayPoints(wayPoints: _wayPoints, flutterResult: result, isUpdatingWaypoints: true)
+    }    
     
     func startNavigationWithWayPoints(wayPoints: [Waypoint], flutterResult: @escaping FlutterResult, isUpdatingWaypoints: Bool)
     {
