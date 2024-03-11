@@ -81,6 +81,16 @@ abstract class FlutterMapboxNavigationPlatform extends PlatformInterface {
     );
   }
 
+  /// Updates waypoints
+  ///
+  /// [wayPoints] must not be null and have at least 1 item. These are the new
+  /// waypoints on the rizte
+  Future<dynamic> updateWayPoints({required List<WayPoint> wayPoints}) {
+    throw UnimplementedError(
+      'addWayPoints({required wayPoints }) has not been implemented.',
+    );
+  }
+
   ///Ends Navigation and Closes the Navigation View
   Future<bool?> finishNavigation() async {
     throw UnimplementedError('finishNavigation() has not been implemented.');
