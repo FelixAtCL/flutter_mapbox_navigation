@@ -66,6 +66,17 @@ class MapBoxNavigation {
         .addWayPoints(wayPoints: wayPoints);
   }
 
+  /// Add a waypoint or stops to an on-going navigation at a giving position
+  ///
+  /// [wayPoint] must not be null. The way point will
+  /// be inserted at the giving [position], 0 is not allowed.
+  Future<dynamic> addWayPointAt(
+      {required WayPoint wayPoint, required int position}) async {
+    if (position == 0) return;
+    return FlutterMapboxNavigationPlatform.instance
+        .addWayPointAt(wayPoint: wayPoint, position: position);
+  }
+
   /// Updates waypoints
   ///
   /// [wayPoints] must not be null and have at least 1 item. These are the new

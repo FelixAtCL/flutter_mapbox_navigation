@@ -53,6 +53,7 @@ import com.mapbox.navigation.utils.internal.ifNonNull
 class NavigationActivity : AppCompatActivity() {
     private var finishBroadcastReceiver: BroadcastReceiver? = null
     private var addWayPointsBroadcastReceiver: BroadcastReceiver? = null
+    private var addWayPointAtBroadcastReceiver: BroadcastReceiver? = null
     private var updateWayPointsBroadcastReceiver: BroadcastReceiver? = null
     private var points: MutableList<Waypoint> = mutableListOf()
     private var waypointSet: WaypointSet = WaypointSet()
@@ -147,6 +148,14 @@ class NavigationActivity : AppCompatActivity() {
             }
         }
 
+        addWayPointAtBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                val stop = intent.getSerializableExtra("waypoint") as? Waypoint
+                val position = intent.getSerializableExtra("position") as? Int
+                points.add(position, stops)
+            }
+        }
+
         updateWayPointsBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 //get waypoints
@@ -167,6 +176,11 @@ class NavigationActivity : AppCompatActivity() {
         registerReceiver(
             addWayPointsBroadcastReceiver,
             IntentFilter(NavigationLauncher.KEY_ADD_WAYPOINTS)
+        )
+
+        registerReceiver(
+            addWayPointAtBroadcastReceiver,
+            IntentFilter(NavigationLauncher.KEY_ADD_WAYPOINT_AT)
         )
 
         registerReceiver(

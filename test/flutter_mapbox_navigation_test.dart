@@ -42,6 +42,15 @@ class MockFlutterMapboxNavigationPlatform
     ValueSetter<RouteEvent> listener,
   ) =>
       Future.value();
+
+  @override
+  Future<dynamic> updateWayPoints({required List<WayPoint> wayPoints}) =>
+      Future.value();
+
+  @override
+  Future<dynamic> addWayPointAt(
+          {required WayPoint wayPoint, required int position}) =>
+      Future.value();
 }
 
 void main() {

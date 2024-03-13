@@ -92,6 +92,16 @@ class MethodChannelFlutterMapboxNavigation
   }
 
   @override
+  Future<dynamic> addWayPointAt(
+      {required WayPoint wayPoint, required int position}) async {
+    final pointList = _getPointListFromWayPoints([wayPoint]);
+    final wayPointMap = {position: pointList.first};
+    final args = <String, dynamic>{};
+    args['wayPoint'] = wayPointMap;
+    await methodChannel.invokeMethod('addWayPointAt', args);
+  }
+
+  @override
   Future<dynamic> updateWayPoints({required List<WayPoint> wayPoints}) async {
     assert(wayPoints.isNotEmpty, 'Error: WayPoints must be at least 1');
     final pointList = _getPointListFromWayPoints(wayPoints);

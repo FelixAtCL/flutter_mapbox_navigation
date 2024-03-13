@@ -81,6 +81,17 @@ abstract class FlutterMapboxNavigationPlatform extends PlatformInterface {
     );
   }
 
+  /// Add a waypoint or stops to an on-going navigation at a giving position
+  ///
+  /// [wayPoint] must not be null. The way point will
+  /// be inserted at the giving [position], 0 is not allowed.
+  Future<dynamic> addWayPointAt(
+      {required WayPoint wayPoint, required int position}) async {
+    throw UnimplementedError(
+      'addWayPoints({required wayPoints }) has not been implemented.',
+    );
+  }
+
   /// Updates waypoints
   ///
   /// [wayPoints] must not be null and have at least 1 item. These are the new

@@ -66,6 +66,20 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         startNavigationWithWayPoints(wayPoints: _wayPoints, flutterResult: result, isUpdatingWaypoints: true)
     }
     
+    func addWayPointAt(arguments: NSDictionary?, result: @escaping FlutterResult)
+    {
+        guard var args = arguments?["wayPoint"] as? NSDictionary else { return }
+        guard var position = args.key
+        guard var location = getLocationFromFlutterArgument(arguments: arguments) else { return }
+    
+        let wayPoint = Waypoint(coordinate: CLLocationCoordinate2D(latitude: loc.latitude!, longitude: loc.longitude!), name: loc.name)
+
+        wayPoint.separatesLegs = !loc.isSilent
+        _wayPoints.insert(wayPoint, at: position)
+                    
+        startNavigationWithWayPoints(wayPoints: _wayPoints, flutterResult: result, isUpdatingWaypoints: true)
+    }
+
     func startFreeDrive(arguments: NSDictionary?, result: @escaping FlutterResult)
     {
         let freeDriveViewController = FreeDriveViewController()
@@ -334,6 +348,21 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
             locations.sort(by: {$0.order ?? 0 < $1.order ?? 0})
         }
         return locations
+    }
+    
+    func getLocationFromFlutterArgument(arguments: NSDictionary?) -> Location? {
+        
+        guard let oWayPoint = arguments?["wayPoint"] as? NSDictionary else {return nil}
+        
+        let point = item.value as! NSDictionary
+        guard let oName = point["Name"] as? String else {return nil }
+        guard let oLatitude = point["Latitude"] as? Double else {return nil}
+        guard let oLongitude = point["Longitude"] as? Double else {return nil}
+        let oIsSilent = point["IsSilent"] as? Bool ?? false
+        let order = point["Order"] as? Int
+        let location = Location(name: oName, latitude: oLatitude, longitude: oLongitude, order: order,isSilent: oIsSilent)
+        
+        return location;
     }
     
     func getLastKnownLocation() -> Waypoint
