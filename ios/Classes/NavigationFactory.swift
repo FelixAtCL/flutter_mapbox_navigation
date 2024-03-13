@@ -69,7 +69,7 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     func addWayPointAt(arguments: NSDictionary?, result: @escaping FlutterResult)
     {
         guard var args = arguments?["wayPoint"] as? NSDictionary else { return }
-        guard var position = args.key
+        let position = args.key as! Int
         guard var location = getLocationFromFlutterArgument(arguments: arguments) else { return }
     
         let wayPoint = Waypoint(coordinate: CLLocationCoordinate2D(latitude: loc.latitude!, longitude: loc.longitude!), name: loc.name)
