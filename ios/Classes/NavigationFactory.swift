@@ -68,13 +68,12 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     
     func addWayPointAt(arguments: NSDictionary?, result: @escaping FlutterResult)
     {
-        guard var args = arguments?["wayPoint"] as? NSDictionary else { return }
-        let position = args.key as! Int
+        guard var position = arguments?["position"] as? Int else { return }
         guard var location = getLocationFromFlutterArgument(arguments: arguments) else { return }
     
-        let wayPoint = Waypoint(coordinate: CLLocationCoordinate2D(latitude: loc.latitude!, longitude: loc.longitude!), name: loc.name)
+        let wayPoint = Waypoint(coordinate: CLLocationCoordinate2D(latitude: location.latitude!, longitude: location.longitude!), name: location.name)
 
-        wayPoint.separatesLegs = !loc.isSilent
+        wayPoint.separatesLegs = !location.isSilent
         _wayPoints.insert(wayPoint, at: position)
                     
         startNavigationWithWayPoints(wayPoints: _wayPoints, flutterResult: result, isUpdatingWaypoints: true)
@@ -354,12 +353,11 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         
         guard let oWayPoint = arguments?["wayPoint"] as? NSDictionary else {return nil}
         
-        let point = item.value as! NSDictionary
-        guard let oName = point["Name"] as? String else {return nil }
-        guard let oLatitude = point["Latitude"] as? Double else {return nil}
-        guard let oLongitude = point["Longitude"] as? Double else {return nil}
-        let oIsSilent = point["IsSilent"] as? Bool ?? false
-        let order = point["Order"] as? Int
+        guard let oName = oWayPoint["Name"] as? String else {return nil }
+        guard let oLatitude = oWayPoint["Latitude"] as? Double else {return nil}
+        guard let oLongitude = oWayPoint["Longitude"] as? Double else {return nil}
+        let oIsSilent = oWayPoint["IsSilent"] as? Bool ?? false
+        let order = oWayPoint["Order"] as? Int
         let location = Location(name: oName, latitude: oLatitude, longitude: oLongitude, order: order,isSilent: oIsSilent)
         
         return location;

@@ -98,6 +98,7 @@ class MethodChannelFlutterMapboxNavigation
     final wayPointMap = {position: pointList.first};
     final args = <String, dynamic>{};
     args['wayPoint'] = wayPointMap;
+    args['position'] = position;
     await methodChannel.invokeMethod('addWayPointAt', args);
   }
 
