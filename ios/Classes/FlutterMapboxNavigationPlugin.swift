@@ -49,7 +49,7 @@ public class FlutterMapboxNavigationPlugin: NavigationFactory, FlutterPlugin {
         }
         else if(call.method == "addWayPointAt") 
         {
-            addWayPointAt(arguments: argument, result: result);
+            addWayPointAt(arguments: arguments, result: result);
         }
         else if(call.method == "finishNavigation")
         {
