@@ -370,17 +370,16 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     
     
     
-    func sendEvent(eventType: MapBoxEventType, data: String = "")
+    func sendEvent(eventType: MapBoxEventType, data: Any = "", encoding: String.Encoding = String.Encoding.utf8)
     {
         let routeEvent = MapBoxRouteEvent(eventType: eventType, data: data)
         
         let jsonEncoder = JSONEncoder()
         let jsonData = try! jsonEncoder.encode(routeEvent)
-        let eventJson = String(data: jsonData, encoding: String.Encoding.utf8)
+        let eventJson = String(data: jsonData, encoding: encoding)
         if(_eventSink != nil){
             _eventSink!(eventJson)
         }
-        
     }
     
     func downloadOfflineRoute(arguments: NSDictionary?, flutterResult: @escaping FlutterResult)
@@ -458,13 +457,14 @@ extension NavigationFactory : NavigationViewControllerDelegate {
         //_currentLegDescription =  progress.currentLeg.description
         if(_eventSink != nil)
         {
-            let jsonEncoder = JSONEncoder()
+            // let jsonEncoder = JSONEncoder()
             
             let progressEvent = MapBoxRouteProgressEvent(progress: progress)
-            let progressEventJsonData = try! jsonEncoder.encode(progressEvent)
-            let progressEventJson = String(data: progressEventJsonData, encoding: String.Encoding.ascii)
+            // let progressEventJsonData = try! jsonEncoder.encode(progressEvent)
+            // let progressEventJson = String(data: progressEventJsonData, encoding: String.Encoding.ascii)
             
-            _eventSink!(progressEventJson)
+            sendEvent(eventType: MapBoxEventType.progress_change, data: progressEvent, encoding: String.Encoding.ascii)
+            // _eventSink!(progressEventJson)
             
             if(progress.isFinalLeg && progress.currentLegProgress.userHasArrivedAtWaypoint && !_showEndOfRouteFeedback)
             {
