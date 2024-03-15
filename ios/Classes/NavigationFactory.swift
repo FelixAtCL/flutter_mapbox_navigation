@@ -386,7 +386,7 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         
         let jsonEncoder = JSONEncoder()
         let jsonData = try! jsonEncoder.encode(routeEvent)
-        let eventJson = String(data: jsonData, encoding: String.Encoding.utf8)
+        let eventJson = String(data: jsonData, encoding: String.Encoding.ascii)
         if(_eventSink != nil){
             _eventSink!(eventJson)
         }
