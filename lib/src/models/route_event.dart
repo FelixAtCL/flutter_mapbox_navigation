@@ -21,12 +21,9 @@ class RouteEvent {
     }
 
     final dataJson = json['data'];
-    dynamic dataJsonMap = dataJson;
-    dataJsonMap = dataJsonMap as Map<String, dynamic>;
-    final isProgressEvent = dataJsonMap['arrived'] != null;
-    if (isProgressEvent || eventType == MapBoxEvent.progress_change) {
+    if (eventType == MapBoxEvent.progress_change) {
       eventType = MapBoxEvent.progress_change;
-      data = RouteProgressEvent.fromJson(dataJsonMap);
+      data = RouteProgressEvent.fromJson(dataJson as Map<String, dynamic>);
     } else if (eventType == MapBoxEvent.navigation_finished &&
         (dataJson as String).isNotEmpty) {
       data =
