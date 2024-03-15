@@ -82,8 +82,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     _navigationOption = MapBoxNavigation.instance.getDefaultOptions();
     _navigationOption.simulateRoute = true;
     _navigationOption.language = "en";
-    _navigationOption.isBottomBarDisabled = true;
-    _navigationOption.isTopBarDisabled = true;
+    _navigationOption.isBottomBarDisabled = false;
+    _navigationOption.isTopBarDisabled = false;
 
     //_navigationOption.initialLatitude = 36.1175275;
     //_navigationOption.initialLongitude = -115.1839524;
@@ -174,14 +174,14 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     allowsUTurnAtWayPoints: true,
                                     units: VoiceUnits.metric));
                             //after 10 seconds add a new stop
-                            await Future.delayed(const Duration(seconds: 10));
+                            await Future.delayed(const Duration(seconds: 20));
                             var stop = WayPoint(
                                 name: "Gas Station",
                                 latitude: 38.911176544398,
                                 longitude: -77.04014366543564,
                                 isSilent: false);
-                            MapBoxNavigation.instance
-                                .addWayPoints(wayPoints: [stop]);
+                            MapBoxNavigation.instance.updateWayPoints(
+                                wayPoints: wayPoints.skip(2).toList());
                           },
                         ),
                         const SizedBox(
@@ -237,6 +237,16 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                           onPressed: _routeBuilt && !_isNavigating
                               ? () {
                                   _controller?.startNavigation();
+                                  Future.delayed(const Duration(seconds: 3),
+                                      () {
+                                    var stop = WayPoint(
+                                        name: "Gas Station",
+                                        latitude: 38.911176544398,
+                                        longitude: -77.04014366543564,
+                                        isSilent: false);
+                                    MapBoxNavigation.instance
+                                        .addWayPoints(wayPoints: [stop]);
+                                  });
                                 }
                               : null,
                           child: const Text('Start '),

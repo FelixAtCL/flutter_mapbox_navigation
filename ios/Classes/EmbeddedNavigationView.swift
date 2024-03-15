@@ -317,7 +317,18 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         constraintsWithPaddingBetween(holderView: self.navigationMapView, topView: _navigationViewController!.view, padding: 0.0)
         flutterViewController.didMove(toParent: flutterViewController)
         result(true)
+    }
 
+    func updateEmbeddedNavigation(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let response = self.routeResponse else { return }
+        
+        _navigationViewController?.navigationService.router.updateRoute(with: IndexedRouteResponse(routeResponse: response, routeIndex: 0), routeOptions: routeOptions!) { success in
+            if (success) {
+                flutterResult("true")
+            } else {
+                flutterResult("failed to add stop")
+            }
+        }
     }
 
     func constraintsWithPaddingBetween(holderView: UIView, topView: UIView, padding: CGFloat) {
