@@ -155,19 +155,20 @@ class MethodChannelFlutterMapboxNavigation
   }
 
   RouteEvent _parseRouteEvent(String jsonString) {
-    RouteEvent event;
+    // RouteEvent event;
     final map = json.decode(jsonString);
-    final progressEvent =
-        RouteProgressEvent.fromJson(map as Map<String, dynamic>);
-    if (progressEvent.isProgressEvent!) {
-      event = RouteEvent(
-        eventType: MapBoxEvent.progress_change,
-        data: progressEvent,
-      );
-    } else {
-      event = RouteEvent.fromJson(map);
-    }
-    return event;
+    return RouteEvent.fromJson(map as Map<String, dynamic>);
+    // final progressEvent =
+    //     RouteProgressEvent.fromJson(map as Map<String, dynamic>);
+    // if (progressEvent.isProgressEvent!) {
+    //   event = RouteEvent(
+    //     eventType: MapBoxEvent.progress_change,
+    //     data: progressEvent,
+    //   );
+    // } else {
+    //   event = RouteEvent.fromJson(map);
+    // }
+    // return event;
   }
 
   List<Map<String, Object?>> _getPointListFromWayPoints(
