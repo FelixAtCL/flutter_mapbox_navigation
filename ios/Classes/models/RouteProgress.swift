@@ -3,6 +3,7 @@ import MapboxDirections
 import MapboxNavigation
 import MapboxCoreNavigation
 
+// TODO => Advanced own implementation
 // public typealias TimedCongestionLevel = (CongestionLevel, TimeInterval)
 
 public class MapBoxRouteProgress : Codable

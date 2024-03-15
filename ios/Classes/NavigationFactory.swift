@@ -368,9 +368,7 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         return Waypoint(coordinate: CLLocationCoordinate2D(latitude: _lastKnownLocation!.coordinate.latitude, longitude: _lastKnownLocation!.coordinate.longitude))
     }
     
-    
-    
-    func sendEvent(eventType: MapBoxEventType, data: Any = "", encoding: String.Encoding = String.Encoding.utf8)
+    func sendEvent(eventType: MapBoxEventType, data: String = "", encoding: String.Encoding = String.Encoding.utf8)
     {
         let routeEvent = MapBoxRouteEvent(eventType: eventType, data: data)
         
@@ -382,6 +380,18 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
         }
     }
     
+    func sendEvent(eventType: MapBoxEventType, data: MapBoxRouteProgressData)
+    {
+        let routeEvent = MapBoxRouteProgressEvent(eventType: eventType, data: data)
+        
+        let jsonEncoder = JSONEncoder()
+        let jsonData = try! jsonEncoder.encode(routeEvent)
+        let eventJson = String(data: jsonData, encoding: String.Encoding.utf8)
+        if(_eventSink != nil){
+            _eventSink!(eventJson)
+        }
+    }
+
     func downloadOfflineRoute(arguments: NSDictionary?, flutterResult: @escaping FlutterResult)
     {
         /*
@@ -459,11 +469,11 @@ extension NavigationFactory : NavigationViewControllerDelegate {
         {
             // let jsonEncoder = JSONEncoder()
             
-            let progressEvent = MapBoxRouteProgressEvent(progress: progress)
+            let progressEvent = MapBoxRouteProgressData(progress: progress)
             // let progressEventJsonData = try! jsonEncoder.encode(progressEvent)
             // let progressEventJson = String(data: progressEventJsonData, encoding: String.Encoding.ascii)
             
-            sendEvent(eventType: MapBoxEventType.progress_change, data: progressEvent, encoding: String.Encoding.ascii)
+            sendEvent(eventType: MapBoxEventType.progress_change, data: progressEvent)
             // _eventSink!(progressEventJson)
             
             if(progress.isFinalLeg && progress.currentLegProgress.userHasArrivedAtWaypoint && !_showEndOfRouteFeedback)
