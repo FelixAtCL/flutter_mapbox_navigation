@@ -324,9 +324,9 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         
         _navigationViewController?.navigationService.router.updateRoute(with: IndexedRouteResponse(routeResponse: response, routeIndex: 0), routeOptions: routeOptions!) { success in
             if (success) {
-                flutterResult("true")
+                result("true")
             } else {
-                flutterResult("failed to add stop")
+                result("failed to add stop")
             }
         }
     }

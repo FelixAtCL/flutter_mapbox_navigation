@@ -237,16 +237,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                           onPressed: _routeBuilt && !_isNavigating
                               ? () {
                                   _controller?.startNavigation();
-                                  Future.delayed(const Duration(seconds: 3),
-                                      () {
-                                    var stop = WayPoint(
-                                        name: "Gas Station",
-                                        latitude: 38.911176544398,
-                                        longitude: -77.04014366543564,
-                                        isSilent: false);
-                                    MapBoxNavigation.instance
-                                        .addWayPoints(wayPoints: [stop]);
-                                  });
                                 }
                               : null,
                           child: const Text('Start '),

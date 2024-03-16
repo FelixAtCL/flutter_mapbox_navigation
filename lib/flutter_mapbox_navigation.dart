@@ -14,3 +14,11 @@ export 'src/models/models.dart';
 //    traffic details
 // 4. Give possibility to update the route with new waypoints, while navigating
 // 5. Give possibility to set the position of the policy items of Mapbox
+
+
+// Way to go
+// 1. Enable Navigation without traffic for the whole route
+// 2. Enable Navigation with traffic for parts of the route
+// 2.1. Ask the user if he wants navigation with or without traffic
+// 2.2. If with traffic, enable the possibility to ask which part of the route
+//      should be navigated with traffic
