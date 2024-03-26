@@ -18,12 +18,12 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       name: "Way Point 1",
       latitude: 38.9111117447887,
       longitude: -77.04012393951416,
-      isSilent: true);
+      isSilent: false);
   final _stop1 = WayPoint(
       name: "Way Point 2",
       latitude: 38.91113678979344,
       longitude: -77.03847169876099,
-      isSilent: true);
+      isSilent: false);
   final _stop2 = WayPoint(
       name: "Way Point 3",
       latitude: 38.91040213277608,
@@ -33,7 +33,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       name: "Way Point 4",
       latitude: 38.909650771013034,
       longitude: -77.03850388526917,
-      isSilent: true);
+      isSilent: false);
   final _destination = WayPoint(
       name: "Way Point 5",
       latitude: 38.90894949285854,
@@ -125,82 +125,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                       child: const Padding(
                         padding: EdgeInsets.all(10),
                         child: (Text(
-                          "Full Screen Navigation",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          child: const Text("Start A to B"),
-                          onPressed: () async {
-                            var wayPoints = <WayPoint>[];
-                            wayPoints.add(_home);
-                            wayPoints.add(_store);
-                            var opt = MapBoxOptions.from(_navigationOption);
-                            opt.simulateRoute = true;
-                            opt.voiceInstructionsEnabled = true;
-                            opt.bannerInstructionsEnabled = true;
-                            opt.units = VoiceUnits.metric;
-                            opt.language = "de-DE";
-                            opt.isTopBarDisabled = true;
-                            await MapBoxNavigation.instance.startNavigation(
-                                wayPoints: wayPoints, options: opt);
-                          },
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ElevatedButton(
-                          child: const Text("Start Multi Stop"),
-                          onPressed: () async {
-                            _isMultipleStop = true;
-                            var wayPoints = <WayPoint>[];
-                            wayPoints.add(_origin);
-                            wayPoints.add(_stop1);
-                            wayPoints.add(_stop2);
-                            wayPoints.add(_stop3);
-                            wayPoints.add(_destination);
-
-                            MapBoxNavigation.instance.startNavigation(
-                                wayPoints: wayPoints,
-                                options: MapBoxOptions(
-                                    mode: MapBoxNavigationMode.driving,
-                                    simulateRoute: true,
-                                    language: "en",
-                                    allowsUTurnAtWayPoints: true,
-                                    units: VoiceUnits.metric));
-                            //after 10 seconds add a new stop
-                            await Future.delayed(const Duration(seconds: 20));
-                            var stop = WayPoint(
-                                name: "Gas Station",
-                                latitude: 38.911176544398,
-                                longitude: -77.04014366543564,
-                                isSilent: false);
-                            MapBoxNavigation.instance.updateWayPoints(
-                                wayPoints: wayPoints.skip(2).toList());
-                          },
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ElevatedButton(
-                          child: const Text("Free Drive"),
-                          onPressed: () async {
-                            await MapBoxNavigation.instance.startFreeDrive();
-                          },
-                        ),
-                      ],
-                    ),
-                    Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: (Text(
                           "Embedded Navigation",
                           style: TextStyle(color: Colors.white),
                           textAlign: TextAlign.center,
@@ -218,10 +142,12 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     _controller?.clearRoute();
                                   } else {
                                     var wayPoints = <WayPoint>[];
-                                    wayPoints.add(_home);
-                                    wayPoints.add(_store);
+                                    wayPoints.add(_origin);
+                                    wayPoints.add(_stop1);
+                                    // wayPoints.add(_stop2);
+                                    wayPoints.add(_stop3);
                                     _isMultipleStop = wayPoints.length > 2;
-                                    _controller?.buildRoute(
+                                    _controller?.drawRoute(
                                         wayPoints: wayPoints,
                                         options: _navigationOption);
                                   }
@@ -272,52 +198,12 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         ),
                       ),
                     ),
-                    Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: (Text(
-                          _instruction == null
-                              ? "Banner Instruction Here"
-                              : _instruction!,
-                          style: const TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          left: 20.0, right: 20, top: 20, bottom: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              const Text("Duration Remaining: "),
-                              Text(_durationRemaining != null
-                                  ? "${(_durationRemaining! / 60).toStringAsFixed(0)} minutes"
-                                  : "---")
-                            ],
-                          ),
-                          Row(
-                            children: <Widget>[
-                              const Text("Distance Remaining: "),
-                              Text(_distanceRemaining != null
-                                  ? "${(_distanceRemaining! * 0.000621371).toStringAsFixed(1)} miles"
-                                  : "---")
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    const Divider()
                   ],
                 ),
               ),
             ),
             SizedBox(
-              height: 300,
+              height: 500,
               child: Container(
                 color: Colors.grey,
                 child: MapBoxNavigationView(

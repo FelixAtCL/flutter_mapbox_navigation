@@ -43,10 +43,10 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     var _showEndOfRouteFeedback = true
     var _enableOnMapTapCallback = false
     var navigationDirections: Directions?
+    var styleController: StyleController?
     
     func addWayPoints(arguments: NSDictionary?, result: @escaping FlutterResult)
     {
-
         guard var locations = getLocationsFromFlutterArgument(arguments: arguments) else { return }
 
         var nextIndex = 1
@@ -493,9 +493,21 @@ extension NavigationFactory : NavigationViewControllerDelegate {
         
         return true
     }
-    
-    
-    
+        
+    public func navigationViewController(_ navigationViewController: NavigationViewController,
+                                  didAdd finalDestinationAnnotation: PointAnnotation,
+                                  pointAnnotationManager: PointAnnotationManager) {
+        var finalDestinationAnnotation = finalDestinationAnnotation
+        if let image = UIImage(named: "deselected") {
+            finalDestinationAnnotation.image = .init(image: image, name: "marker")
+        } else {
+            let image = UIImage(named: "default_marker", in: .mapboxNavigation, compatibleWith: nil)!
+            finalDestinationAnnotation.image = .init(image: image, name: "marker")
+        }
+        
+        pointAnnotationManager.annotations = [finalDestinationAnnotation]
+    }
+        
     public func navigationViewControllerDidDismiss(_ navigationViewController: NavigationViewController, byCanceling canceled: Bool) {
         if(canceled)
         {

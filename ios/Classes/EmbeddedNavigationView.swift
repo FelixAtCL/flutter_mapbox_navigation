@@ -56,6 +56,10 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
             {
                 strongSelf.buildRoute(arguments: arguments, flutterResult: result)
             }
+            else if(call.method == "drawRoute") 
+            {
+                strongSelf.drawRoute(arguments: arguments, flutterResult: result)
+            }
             else if(call.method == "clearRoute")
             {
                 strongSelf.clearRoute(arguments: arguments, result: result)
@@ -114,6 +118,8 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         {
             parseFlutterArguments(arguments: arguments)
             
+            styleController = StyleController(withMapboxMap: navigationMapView.mapView.mapboxMap)
+
             if(_mapStyleUrlDay != nil)
             {
                 navigationMapView.mapView.mapboxMap.style.uri = StyleURI.init(url: URL(string: _mapStyleUrlDay!)!)
@@ -248,7 +254,79 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
             }
             strongSelf.routeResponse = response
             strongSelf.sendEvent(eventType: MapBoxEventType.route_built, data: strongSelf.encodeRouteResponse(response: response))
-            strongSelf.navigationMapView?.showcase(response.routes!, routesPresentationStyle: .all(shouldFit: true), animated: true)
+            strongSelf.navigationMapView?.show(response.routes!, routesPresentationStyle: .all(shouldFit: true), animated: true)
+            flutterResult(true)
+        }
+    }
+
+    func drawRoute(arguments: NSDictionary?, flutterResult: @escaping FlutterResult)
+    {
+        isEmbeddedNavigation = true
+        sendEvent(eventType: MapBoxEventType.route_drawing)
+
+        guard let oWayPoints = arguments?["wayPoints"] as? NSDictionary else {return}
+
+        var locations = [Location]()
+
+        for item in oWayPoints as NSDictionary
+        {
+            let point = item.value as! NSDictionary
+            guard let oName = point["Name"] as? String else {return}
+            guard let oLatitude = point["Latitude"] as? Double else {return}
+            guard let oLongitude = point["Longitude"] as? Double else {return}
+            let oIsSilent = point["IsSilent"] as? Bool ?? false
+            let order = point["Order"] as? Int
+            let location = Location(name: oName, latitude: oLatitude, longitude: oLongitude, order: order,isSilent: oIsSilent)
+            locations.append(location)
+        }
+
+        if(!_isOptimized)
+        {
+            //waypoints must be in the right order
+            locations.sort(by: {$0.order ?? 0 < $1.order ?? 0})
+        }
+
+        var points = [Waypoint]()
+
+        for loc in locations
+        {
+            let location = Waypoint(coordinate: CLLocationCoordinate2D(latitude: loc.latitude!, longitude: loc.longitude!),
+                                    coordinateAccuracy: -1, name: loc.name)
+            location.separatesLegs = !loc.isSilent
+            points.append(location)
+        }
+
+        parseFlutterArguments(arguments: arguments)
+        
+        let drawMode: ProfileIdentifier = .automobile        
+
+        let routeOptions = NavigationRouteOptions(waypoints: points, profileIdentifier: drawMode)
+
+        if (_allowsUTurnAtWayPoints != nil)
+        {
+            routeOptions.allowsUTurnAtWaypoint = _allowsUTurnAtWayPoints!
+        }
+
+        routeOptions.distanceMeasurementSystem = _voiceUnits == "imperial" ? .imperial : .metric
+        routeOptions.locale = Locale(identifier: _language)
+        routeOptions.includesAlternativeRoutes = _alternatives
+
+        // Generate the route object and draw it on the map
+        _ = Directions.shared.calculate(routeOptions) { [weak self] (session, result) in
+
+            guard case let .success(response) = result, let strongSelf = self else {
+                flutterResult(false)
+                self?.sendEvent(eventType: MapBoxEventType.route_build_failed)
+                return
+            }
+            guard let routes = response.routes,
+                    let currentRoute = routes.first,
+                    let self = self else { return }
+
+            strongSelf.routeResponse = response
+            strongSelf.sendEvent(eventType: MapBoxEventType.route_built, data: strongSelf.encodeRouteResponse(response: response))
+            strongSelf.navigationMapView?.show(routes)
+            strongSelf.navigationMapView.showWaypoints(on: currentRoute)
             flutterResult(true)
         }
     }
@@ -417,6 +495,26 @@ extension FlutterMapboxNavigationView : NavigationMapViewDelegate {
 //        _mapInitialized = true
 //        sendEvent(eventType: MapBoxEventType.map_ready)
 //    }
+
+    // Delegate method, which is called whenever final destination `PointAnnotation` is added on
+    // `MapView`.
+    public func navigationMapView(_ navigationMapView: NavigationMapView,
+                           didAdd finalDestinationAnnotation: PointAnnotation,
+                           pointAnnotationManager: PointAnnotationManager) {
+        var finalDestinationAnnotation = finalDestinationAnnotation
+        if let image = UIImage(named: "deselected") {
+            finalDestinationAnnotation.image = .init(image: image, name: "marker")
+        } else {
+            let image = UIImage(named: "default_marker", in: .mapboxNavigation, compatibleWith: nil)!
+            finalDestinationAnnotation.image = .init(image: image, name: "marker")
+        }
+        
+        // `PointAnnotationManager` is used to manage `PointAnnotation`s and is also exposed as
+        // a property in `NavigationMapView.pointAnnotationManager`. After any modifications to the
+        // `PointAnnotation` changes must be applied to `PointAnnotationManager.annotations`
+        // array. To remove all annotations for specific `PointAnnotationManager`, set an empty array.
+        pointAnnotationManager.annotations = [finalDestinationAnnotation]
+    }
 
     public func navigationMapView(_ mapView: NavigationMapView, didSelect route: Route) {
         self.selectedRouteIndex = self.routeResponse?.routes?.firstIndex(of: route) ?? 0

@@ -3,6 +3,7 @@ import Foundation
 enum MapBoxEventType: String, Codable
 {
     case map_ready
+    case route_drawing
     case route_building
     case route_built
     case route_build_failed

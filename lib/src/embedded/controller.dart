@@ -95,6 +95,49 @@ class MapBoxNavigationViewController {
         .then((dynamic result) => result as bool);
   }
 
+  /// Draws the Route on the Navigation MapView
+  ///
+  /// [wayPoints] must not be null. A collection of [WayPoint](longitude,
+  /// latitude and name). Must be at least 2 or at most 25. Cannot use
+  /// drivingWithTraffic mode if more than 3-waypoints.
+  /// [options] options used to generate the route and used while navigating
+  ///
+  Future<bool> drawRoute({
+    required List<WayPoint> wayPoints,
+    MapBoxOptions? options,
+  }) async {
+    assert(wayPoints.length > 1, 'Error: WayPoints must be at least 2');
+    final pointList = <Map<String, Object?>>[];
+
+    for (var i = 0; i < wayPoints.length; i++) {
+      final wayPoint = wayPoints[i];
+      assert(wayPoint.name != null, 'Error: waypoints need name');
+      assert(wayPoint.latitude != null, 'Error: waypoints need latitude');
+      assert(wayPoint.longitude != null, 'Error: waypoints need longitude');
+
+      final pointMap = <String, dynamic>{
+        'Order': i,
+        'Name': wayPoint.name,
+        'Latitude': wayPoint.latitude,
+        'Longitude': wayPoint.longitude,
+        'IsSilent': wayPoint.isSilent,
+      };
+      pointList.add(pointMap);
+    }
+
+    var i = 0;
+    final wayPointMap = {for (var e in pointList) i++: e};
+
+    var args = <String, dynamic>{};
+    if (options != null) args = options.toMap();
+    args['wayPoints'] = wayPointMap;
+
+    _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
+    return _methodChannel
+        .invokeMethod('drawRoute', args)
+        .then((dynamic result) => result as bool);
+  }
+
   /// starts listening for events
   Future<void> initialize() async {
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
