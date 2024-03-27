@@ -6,12 +6,14 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
-public class StyleController: NSObject, FlutterStreamHandler {
+public class StyleController: NSObject, FlutterStreamHandler 
+{
+    var _eventSink: FlutterEventSink? = nil
+    private var mapboxMap: MapboxMap
 
     let messenger: FlutterBinaryMessenger
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
-    private var mapboxMap: MapboxMap
 
     init(messenger: FlutterBinaryMessenger, withMapboxMap mapboxMap: MapboxMap, viewId: Int64) {
         self.mapboxMap = mapboxMap
@@ -413,7 +415,7 @@ public class StyleController: NSObject, FlutterStreamHandler {
     }
 
     func isStyleLoaded(result: @escaping FlutterResult) {
-        result(NSNumber(value: (mapboxMap.style.isLoaded)), nil)
+        result(NSNumber(value: (mapboxMap.style.isLoaded)))
     }
 
     func getProjectionWithCompletion(_ result: @escaping FlutterResult) {
