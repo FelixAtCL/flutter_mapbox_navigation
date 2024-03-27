@@ -429,6 +429,17 @@ public class StyleController: NSObject, FlutterStreamHandler {
         try! mapboxMap.style.localizeLabels(into: Locale(identifier: locale), forLayerIds: layerIds)
         result(nil)
     }
+    
+    //MARK: EventListener Delegates
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        _eventSink = events
+        return nil
+    }
+    
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        _eventSink = nil
+        return nil
+    }
 
     private static let errorCode = "0"
 }
