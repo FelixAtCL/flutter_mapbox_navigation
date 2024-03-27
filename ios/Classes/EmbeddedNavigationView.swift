@@ -244,16 +244,19 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         self.routeOptions = routeOptions
 
         // Generate the route object and draw it on the map
-        _ = Directions.shared.calculate(routeOptions) { [weak self] (session, result) in
+        Directions.shared.calculate(routeOptions) { [weak self] (session, result) in
 
             guard case let .success(response) = result, let strongSelf = self else {
                 flutterResult(false)
                 self?.sendEvent(eventType: MapBoxEventType.route_build_failed)
                 return
             }
+            guard let routes = response.routes,
+                    let self = self else { return }
+            
             strongSelf.routeResponse = response
             strongSelf.sendEvent(eventType: MapBoxEventType.route_built, data: strongSelf.encodeRouteResponse(response: response))
-            strongSelf.navigationMapView?.show(response.routes!, routesPresentationStyle: .all(shouldFit: true), animated: true)
+            strongSelf.navigationMapView?.showcase(routes, routesPresentationStyle: .all(shouldFit: true), animated: true)
             flutterResult(true)
         }
     }
@@ -311,7 +314,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         routeOptions.includesAlternativeRoutes = _alternatives
 
         // Generate the route object and draw it on the map
-        _ = Directions.shared.calculate(routeOptions) { [weak self] (session, result) in
+        Directions.shared.calculate(routeOptions) { [weak self] (session, result) in
 
             guard case let .success(response) = result, let strongSelf = self else {
                 flutterResult(false)
