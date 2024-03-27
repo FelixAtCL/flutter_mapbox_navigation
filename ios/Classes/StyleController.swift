@@ -36,6 +36,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             {
                 strongSelf.getStyleURI(result: result)
             }
+            // TODO: Add mising functions!
             else
             {
                 result("method is not implemented");

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -190,6 +191,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     await _controller?.style.getStyleURI() ??
                                         "";
                                 print(uri);
+                                await _loadMarker();
                               },
                         child: const Text("Testing"),
                       ),
@@ -282,4 +284,77 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     }
     setState(() {});
   }
+
+  Future<void> _loadMarker() async {
+    var source = "example-source";
+    var layer = "example-layer";
+    var img = "assets/deselected.png";
+
+    var data = jsonEncode({
+      "type": "FeatureCollection",
+      "features": [],
+    });
+
+    await _addSource(id: source, data: data, isCluster: false);
+
+    dynamic markerProps = {
+      "id": layer,
+      "type": "symbol",
+      "source": source,
+      "filter": [
+        "!",
+        ["has", "point_count"]
+      ],
+      "layout": {
+        "icon-image": img,
+        "icon-size": 0.25,
+        "icon-anchor":
+            IconAnchor.BOTTOM.toString().split('.').last.toLowerCase(),
+      }
+    };
+
+    await _addStyleLayer(id: layer, props: json.encode(markerProps));
+
+    var latitudeBuldern = 51.866478;
+    var longitudeBuldern = 7.369059;
+    var content =
+        _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
+    var features = jsonEncode({
+      "type": "FeatureCollection",
+      "features": [content]
+    });
+    var sourceToUpdate =
+        (await _controller?.style.getSource(source)) as GeoJsonSource;
+    await sourceToUpdate.updateGeoJSON(features);
+  }
+
+  Future _addSource(
+      {required String id, required String data, bool? isCluster}) async {
+    var exists = await _controller?.style.styleSourceExists(id);
+    if (exists == true) return;
+    var source = GeoJsonSource(id: id, data: data, cluster: isCluster);
+    await _controller?.style.addSource(source);
+  }
+
+  Future _addStyleLayer(
+      {required String id,
+      required String props,
+      LayerPosition? position}) async {
+    var exists = await _controller?.style.styleLayerExists(id);
+    if (exists == true) return;
+    await _controller?.style.addStyleLayer(props, position);
+  }
+
+  Map<String, dynamic> _createContentFromCoordinate(double lat, double long) =>
+      {
+        "type": "Feature",
+        "properties": {
+          "id": "example-id",
+          "type": "example-marker",
+        },
+        "geometry": {
+          "type": "Point",
+          "coordinates": [long, lat]
+        }
+      };
 }
