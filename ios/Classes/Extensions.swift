@@ -3,25 +3,25 @@ import MapboxMaps
 
 let COORDINATES = "coordinates"
 // FLT to Mapbox
-public extension FLTMapMemoryBudgetInMegabytes {
+extension FLTMapMemoryBudgetInMegabytes {
     func toMapMemoryBudgetInMegabytes() -> MapMemoryBudgetInMegabytes {
         return MapMemoryBudgetInMegabytes.init(size: size.uint64Value)
     }
 }
 
-public extension FLTMapMemoryBudgetInTiles {
+extension FLTMapMemoryBudgetInTiles {
     func toTMapMemoryBudgetInTiles() -> MapMemoryBudgetInTiles {
         return MapMemoryBudgetInTiles.init(size: size.uint64Value)
     }
 }
 
-public extension FLTSourceQueryOptions {
+extension FLTSourceQueryOptions {
     func toSourceQueryOptions() throws -> SourceQueryOptions {
         //        let filterExp =  try JSONDecoder().decode(Expression.self, from: filter.data(using: .utf8)!)
         return SourceQueryOptions(sourceLayerIds: sourceLayerIds, filter: filter)
     }
 }
-public extension FLTRenderedQueryOptions {
+extension FLTRenderedQueryOptions {
     func toRenderedQueryOptions() throws -> RenderedQueryOptions {
         var filterExp: Exp?
         if filter != nil {
@@ -31,33 +31,33 @@ public extension FLTRenderedQueryOptions {
         return RenderedQueryOptions(layerIds: layerIds, filter: filterExp)
     }
 }
-public extension FLTMercatorCoordinate {
+extension FLTMercatorCoordinate {
     func toMercatorCoordinate() -> MercatorCoordinate {
         return MercatorCoordinate(x: x.doubleValue, y: y.doubleValue)
     }
 }
-public extension FLTProjectedMeters {
+extension FLTProjectedMeters {
     func toProjectedMeters() -> ProjectedMeters {
         return ProjectedMeters(northing: northing.doubleValue, easting: easting.doubleValue)
     }
 }
-public extension FLTMapDebugOptions {
+extension FLTMapDebugOptions {
     func toMapDebugOptions() -> MapDebugOptions {
         return MapDebugOptions(rawValue: Int(self.data.rawValue))!
     }
 }
-public extension FLTCameraOptions {
+extension FLTCameraOptions {
     func toCameraOptions() -> CameraOptions {
         return CameraOptions(center: convertDictionaryToCLLocationCoordinate2D(dict: self.center), padding: self.padding?.toUIEdgeInsets(), anchor: self.anchor?.toCGPoint(), zoom: self.zoom?.CGFloat, bearing: self.bearing?.CLLocationDirection, pitch: self.pitch?.CGFloat)
     }
 }
 
-public extension FLTCameraBoundsOptions {
+extension FLTCameraBoundsOptions {
     func toCameraBoundsOptions() -> CameraBoundsOptions {
         return CameraBoundsOptions(bounds: self.bounds?.toCoordinateBounds(), maxZoom: self.maxZoom?.CGFloat, minZoom: self.minZoom?.CGFloat, maxPitch: self.maxPitch?.CGFloat, minPitch: self.minPitch?.CGFloat)
     }
 }
-public extension FLTScreenBox {
+extension FLTScreenBox {
     func toScreenBox() -> ScreenBox {
         return ScreenBox(min: self.min.toScreenCoordinate(), max: self.max.toScreenCoordinate())
     }
@@ -66,12 +66,12 @@ public extension FLTScreenBox {
         return toScreenBox().toCGRect()
     }
 }
-public extension ScreenBox {
+extension ScreenBox {
     func toCGRect() -> CGRect {
         return CGRect(x: min.x, y: min.y, width: max.x - min.x, height: max.y - min.y)
     }
 }
-public extension FLTScreenCoordinate {
+extension FLTScreenCoordinate {
     func toScreenCoordinate() -> ScreenCoordinate {
         return ScreenCoordinate(x: self.x.doubleValue, y: self.y.doubleValue)
     }
@@ -80,7 +80,7 @@ public extension FLTScreenCoordinate {
         return CGPoint(x: self.x.doubleValue, y: self.y.doubleValue)
     }
 }
-public extension FLTCoordinateBounds {
+extension FLTCoordinateBounds {
     func toCoordinateBounds() -> CoordinateBounds {
         let southwest = convertDictionaryToCLLocationCoordinate2D(dict: self.southwest)
         let northeast = convertDictionaryToCLLocationCoordinate2D(dict: self.northeast)
@@ -88,13 +88,13 @@ public extension FLTCoordinateBounds {
     }
 }
 
-public extension FLTCanonicalTileID {
+extension FLTCanonicalTileID {
     func toCanonicalTileID() -> CanonicalTileID {
         return CanonicalTileID(z: UInt8(truncating: self.z), x: UInt32(truncating: self.x), y: UInt32(truncating: self.y))
     }
 }
 
-public extension FLTLayerPosition {
+extension FLTLayerPosition {
     func toLayerPosition() -> LayerPosition {
         var position = LayerPosition.default
         if self.above != nil {position = LayerPosition.above(self.above!)} else if self.below != nil {position = LayerPosition.below(self.below!)} else if self.at != nil {position = LayerPosition.at(Int(truncating: (self.at)!))}
@@ -102,7 +102,7 @@ public extension FLTLayerPosition {
     }
 }
 
-public extension FLTTransitionOptions {
+extension FLTTransitionOptions {
     func toTransitionOptions() -> TransitionOptions {
         return TransitionOptions(
             duration: self.duration?.doubleValue,
@@ -111,7 +111,7 @@ public extension FLTTransitionOptions {
     }
 }
 
-public extension FLTMbxEdgeInsets {
+extension FLTMbxEdgeInsets {
     func toUIEdgeInsets() -> UIEdgeInsets {
         return UIEdgeInsets(
             top: self.top.doubleValue,
@@ -122,7 +122,7 @@ public extension FLTMbxEdgeInsets {
 }
 
 // Mapbox to FLT
-public extension Feature {
+extension Feature {
     func toMap() -> [String: Any] {
         let jsonData = try! JSONEncoder().encode(geoJSONObject)
         let json = String(data: jsonData, encoding: .utf8)
@@ -130,7 +130,7 @@ public extension Feature {
         return convertStringToDictionary(properties: json!)
     }
 }
-public extension FeatureExtensionValue {
+extension FeatureExtensionValue {
     func toFLTFeatureExtensionValue() -> FLTFeatureExtensionValue {
         let featureCollection = features?.map({$0.toMap()})
         var resultValue: String?
@@ -138,18 +138,18 @@ public extension FeatureExtensionValue {
         return FLTFeatureExtensionValue.make(withValue: resultValue, featureCollection: featureCollection)
     }
 }
-public extension QueriedFeature {
+extension QueriedFeature {
     func toFLTQueriedFeature() -> FLTQueriedFeature {
         let stateString = convertDictionaryToString(dict: state as? [String: Any])
         return FLTQueriedFeature.make(withFeature: feature.toMap(), source: source, sourceLayer: sourceLayer, state: stateString)
     }
 }
-public extension MercatorCoordinate {
+extension MercatorCoordinate {
     func toFLTMercatorCoordinate() -> FLTMercatorCoordinate {
         return FLTMercatorCoordinate.makeWith(x: NSNumber(value: x), y: NSNumber(value: y))
     }
 }
-public extension ResourceOptions {
+extension ResourceOptions {
     func toFLTResourceOptions() -> FLTResourceOptions {
         let data = FLTTileStoreUsageMode(rawValue: UInt(self.tileStoreUsageMode.rawValue))
         return FLTResourceOptions.make(
@@ -161,25 +161,25 @@ public extension ResourceOptions {
         )
     }
 }
-public extension MapDebugOptions {
+extension MapDebugOptions {
     func toFLTMapDebugOptions() -> FLTMapDebugOptions {
         let data = FLTMapDebugOptionsData(rawValue: UInt(self.rawValue))!
         return FLTMapDebugOptions.make(with: data)
     }
 }
 
-public extension CGSize {
+extension CGSize {
     func toFLTSize() -> FLTSize {
         return FLTSize.make(withWidth: NSNumber(value: self.width), height: NSNumber(value: self.height))
     }
 }
-public extension GlyphsRasterizationOptions {
+extension GlyphsRasterizationOptions {
     func toFLTGlyphsRasterizationOptions() -> FLTGlyphsRasterizationOptions {
         let mode = FLTGlyphsRasterizationMode(rawValue: UInt(self.rasterizationMode.rawValue))
         return FLTGlyphsRasterizationOptions.make(with: mode!, fontFamily: self.fontFamily)
     }
 }
-public extension MapOptions {
+extension MapOptions {
     func toFLTMapOptions() -> FLTMapOptions {
         return FLTMapOptions.make(
             withContextMode: .init(value: .SHARED),
@@ -194,27 +194,27 @@ public extension MapOptions {
         )
     }
 }
-public extension CameraBounds {
+extension CameraBounds {
     func toFLTCameraBounds() -> FLTCameraBounds {
         return FLTCameraBounds.make(with: self.bounds.toFLTCoordinateBounds(), maxZoom: NSNumber(value: self.maxZoom), minZoom: NSNumber(value: self.minZoom), maxPitch: NSNumber(value: self.maxPitch), minPitch: NSNumber(value: self.minPitch))
     }
 }
-public extension CGPoint {
+extension CGPoint {
     func toFLTScreenCoordinate() -> FLTScreenCoordinate {
         return FLTScreenCoordinate.makeWith(x: NSNumber(value: self.x), y: NSNumber(value: self.y))
     }
 }
-public extension CoordinateBoundsZoom {
+extension CoordinateBoundsZoom {
     func toFLTCoordinateBoundsZoom() -> FLTCoordinateBoundsZoom {
         return FLTCoordinateBoundsZoom.make(with: self.bounds.toFLTCoordinateBounds(), zoom: NSNumber(value: self.zoom))
     }
 }
-public extension CoordinateBounds {
+extension CoordinateBounds {
     func toFLTCoordinateBounds() -> FLTCoordinateBounds {
         return FLTCoordinateBounds.make(withSouthwest: self.southwest.toDict(), northeast: self.northeast.toDict(), infiniteBounds: NSNumber(value: self.isInfiniteBounds))
     }
 }
-public extension CameraOptions {
+extension CameraOptions {
     func toFLTCameraOptions() -> FLTCameraOptions {
         let center = self.center != nil ? self.center?.toDict(): nil
         let padding = self.padding != nil ? FLTMbxEdgeInsets.make(
@@ -231,7 +231,7 @@ public extension CameraOptions {
         return FLTCameraOptions.make(withCenter: center, padding: padding, anchor: anchor, zoom: zoom, bearing: bearing, pitch: pitch)
     }
 }
-public extension TransitionOptions {
+extension TransitionOptions {
     func toFLTTransitionOptions() -> FLTTransitionOptions {
         let duration = self.duration != nil ? NSNumber(value: Int(self.duration!)) : nil
         let delay = self.delay != nil ? NSNumber(value: Int(self.delay!)) : nil
@@ -240,7 +240,7 @@ public extension TransitionOptions {
         return FLTTransitionOptions.make(withDuration: duration, delay: delay, enablePlacementTransitions: enablePlacementTransitions)
     }
 }
-public extension StylePropertyValue {
+extension StylePropertyValue {
     func toFLTStylePropertyValue(property: String) -> FLTStylePropertyValue {
         let data = FLTStylePropertyValueKind(rawValue: UInt(self.kind.rawValue))!
         if property == "tiles" || property == "bounds" || property == "clusterProperties" {
@@ -252,22 +252,22 @@ public extension StylePropertyValue {
     }
 }
 
-public extension Point {
+extension Point {
     func toMap() -> [String: Any] {
         return [COORDINATES: [coordinates.longitude, coordinates.latitude]]
     }
 }
-public extension LineString {
+extension LineString {
     func toMap() -> [String: Any] {
         return [COORDINATES: coordinates.map({[$0.longitude, $0.latitude]})]
     }
 }
-public extension Polygon {
+extension Polygon {
     func toMap() -> [String: Any] {
         return [COORDINATES: coordinates.map({$0.map {[$0.longitude, $0.latitude]}})]
     }
 }
-public extension CLLocationCoordinate2D {
+extension CLLocationCoordinate2D {
     func toDict() -> [String: Any] {
         return [COORDINATES: [self.longitude, self.latitude]]
     }
@@ -374,7 +374,7 @@ func toRgb(alpha: Int, red: Int, green: Int, blue: Int) -> Int {
     return (alpha << 24) + (red << 16) + (green << 8) + blue
 }
 
-public extension StyleColor {
+extension StyleColor {
     func rgb() -> Int {
         return toRgb(
             alpha: Int(self.alpha * 255),
@@ -385,7 +385,7 @@ public extension StyleColor {
     }
 }
 
-public extension UIColor {
+extension UIColor {
     func rgb() -> Int {
          var fRed: CGFloat = 0
          var fGreen: CGFloat = 0
