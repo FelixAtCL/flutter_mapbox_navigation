@@ -369,7 +369,7 @@ public class StyleController: NSObject, FlutterStreamHandler
         guard let sdf = arguments?["sdf"] as? NSNumber else { return }
         guard let stretchX = arguments?["stretchX"] as? [FLTImageStretches] else { return }
         guard let stretchY = arguments?["stretchY"] as? [FLTImageStretches] else { return }
-        guard let content = arguments?["content"] as? FLTImageContent else { return }
+        let content = arguments?["content"] as? FLTImageContent ?? nil
 
         guard let image = UIImage(data: mbImage.data.data, scale: CGFloat(truncating: scale)) else { return }
         var imageContent: ImageContent?
