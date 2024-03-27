@@ -66,7 +66,8 @@ class CircleAnnotationManager extends BaseAnnotationManager {
 
   /// Controls the frame of reference for `circle-translate`.
   Future<void> setCircleTranslateAnchor(
-          CircleTranslateAnchor circleTranslateAnchor) =>
+    CircleTranslateAnchor circleTranslateAnchor,
+  ) =>
       messager.setCircleTranslateAnchor(id, circleTranslateAnchor);
 
   /// Controls the frame of reference for `circle-translate`.

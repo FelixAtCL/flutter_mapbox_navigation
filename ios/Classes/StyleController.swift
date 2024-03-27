@@ -47,18 +47,20 @@ public class StyleController: NSObject, FlutterStreamHandler
         result(mapboxMap.style.uri?.rawValue)
     }
 
-    func setStyleURIUri(_ uri: String, result: @escaping FlutterResult) {
+    func setStyleURI(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let uri = arguments?["uri"] as? String else { return }
         mapboxMap.style.uri = StyleURI(rawValue: uri)
-        result("Set Style URI finished")
+        result(nil)
     }
 
     func getStyleJSON(result: @escaping FlutterResult) {
         result(mapboxMap.style.JSON)
     }
 
-    func setStyleJSONJson(_ json: String, result: @escaping FlutterResult) {
+    func setStyleJSON(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let json = arguments?["json"] as? String else { return }        
         mapboxMap.style.JSON = json
-        result("Set Style Json finished")
+        result(nil)
     }
 
     func getStyleDefaultCamera(result: @escaping FlutterResult) {
@@ -71,16 +73,17 @@ public class StyleController: NSObject, FlutterStreamHandler
         result(transition.toFLTTransitionOptions())
     }
 
-    func setStyleTransitionTransitionOptions(_ transitionOptions: FLTTransitionOptions,
-                                             result: @escaping FlutterResult) {
+    func setStyleTransition(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let transitionOptions = arguments?["transition"] as? FLTTransitionOptions else { return }
         mapboxMap.style.transition = transitionOptions.toTransitionOptions()
-        result("Set Style Transition Options finished")
+        result(nil)
     }
 
-    func addStyleLayerProperties(_ properties: String, layerPosition: FLTLayerPosition?,
-                                 result: @escaping FlutterResult) {
+    func addStyleLayer(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let properties = arguments?["properties"] as? String else { return }
             let layerProperties: [String: Any] = convertStringToDictionary(properties: properties)
+            guard let layerPosition = arguments?["layerposition"] as? FLTLayerPosition else { return }
             try mapboxMap.style.addLayer(with: layerProperties, layerPosition: layerPosition?.toLayerPosition())
             result(nil)
         } catch {
@@ -88,31 +91,31 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func addPersistentStyleLayerProperties(_ properties: String, layerPosition: FLTLayerPosition?,
-                                           result: @escaping FlutterResult) {
+    func addPersistentStyleLayer(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
-            try mapboxMap.style
-                .addPersistentLayer(
-                    with: convertStringToDictionary(properties: properties),
-                    layerPosition: layerPosition?.toLayerPosition()
-                )
+            guard let properties = arguments?["properties"] as? String else { return }
+            let layerProperties: [String: Any] = convertStringToDictionary(properties: properties)
+            guard let layerPosition = arguments?["layerposition"] as? FLTLayerPosition else { return }
+            try mapboxMap.style.addPersistentLayer(with: layerProperties, layerPosition: layerPosition?.toLayerPosition())
             result(nil)
         } catch {
             result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
         }
     }
 
-    func isStyleLayerPersistentLayerId(_ layerId: String,                                       result: @escaping FlutterResult) {
+    func isStyleLayerPersistent(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let layerId = arguments?["id"] as? String else { return }
             let isPersistent = try mapboxMap.style.isPersistentLayer(id: layerId)
-            result(NSNumber(value: isPersistent))
+            result(isPersistent)
         } catch {
             result(FlutterError(code: "\(error)", message: nil, details: nil))
         }
     }
 
-    func removeStyleLayerLayerId(_ layerId: String, result: @escaping FlutterResult) {
+    func removeStyleLayer(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let layerId = arguments?["id"] as? String else { return }
             try mapboxMap.style.removeLayer(withId: layerId)
             result(nil)
         } catch {
@@ -120,8 +123,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func moveStyleLayerLayerId(_ layerId: String, layerPosition: FLTLayerPosition?,result: @escaping FlutterResult) {
+    func moveStyleLayerLayerId(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let layerId = arguments?["id"] as? String else { return }
+            guard let layerPosition = arguments?["layerposition"] as? FLTLayerPosition else { return }
             if layerPosition != nil {
                 try mapboxMap.style.moveLayer(withId: layerId, to: layerPosition!.toLayerPosition())
             } else {
@@ -133,9 +138,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func styleLayerExistsLayerId(_ layerId: String,result: @escaping FlutterResult) {
-        let existes = mapboxMap.style.layerExists(withId: layerId)
-        result(NSNumber(value: existes))
+    func styleLayerExists(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let layerId = arguments?["id"] as? String else { return }
+        let exists = mapboxMap.style.layerExists(withId: layerId)
+        result(exists)
     }
 
     func getStyleLayers(result: @escaping FlutterResult) {
@@ -145,15 +151,18 @@ public class StyleController: NSObject, FlutterStreamHandler
         result(layerInfos)
     }
 
-    func getStyleLayerPropertyLayerId(_ layerId: String,                                      property: String,result: @escaping FlutterResult) {
+    func getStyleLayerProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let layerId = arguments?["id"] as? String else { return }
+        guard let property = arguments?["property"] as? String else { return }
         let layerProperty = mapboxMap.style.layerProperty(for: layerId, property: property)
         result(layerProperty.toFLTStylePropertyValue(property: property))
     }
 
-    func setStyleLayerPropertyLayerId(_ layerId: String,
-                                      property: String,
-                                      value: Any,result: @escaping FlutterResult) {
+    func setStyleLayerProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let layerId = arguments?["id"] as? String else { return }
+            guard let property = arguments?["property"] as? String else { return }
+            guard let value = arguments?["value"] as? Any else { return }
             var mappedValue = value
             if let stringValue = value as? String {
                 if stringValue.hasPrefix("[") || stringValue.hasPrefix("{") {
@@ -170,8 +179,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleLayerPropertiesLayerId(_ layerId: String,result: @escaping FlutterResult) {
+    func getStyleLayerProperties(_ layerId: String,result: @escaping FlutterResult) {
         do {
+            guard let layerId = arguments?["id"] as? String else { return }
             let properties = try mapboxMap.style.layerProperties(for: layerId)
             result(convertDictionaryToString(dict: properties))
         } catch {
@@ -179,7 +189,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func setStyleLayerPropertiesLayerId(_ layerId: String, properties: String,result: @escaping FlutterResult) {
+    func setStyleLayerProperties(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let layerId = arguments?["id"] as? String else { return }
+        guard let properties = arguments?["properties"] as? String else { return }
         let data = properties.data(using: String.Encoding.utf8)!
         let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
         do {
@@ -190,8 +202,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func addStyleSourceSourceId(_ sourceId: String, properties: String, result: @escaping FlutterResult) {
+    func addStyleSource(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
+            guard let properties = arguments?["properties"] as? String else { return }
             try mapboxMap.style.addSource(withId: sourceId,
                                           properties: convertStringToDictionary(properties: properties))
             result(nil)
@@ -200,14 +214,18 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleSourcePropertySourceId(_ sourceId: String, property: String,result: @escaping FlutterResult) {
+    func getStyleSourceProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let sourceId = arguments?["id"] as? String else { return }
+        guard let property = arguments?["property"] as? String else { return }
         let sourceProperty = mapboxMap.style.sourceProperty(for: sourceId, property: property)
         result(sourceProperty.toFLTStylePropertyValue(property: property))
     }
 
-    func setStyleSourcePropertySourceId(_ sourceId: String, property: String,
-                                        value: Any, result: @escaping FlutterResult) {
+    func setStyleSourceProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
+            guard let property = arguments?["property"] as? String else { return }
+            guard let value = arguments?["value"] as? Any else { return }
             try mapboxMap.style.setSourceProperty(for: sourceId, property: property, value: value)
             result(nil)
         } catch {
@@ -215,8 +233,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleSourcePropertiesSourceId(_ sourceId: String,result: @escaping FlutterResult) {
+    func getStyleSourceProperties(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
             let properties = try mapboxMap.style.sourceProperties(for: sourceId)
             result(convertDictionaryToString(dict: properties))
         } catch {
@@ -224,8 +243,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func setStyleSourcePropertiesSourceId(_ sourceId: String, properties: String,result: @escaping FlutterResult) {
+    func setStyleSourceProperties(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
+            guard let properties = arguments?["properties"] as? String else { return }
             try mapboxMap.style.setSourceProperties(for: sourceId,
                                                        properties: convertStringToDictionary(properties: properties))
             result(nil)
@@ -234,7 +255,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func updateStyleImageSourceImageSourceId(_ sourceId: String, image: FLTMbxImage, result: @escaping FlutterResult) {
+    func updateStyleImageSourceImage(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let sourceId = arguments?["id"] as? String else { return }
+        guard let mbxImage = arguments?["image"] as? FLTMbxImage else { return }
         guard let image = UIImage(data: image.data.data, scale: UIScreen.main.scale) else { return }
         do {
             try mapboxMap.style.updateImageSource(withId: sourceId, image: image)
@@ -244,8 +267,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func removeStyleSourceSourceId(_ sourceId: String, result: @escaping FlutterResult) {
+    func removeStyleSource(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
             try mapboxMap.style.removeSource(withId: sourceId)
             result(nil)
         } catch {
@@ -253,9 +277,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func styleSourceExistsSourceId(_ sourceId: String, result: @escaping FlutterResult) {
-        let existes = mapboxMap.style.sourceExists(withId: sourceId)
-        result(NSNumber(value: existes))
+    func styleSourceExists(_ sourceId: String, result: @escaping FlutterResult) {
+        guard let sourceId = arguments?["id"] as? String else { return }
+        let exists = mapboxMap.style.sourceExists(withId: sourceId)
+        result(exists)
     }
 
     func getStyleSources(result: @escaping FlutterResult) {
@@ -265,7 +290,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         result(sourcesInfos)
     }
 
-    func setStyleLightProperties(_ properties: String, result: @escaping FlutterResult) {
+    func setStyleLight(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let properties = arguments?["properties"] as? String else { return }
         let data = properties.data(using: String.Encoding.utf8)!
         let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
         do {
@@ -276,13 +302,16 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleLightPropertyProperty(_ property: String,result: @escaping FlutterResult) {
+    func getStyleLightProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let property = arguments?["property"] as? String else { return }
         let lightProperty: StylePropertyValue = mapboxMap.style.lightProperty(property)
         result(lightProperty.toFLTStylePropertyValue(property: property))
     }
 
-    func setStyleLightPropertyProperty(_ property: String, value: Any,result: @escaping FlutterResult) {
+    func setStyleLightProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let property = arguments?["property"] as? String else { return }
+            guard let value = arguments?["value"] as? Any else { return }
             try mapboxMap.style.setLightProperty(property, value: value)
             result(nil)
         } catch {
@@ -290,7 +319,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func setStyleTerrainProperties(_ properties: String, result: @escaping FlutterResult) {
+    func setStyleTerrain(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let properties = arguments?["properties"] as? String else { return }
         let data = properties.data(using: String.Encoding.utf8)!
         let jsonObject = try? JSONSerialization.jsonObject(with: data, options: [])
         do {
@@ -301,13 +331,16 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleTerrainPropertyProperty(_ property: String,result: @escaping FlutterResult) {
+    func getStyleTerrainProperty(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let property = arguments?["property"] as? String else { return }
         let terrainProperty: StylePropertyValue = mapboxMap.style.terrainProperty(property)
         result(terrainProperty.toFLTStylePropertyValue(property: property))
     }
 
-    func setStyleTerrainPropertyProperty(_ property: String, value: Any,result: @escaping FlutterResult) {
+    func setStyleTerrainProperty(_ property: String, value: Any,result: @escaping FlutterResult) {
         do {
+            guard let property = arguments?["property"] as? String else { return }
+            guard let value = arguments?["value"] as? Any else { return }
             try mapboxMap.style.setTerrainProperty(property, value: value)
             result(nil)
         } catch {
@@ -315,7 +348,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func getStyleImageImageId(_ imageId: String, result: @escaping FlutterResult) {
+    func getStyleImage(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let imageId = arguments?["id"] as? String else { return }
         guard let image = mapboxMap.style.image(withId: imageId) else {
             result(nil)
             return
@@ -328,14 +362,16 @@ public class StyleController: NSObject, FlutterStreamHandler
                                     data: data))
     }
 
-    func addStyleImageImageId(_ imageId: String, scale: NSNumber,
-                              image: FLTMbxImage, sdf: NSNumber,
-                              stretchX: [FLTImageStretches],
-                              stretchY: [FLTImageStretches],
-                              content: FLTImageContent?,
-                              result: @escaping FlutterResult) {
+    func addStyleImage(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let imageId = arguments?["id"] as? String else { return }
+        guard let scale = arguments?["scale"] as? NSNumber else { return }
+        guard let mbImage = arguments?["image"] as? FLTMbxImage else { return }
+        guard let sdf = arguments?["sdf"] as? NSNumber else { return }
+        guard let stretchX = arguments?["stretchX"] as? [FLTImageStretches] else { return }
+        guard let stretchY = arguments?["stretchY"] as? [FLTImageStretches] else { return }
+        guard let content = arguments?["content"] as? FLTImageContent else { return }
 
-        guard let image = UIImage(data: image.data.data, scale: CGFloat(truncating: scale)) else { return }
+        guard let image = UIImage(data: mbImage.data.data, scale: CGFloat(truncating: scale)) else { return }
         var imageContent: ImageContent?
         if content != nil {
             imageContent = ImageContent(left: Float(truncating: content!.left),
@@ -359,8 +395,9 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func removeStyleImageImageId(_ imageId: String, result: @escaping FlutterResult) {
+    func removeStyleImage(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let imageId = arguments?["id"] as? String else { return }
             try mapboxMap.style.removeImage(withId: imageId)
             result(nil)
         } catch {
@@ -368,7 +405,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func hasStyleImageImageId(_ imageId: String, result: @escaping FlutterResult) {
+    func hasStyleImage(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let imageId = arguments?["id"] as? String else { return }
         let image = mapboxMap.style.image(withId: imageId)
         result(NSNumber(value: image != nil))
     }
@@ -393,9 +431,10 @@ public class StyleController: NSObject, FlutterStreamHandler
 //        }
 //    }
 
-    func invalidateStyleCustomGeometrySourceTileSourceId(_ sourceId: String,
-                                                         tileId: FLTCanonicalTileID,result: @escaping FlutterResult) {
+    func invalidateStyleCustomGeometrySourceTile(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
+            guard let tileId = arguments?["tileId"] as? FLTCanonicalTileID else { return }
             try mapboxMap.style.invalidateCustomGeometrySourceTile(forSourceId: sourceId,
                                                                    tileId: tileId.toCanonicalTileID())
             result(nil)
@@ -404,10 +443,10 @@ public class StyleController: NSObject, FlutterStreamHandler
         }
     }
 
-    func invalidateStyleCustomGeometrySourceRegionSourceId(_ sourceId: String,
-                                                           bounds: FLTCoordinateBounds,
-                                                           result: @escaping FlutterResult) {
+    func invalidateStyleCustomGeometrySourceRegion(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
+            guard let sourceId = arguments?["id"] as? String else { return }
+            guard let bounds = arguments?["bounds"] as? FLTCoordinateBounds else { return }
             try mapboxMap.style.invalidateCustomGeometrySourceRegion(forSourceId: sourceId,
                                                                      bounds: bounds.toCoordinateBounds())
             result(nil)
@@ -417,19 +456,22 @@ public class StyleController: NSObject, FlutterStreamHandler
     }
 
     func isStyleLoaded(result: @escaping FlutterResult) {
-        result(NSNumber(value: (mapboxMap.style.isLoaded)))
+        result(mapboxMap.style.isLoaded)
     }
 
-    func getProjectionWithCompletion(_ result: @escaping FlutterResult) {
+    func getProjection(_ result: @escaping FlutterResult) {
         result(mapboxMap.style.projection.name.rawValue)
     }
 
-    func setProjectionProjection(_ projection: String, result: @escaping FlutterResult) {
+    func setProjection(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let projection = arguments?["projection"] as? String else { return }
         try! mapboxMap.style.setProjection(projection == "globe" ? StyleProjection(name: StyleProjectionName.globe) : StyleProjection(name: StyleProjectionName.mercator))
         result(nil)
     }
 
-    func localizeLabelsLocale(_ locale: String, layerIds: [String]?, result: @escaping FlutterResult) {
+    func localizeLabels(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let locale = arguments?["locale"] as? String else { return }
+        guard let layerIds = arguments?["layerids"] as? [String] else { return }
         try! mapboxMap.style.localizeLabels(into: Locale(identifier: locale), forLayerIds: layerIds)
         result(nil)
     }
