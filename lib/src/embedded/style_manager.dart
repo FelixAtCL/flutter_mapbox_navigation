@@ -24,6 +24,7 @@ class StyleManager {
         message: 'Unable to establish connection on channel.',
       );
     }
+    return replyList;
   }
 
   // /// Load style from provided URI.

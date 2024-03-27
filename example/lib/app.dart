@@ -181,15 +181,29 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         )
                       ],
                     ),
-                    ElevatedButton(
-                      onPressed: _inFreeDrive
-                          ? null
-                          : () async {
-                              _inFreeDrive =
-                                  await _controller?.startFreeDrive() ?? false;
-                            },
-                      child: const Text("Free Drive "),
-                    ),
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      ElevatedButton(
+                        onPressed: _inFreeDrive
+                            ? null
+                            : () async {
+                                var uri =
+                                    await _controller?.style.getStyleURI() ??
+                                        "";
+                                print(uri);
+                              },
+                        child: const Text("Testing"),
+                      ),
+                      ElevatedButton(
+                        onPressed: _inFreeDrive
+                            ? null
+                            : () async {
+                                _inFreeDrive =
+                                    await _controller?.startFreeDrive() ??
+                                        false;
+                              },
+                        child: const Text("Free Drive "),
+                      ),
+                    ]),
                     const Center(
                       child: Padding(
                         padding: EdgeInsets.all(10),
