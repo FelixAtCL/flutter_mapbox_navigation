@@ -4,10 +4,10 @@ part of mapbox_navigation_flutter;
 /// A filled polygon with an optional stroked border.
 class FillLayer extends Layer {
   FillLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.fillSortKey,
@@ -18,8 +18,7 @@ class FillLayer extends Layer {
     this.fillPattern,
     this.fillTranslate,
     this.fillTranslateAnchor,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "fill";
@@ -116,11 +115,11 @@ class FillLayer extends Layer {
       map["paint"] = {};
     }
     return FillLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -128,7 +127,7 @@ class FillLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       fillSortKey: map["layout"]["fill-sort-key"] is num?
           ? (map["layout"]["fill-sort-key"] as num?)?.toDouble()
           : null,
@@ -145,7 +144,7 @@ class FillLayer extends Layer {
           ? map["paint"]["fill-pattern"] as String?
           : null,
       fillTranslate: (map["paint"]["fill-translate"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       fillTranslateAnchor: map["paint"]["fill-translate-anchor"] == null
           ? null
@@ -154,7 +153,7 @@ class FillLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["fill-translate-anchor"])),
+              .contains(map["paint"]["fill-translate-anchor"] as String)),
     );
   }
 }

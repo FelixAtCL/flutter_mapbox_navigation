@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_mapbox_navigation/src/embedded/controller.dart';
+import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 import 'package:flutter_mapbox_navigation/src/models/models.dart';
 
 /// Callback method for when the navigation view is ready to be used.

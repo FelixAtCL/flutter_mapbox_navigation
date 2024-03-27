@@ -1,13 +1,13 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../../mapbox_navigation_flutter.dart';
 
 /// Raster map textures such as satellite imagery.
 class RasterLayer extends Layer {
   RasterLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.rasterBrightnessMax,
@@ -18,8 +18,7 @@ class RasterLayer extends Layer {
     this.rasterOpacity,
     this.rasterResampling,
     this.rasterSaturation,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "raster";
@@ -116,11 +115,11 @@ class RasterLayer extends Layer {
       map["paint"] = {};
     }
     return RasterLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -128,7 +127,7 @@ class RasterLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       rasterBrightnessMax: map["paint"]["raster-brightness-max"] is num?
           ? (map["paint"]["raster-brightness-max"] as num?)?.toDouble()
           : null,
@@ -154,7 +153,7 @@ class RasterLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["raster-resampling"])),
+              .contains(map["paint"]["raster-resampling"] as String)),
       rasterSaturation: map["paint"]["raster-saturation"] is num?
           ? (map["paint"]["raster-saturation"] as num?)?.toDouble()
           : null,

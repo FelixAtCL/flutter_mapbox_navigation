@@ -1,9 +1,10 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../mapbox_navigation_flutter.dart';
 
 /// The global light source.
 /// Check the [online documentation](https://www.mapbox.com/mapbox-gl-style-spec/#light).
 class Light {
+  /// Creates a new instance of a Light Class.
   Light({
     this.anchor,
     this.color,
@@ -36,27 +37,27 @@ class Light {
   StyleTransition? positionTransition;
 
   String encode() {
-    var properties = <String, dynamic>{};
+    final properties = <String, dynamic>{};
     if (anchor != null) {
-      properties["anchor"] = anchor?.toString().split('.').last.toLowerCase();
+      properties['anchor'] = anchor?.toString().split('.').last.toLowerCase();
     }
     if (color != null) {
-      properties["color"] = color?.toRGBA();
+      properties['color'] = color?.toRGBA();
     }
     if (colorTransition != null) {
-      properties["colorTransition"] = colorTransition?.encode();
+      properties['colorTransition'] = colorTransition?.encode();
     }
     if (intensity != null) {
-      properties["intensity"] = intensity;
+      properties['intensity'] = intensity;
     }
     if (intensityTransition != null) {
-      properties["intensityTransition"] = intensityTransition?.encode();
+      properties['intensityTransition'] = intensityTransition?.encode();
     }
     if (position != null) {
-      properties["position"] = position;
+      properties['position'] = position;
     }
     if (positionTransition != null) {
-      properties["positionTransition"] = positionTransition?.encode();
+      properties['positionTransition'] = positionTransition?.encode();
     }
 
     return json.encode(properties);

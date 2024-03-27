@@ -1,18 +1,17 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../../mapbox_navigation_flutter.dart';
 
 /// The background color or pattern of the map.
 class BackgroundLayer extends Layer {
   BackgroundLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     this.backgroundColor,
     this.backgroundOpacity,
     this.backgroundPattern,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "background";
@@ -60,25 +59,27 @@ class BackgroundLayer extends Layer {
   }
 
   static BackgroundLayer decode(String properties) {
-    var map = json.decode(properties);
-    if (map["layout"] == null) {
-      map["layout"] = {};
+    final map = json.decode(properties) as Map<String, dynamic>;
+    if (map['layout'] == null) {
+      map['layout'] = {};
     }
-    if (map["paint"] == null) {
-      map["paint"] = {};
+    if (map['paint'] == null) {
+      map['paint'] = {};
     }
     return BackgroundLayer(
-      id: map["id"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
-      visibility: map["layout"]["visibility"] == null
+      id: map['id'] as String? ?? '',
+      minZoom: (map['minzoom'] as num?)?.toDouble(),
+      maxZoom: (map['maxzoom'] as num?)?.toDouble(),
+      visibility: map['layout']['visibility'] == null
           ? Visibility.VISIBLE
-          : Visibility.values.firstWhere((e) => e
-              .toString()
-              .split('.')
-              .last
-              .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+          : Visibility.values.firstWhere(
+              (e) => e
+                  .toString()
+                  .split('.')
+                  .last
+                  .toLowerCase()
+                  .contains((map['layout']['visibility'] as String)),
+            ),
       backgroundColor: (map["paint"]["background-color"] as List?)?.toRGBAInt(),
       backgroundOpacity: map["paint"]["background-opacity"] is num?
           ? (map["paint"]["background-opacity"] as num?)?.toDouble()

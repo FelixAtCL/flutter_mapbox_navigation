@@ -4,10 +4,10 @@ part of mapbox_navigation_flutter;
 /// An extruded (3D) polygon.
 class FillExtrusionLayer extends Layer {
   FillExtrusionLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.fillExtrusionBase,
@@ -18,8 +18,7 @@ class FillExtrusionLayer extends Layer {
     this.fillExtrusionTranslate,
     this.fillExtrusionTranslateAnchor,
     this.fillExtrusionVerticalGradient,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "fill-extrusion";
@@ -119,11 +118,11 @@ class FillExtrusionLayer extends Layer {
       map["paint"] = {};
     }
     return FillExtrusionLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -131,7 +130,7 @@ class FillExtrusionLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       fillExtrusionBase: map["paint"]["fill-extrusion-base"] is num?
           ? (map["paint"]["fill-extrusion-base"] as num?)?.toDouble()
           : null,
@@ -148,17 +147,19 @@ class FillExtrusionLayer extends Layer {
           : null,
       fillExtrusionTranslate:
           (map["paint"]["fill-extrusion-translate"] as List?)
-              ?.map<double?>((e) => e.toDouble())
+              ?.map<double?>((e) => (e as num).toDouble())
               .toList(),
-      fillExtrusionTranslateAnchor:
-          map["paint"]["fill-extrusion-translate-anchor"] == null
-              ? null
-              : FillExtrusionTranslateAnchor.values.firstWhere((e) => e
-                  .toString()
-                  .split('.')
-                  .last
-                  .toLowerCase()
-                  .contains(map["paint"]["fill-extrusion-translate-anchor"])),
+      fillExtrusionTranslateAnchor: map["paint"]
+                  ["fill-extrusion-translate-anchor"] ==
+              null
+          ? null
+          : FillExtrusionTranslateAnchor.values.firstWhere((e) => e
+              .toString()
+              .split('.')
+              .last
+              .toLowerCase()
+              .contains(
+                  map["paint"]["fill-extrusion-translate-anchor"] as String)),
       fillExtrusionVerticalGradient:
           map["paint"]["fill-extrusion-vertical-gradient"] is bool?
               ? map["paint"]["fill-extrusion-vertical-gradient"] as bool?

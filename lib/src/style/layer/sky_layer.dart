@@ -1,13 +1,13 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../../mapbox_navigation_flutter.dart';
 
 /// A spherical dome around the map that is always rendered behind all other layers.
 class SkyLayer extends Layer {
   SkyLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     this.skyAtmosphereColor,
     this.skyAtmosphereHaloColor,
     this.skyAtmosphereSun,
@@ -17,8 +17,7 @@ class SkyLayer extends Layer {
     this.skyGradientRadius,
     this.skyOpacity,
     this.skyType,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "sky";
@@ -110,9 +109,9 @@ class SkyLayer extends Layer {
       map["paint"] = {};
     }
     return SkyLayer(
-      id: map["id"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -120,13 +119,13 @@ class SkyLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       skyAtmosphereColor:
           (map["paint"]["sky-atmosphere-color"] as List?)?.toRGBAInt(),
       skyAtmosphereHaloColor:
           (map["paint"]["sky-atmosphere-halo-color"] as List?)?.toRGBAInt(),
       skyAtmosphereSun: (map["paint"]["sky-atmosphere-sun"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       skyAtmosphereSunIntensity: map["paint"]["sky-atmosphere-sun-intensity"]
               is num?
@@ -134,7 +133,7 @@ class SkyLayer extends Layer {
           : null,
       skyGradient: (map["paint"]["sky-gradient"] as List?)?.toRGBAInt(),
       skyGradientCenter: (map["paint"]["sky-gradient-center"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       skyGradientRadius: map["paint"]["sky-gradient-radius"] is num?
           ? (map["paint"]["sky-gradient-radius"] as num?)?.toDouble()
@@ -149,7 +148,7 @@ class SkyLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["sky-type"])),
+              .contains(map["paint"]["sky-type"] as String)),
     );
   }
 }

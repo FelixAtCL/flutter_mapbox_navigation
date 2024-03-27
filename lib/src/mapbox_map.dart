@@ -140,8 +140,8 @@ class MapboxMap extends ChangeNotifier {
   final OnStyleImageUnusedListener? onStyleImageUnusedListener;
 
   /// The currently loaded Style]object.
-  late StyleManager style =
-      StyleManager(binaryMessenger: _proxyBinaryMessenger);
+  // late StyleManager style =
+  //     StyleManager(binaryMessenger: _proxyBinaryMessenger);
 
   /// The interface to set the location puck.
   late LocationComponentSettingsInterface location =

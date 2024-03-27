@@ -1,4 +1,4 @@
-part of mapbox_navigation_flutter;
+part of '../../mapbox_navigation_flutter.dart';
 
 class _AnnotationManager {
   final _MapboxMapsPlatform _mapboxMapsPlatform;
@@ -10,28 +10,32 @@ class _AnnotationManager {
   Future<PointAnnotationManager> createPointAnnotationManager() async {
     return _mapboxMapsPlatform.createAnnotationManager('point').then((value) =>
         PointAnnotationManager(
-            id: value, messenger: _mapboxMapsPlatform.binaryMessenger));
+            id: value as String,
+            messenger: _mapboxMapsPlatform.binaryMessenger));
   }
 
   /// Create a CircleAnnotationManager to add/remove/update CircleAnnotations on the map.
   Future<CircleAnnotationManager> createCircleAnnotationManager() async {
     return _mapboxMapsPlatform.createAnnotationManager('circle').then((value) =>
         CircleAnnotationManager(
-            id: value, messenger: _mapboxMapsPlatform.binaryMessenger));
+            id: value as String,
+            messenger: _mapboxMapsPlatform.binaryMessenger));
   }
 
   /// Create a PolylineAnnotationManager to add/remove/update PolylineAnnotations on the map.
   Future<PolylineAnnotationManager> createPolylineAnnotationManager() async {
     return _mapboxMapsPlatform.createAnnotationManager('polyline').then(
         (value) => PolylineAnnotationManager(
-            id: value, messenger: _mapboxMapsPlatform.binaryMessenger));
+            id: value as String,
+            messenger: _mapboxMapsPlatform.binaryMessenger));
   }
 
   /// Create a PolygonAnnotationManager to add/remove/update PolygonAnnotations on the map.
   Future<PolygonAnnotationManager> createPolygonAnnotationManager() async {
     return _mapboxMapsPlatform.createAnnotationManager('polygon').then(
         (value) => PolygonAnnotationManager(
-            id: value, messenger: _mapboxMapsPlatform.binaryMessenger));
+            id: value as String,
+            messenger: _mapboxMapsPlatform.binaryMessenger));
   }
 
   /// Remove an AnnotationManager and all the annotations created by it.

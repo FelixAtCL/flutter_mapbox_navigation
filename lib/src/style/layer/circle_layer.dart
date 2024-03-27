@@ -1,13 +1,13 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../../mapbox_navigation_flutter.dart';
 
 /// A filled circle.
 class CircleLayer extends Layer {
   CircleLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.circleSortKey,
@@ -22,8 +22,7 @@ class CircleLayer extends Layer {
     this.circleStrokeWidth,
     this.circleTranslate,
     this.circleTranslateAnchor,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "circle";
@@ -146,11 +145,11 @@ class CircleLayer extends Layer {
       map["paint"] = {};
     }
     return CircleLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -158,7 +157,7 @@ class CircleLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       circleSortKey: map["layout"]["circle-sort-key"] is num?
           ? (map["layout"]["circle-sort-key"] as num?)?.toDouble()
           : null,
@@ -176,7 +175,7 @@ class CircleLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["circle-pitch-alignment"])),
+              .contains(map["paint"]["circle-pitch-alignment"] as String)),
       circlePitchScale: map["paint"]["circle-pitch-scale"] == null
           ? null
           : CirclePitchScale.values.firstWhere((e) => e
@@ -184,7 +183,7 @@ class CircleLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["circle-pitch-scale"])),
+              .contains(map["paint"]["circle-pitch-scale"] as String)),
       circleRadius: map["paint"]["circle-radius"] is num?
           ? (map["paint"]["circle-radius"] as num?)?.toDouble()
           : null,
@@ -197,7 +196,7 @@ class CircleLayer extends Layer {
           ? (map["paint"]["circle-stroke-width"] as num?)?.toDouble()
           : null,
       circleTranslate: (map["paint"]["circle-translate"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       circleTranslateAnchor: map["paint"]["circle-translate-anchor"] == null
           ? null
@@ -206,7 +205,7 @@ class CircleLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["circle-translate-anchor"])),
+              .contains(map["paint"]["circle-translate-anchor"] as String)),
     );
   }
 }

@@ -1,13 +1,13 @@
 // This file is generated.
-part of mapbox_navigation_flutter;
+part of '../../../mapbox_navigation_flutter.dart';
 
 /// An icon or a text label.
 class SymbolLayer extends Layer {
   SymbolLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.iconAllowOverlap,
@@ -64,8 +64,7 @@ class SymbolLayer extends Layer {
     this.textOpacity,
     this.textTranslate,
     this.textTranslateAnchor,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "symbol";
@@ -450,11 +449,11 @@ class SymbolLayer extends Layer {
       map["paint"] = {};
     }
     return SymbolLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -462,7 +461,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       iconAllowOverlap: map["layout"]["icon-allow-overlap"] is bool?
           ? map["layout"]["icon-allow-overlap"] as bool?
           : null,
@@ -473,7 +472,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["icon-anchor"])),
+              .contains(map["layout"]["icon-anchor"] as String)),
       iconIgnorePlacement: map["layout"]["icon-ignore-placement"] is bool?
           ? map["layout"]["icon-ignore-placement"] as bool?
           : null,
@@ -484,7 +483,7 @@ class SymbolLayer extends Layer {
           ? map["layout"]["icon-keep-upright"] as bool?
           : null,
       iconOffset: (map["layout"]["icon-offset"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       iconOptional: map["layout"]["icon-optional"] is bool?
           ? map["layout"]["icon-optional"] as bool?
@@ -499,7 +498,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["icon-pitch-alignment"])),
+              .contains(map["layout"]["icon-pitch-alignment"] as String)),
       iconRotate: map["layout"]["icon-rotate"] is num?
           ? (map["layout"]["icon-rotate"] as num?)?.toDouble()
           : null,
@@ -510,7 +509,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["icon-rotation-alignment"])),
+              .contains(map["layout"]["icon-rotation-alignment"] as String)),
       iconSize: map["layout"]["icon-size"] is num?
           ? (map["layout"]["icon-size"] as num?)?.toDouble()
           : null,
@@ -521,9 +520,9 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["icon-text-fit"])),
+              .contains(map["layout"]["icon-text-fit"] as String)),
       iconTextFitPadding: (map["layout"]["icon-text-fit-padding"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       symbolAvoidEdges: map["layout"]["symbol-avoid-edges"] is bool?
           ? map["layout"]["symbol-avoid-edges"] as bool?
@@ -535,7 +534,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["symbol-placement"])),
+              .contains(map["layout"]["symbol-placement"] as String)),
       symbolSortKey: map["layout"]["symbol-sort-key"] is num?
           ? (map["layout"]["symbol-sort-key"] as num?)?.toDouble()
           : null,
@@ -549,7 +548,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["symbol-z-order"])),
+              .contains(map["layout"]["symbol-z-order"] as String)),
       textAllowOverlap: map["layout"]["text-allow-overlap"] is bool?
           ? map["layout"]["text-allow-overlap"] as bool?
           : null,
@@ -560,7 +559,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["text-anchor"])),
+              .contains(map["layout"]["text-anchor"] as String)),
       textFont: (map["layout"]["text-font"] as List?)
           ?.map<String?>((e) => e.toString())
           .toList(),
@@ -574,7 +573,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["text-justify"])),
+              .contains(map["layout"]["text-justify"] as String)),
       textKeepUpright: map["layout"]["text-keep-upright"] is bool?
           ? map["layout"]["text-keep-upright"] as bool?
           : null,
@@ -591,7 +590,7 @@ class SymbolLayer extends Layer {
           ? (map["layout"]["text-max-width"] as num?)?.toDouble()
           : null,
       textOffset: (map["layout"]["text-offset"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       textOptional: map["layout"]["text-optional"] is bool?
           ? map["layout"]["text-optional"] as bool?
@@ -606,7 +605,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["text-pitch-alignment"])),
+              .contains(map["layout"]["text-pitch-alignment"] as String)),
       textRadialOffset: map["layout"]["text-radial-offset"] is num?
           ? (map["layout"]["text-radial-offset"] as num?)?.toDouble()
           : null,
@@ -620,7 +619,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["text-rotation-alignment"])),
+              .contains(map["layout"]["text-rotation-alignment"] as String)),
       textSize: map["layout"]["text-size"] is num?
           ? (map["layout"]["text-size"] as num?)?.toDouble()
           : null,
@@ -631,7 +630,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["text-transform"])),
+              .contains(map["layout"]["text-transform"] as String)),
       textVariableAnchor: (map["layout"]["text-variable-anchor"] as List?)
           ?.map<String?>((e) => e.toString())
           .toList(),
@@ -650,7 +649,7 @@ class SymbolLayer extends Layer {
           ? (map["paint"]["icon-opacity"] as num?)?.toDouble()
           : null,
       iconTranslate: (map["paint"]["icon-translate"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       iconTranslateAnchor: map["paint"]["icon-translate-anchor"] == null
           ? null
@@ -659,7 +658,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["icon-translate-anchor"])),
+              .contains(map["paint"]["icon-translate-anchor"] as String)),
       textColor: (map["paint"]["text-color"] as List?)?.toRGBAInt(),
       textHaloBlur: map["paint"]["text-halo-blur"] is num?
           ? (map["paint"]["text-halo-blur"] as num?)?.toDouble()
@@ -672,7 +671,7 @@ class SymbolLayer extends Layer {
           ? (map["paint"]["text-opacity"] as num?)?.toDouble()
           : null,
       textTranslate: (map["paint"]["text-translate"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       textTranslateAnchor: map["paint"]["text-translate-anchor"] == null
           ? null
@@ -681,7 +680,7 @@ class SymbolLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["paint"]["text-translate-anchor"])),
+              .contains(map["paint"]["text-translate-anchor"] as String)),
     );
   }
 }

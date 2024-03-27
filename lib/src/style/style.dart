@@ -173,153 +173,6 @@ abstract class Source {
   void bind(StyleManager style) => _style = style;
 }
 
-/// Extension for StyleManager to add/update/get layers from the current style.
-extension StyleLayer on StyleManager {
-  /// Add a layer the the current style.
-  Future<void> addLayer(Layer layer) {
-    final encode = layer._encode();
-    return addStyleLayer(encode, null);
-  }
-
-  /// Add a layer to the current style in a specific position.
-  Future<void> addLayerAt(Layer layer, LayerPosition position) {
-    final encode = layer._encode();
-    return addStyleLayer(encode, position);
-  }
-
-  /// Update an exsiting layer in the style.
-  Future<void> updateLayer(Layer layer) {
-    final encode = layer._encode();
-    return setStyleLayerProperties(layer.id, encode);
-  }
-
-  /// Get a previously added layer from the current style.
-  Future<Layer?> getLayer(String layerId) async {
-    final properties = await getStyleLayerProperties(layerId);
-
-    Layer? layer;
-    final map = json.decode(properties);
-
-    final type = map['type'];
-    switch (type) {
-      case 'background':
-        layer = BackgroundLayer.decode(properties);
-        break;
-      case 'location-indicator':
-        layer = LocationIndicatorLayer.decode(properties);
-        break;
-      case 'sky':
-        layer = SkyLayer.decode(properties);
-        break;
-      case 'circle':
-        layer = CircleLayer.decode(properties);
-        break;
-      case 'fill-extrusion':
-        layer = FillExtrusionLayer.decode(properties);
-        break;
-      case 'fill':
-        layer = FillLayer.decode(properties);
-        break;
-      case 'heatmap':
-        layer = HeatmapLayer.decode(properties);
-        break;
-      case 'hillshade':
-        layer = HillshadeLayer.decode(properties);
-        break;
-      case 'line':
-        layer = LineLayer.decode(properties);
-        break;
-      case 'raster':
-        layer = RasterLayer.decode(properties);
-        break;
-      case 'symbol':
-        layer = SymbolLayer.decode(properties);
-        break;
-      default:
-        if (kDebugMode) {
-          print('Layer type: $type unknown.');
-        }
-    }
-
-    return Future.value(layer);
-  }
-}
-
-/// Extension for StyleManager to add/get sources from the current style.
-extension StyleSource on StyleManager {
-  /// Adds a [source] to the style.
-  ///
-  /// The [source] parameter is the source to be added to the style.
-  /// This method returns a [Future] that completes when the source has been added.
-  ///
-  /// The [nonVolatileProperties] and [volatileProperties] are properties of the source.
-  /// The [nonVolatileProperties] are properties that do not change frequently,
-  /// while the [volatileProperties] are properties that change frequently.
-  ///
-  /// The [source] is bound to the [StyleManager] using the [bind] method.
-  ///
-  /// After the source has been added to the style, the volatile properties are set
-  /// using the [setStyleSourceProperties] method.
-  ///
-  /// Example usage:
-  /// ```dart
-  /// final source = Source();
-  /// styleManager.addSource(source);
-  /// ```
-  Future<void> addSource(Source source) {
-    final nonVolatileProperties = source._encode(false);
-    final volatileProperties = source._encode(true);
-    source.bind(this);
-    return addStyleSource(source.id, nonVolatileProperties).then((value) {
-      // volatile properties have to be set after the source has been added to the style
-      setStyleSourceProperties(source.id, volatileProperties);
-    });
-  }
-
-  /// Get the source with sourceId from the current style.
-  Future<Source?> getSource(String sourceId) async {
-    final properties = await getStyleSourceProperties(sourceId);
-
-    Source? source;
-
-    final map = json.decode(properties) as Map<String, dynamic>;
-
-    final type = map['type'];
-    switch (type) {
-      case 'vector':
-        source = VectorSource(id: sourceId);
-        break;
-      case 'geojson':
-        source = GeoJsonSource(id: sourceId);
-        break;
-      case 'image':
-        source = ImageSource(id: sourceId);
-        break;
-      case 'raster-dem':
-        source = RasterDemSource(id: sourceId);
-        break;
-      case 'raster':
-        source = RasterSource(id: sourceId);
-        break;
-      default:
-        if (kDebugMode) {
-          print('Source type: $type unknown.');
-        }
-    }
-
-    source?.bind(this);
-    return Future.value(source);
-  }
-}
-
-/// Extension for StyleManager to set light in the current style.
-extension StyleLight on StyleManager {
-  Future<void> setLight(Light light) {
-    final encode = light.encode();
-    return setStyleLight(encode);
-  }
-}
-
 /// Extension to convert color format
 extension StyleColorInt on int {
   /// Convert the color from int format to a string with format "rgba(red, green, blue, alpha)".
@@ -329,7 +182,10 @@ extension StyleColorInt on int {
   }
 }
 
-extension StyleColorList on List {
+/// Extension on [List<dynamic>] to provide additional functionality for working with style colors.
+///
+/// This extension adds methods and properties to [List<dynamic>] to make it easier to work with style colors.
+extension StyleColorList on List<dynamic> {
   /// Convert the color from a list `[rgba, $R, $G, $B, $A]` to int.
   int toRGBAInt() {
     final alpha = this.last is num ? ((this.last as num) * 255).toInt() : null;

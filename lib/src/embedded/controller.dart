@@ -1,10 +1,4 @@
-import 'dart:async';
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_mapbox_navigation/src/models/models.dart';
+part of '../../mapbox_navigation_flutter.dart';
 
 /// Controller for a single MapBox Navigation instance
 /// running on the host platform.
@@ -19,7 +13,11 @@ class MapBoxNavigationViewController {
 
     _eventChannel = EventChannel('flutter_mapbox_navigation/$id/events');
     _routeEventNotifier = eventNotifier;
+
+    style = StyleManager(id);
   }
+
+  late StyleManager style;
 
   late MethodChannel _methodChannel;
   late EventChannel _eventChannel;

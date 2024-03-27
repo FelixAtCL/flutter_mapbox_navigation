@@ -43,7 +43,6 @@ public class NavigationFactory : NSObject, FlutterStreamHandler
     var _showEndOfRouteFeedback = true
     var _enableOnMapTapCallback = false
     var navigationDirections: Directions?
-    var styleController: StyleController?
     
     func addWayPoints(arguments: NSDictionary?, result: @escaping FlutterResult)
     {

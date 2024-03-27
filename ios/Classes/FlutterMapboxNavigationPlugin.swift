@@ -16,7 +16,6 @@ public class FlutterMapboxNavigationPlugin: NavigationFactory, FlutterPlugin {
 
     let viewFactory = FlutterMapboxNavigationViewFactory(messenger: registrar.messenger())
     registrar.register(viewFactory, withId: "FlutterMapboxNavigationView")
-
   }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {

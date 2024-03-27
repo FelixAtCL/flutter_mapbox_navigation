@@ -4,10 +4,10 @@ part of mapbox_navigation_flutter;
 /// A heatmap.
 class HeatmapLayer extends Layer {
   HeatmapLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     required this.sourceId,
     this.sourceLayer,
     this.heatmapColor,
@@ -15,8 +15,7 @@ class HeatmapLayer extends Layer {
     this.heatmapOpacity,
     this.heatmapRadius,
     this.heatmapWeight,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "heatmap";
@@ -94,11 +93,11 @@ class HeatmapLayer extends Layer {
       map["paint"] = {};
     }
     return HeatmapLayer(
-      id: map["id"],
-      sourceId: map["source"],
-      sourceLayer: map["source-layer"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      sourceId: map["source"] as String? ?? '',
+      sourceLayer: map["source-layer"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -106,7 +105,7 @@ class HeatmapLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       heatmapColor: (map["paint"]["heatmap-color"] as List?)?.toRGBAInt(),
       heatmapIntensity: map["paint"]["heatmap-intensity"] is num?
           ? (map["paint"]["heatmap-intensity"] as num?)?.toDouble()

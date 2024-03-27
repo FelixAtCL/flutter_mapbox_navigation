@@ -59,7 +59,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_mapbox_navigation/ios"
 
 SPEC CHECKSUMS:
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_mapbox_navigation: 1d7e1c22554f4e6543209f7f0063393c9a6d53bf
   MapboxCommon: c3a35f6884b80d898de9f11d88cb28c5caba584a
   MapboxCoreMaps: 03e7214fabb54d496ff56314ff8159dd264b6093

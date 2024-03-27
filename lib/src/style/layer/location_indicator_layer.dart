@@ -4,10 +4,10 @@ part of mapbox_navigation_flutter;
 /// Location Indicator layer.
 class LocationIndicatorLayer extends Layer {
   LocationIndicatorLayer({
-    required id,
-    visibility,
-    minZoom,
-    maxZoom,
+    required super.id,
+    super.visibility,
+    super.minZoom,
+    super.maxZoom,
     this.bearingImage,
     this.shadowImage,
     this.topImage,
@@ -23,8 +23,7 @@ class LocationIndicatorLayer extends Layer {
     this.perspectiveCompensation,
     this.shadowImageSize,
     this.topImageSize,
-  }) : super(
-            id: id, visibility: visibility, maxZoom: maxZoom, minZoom: minZoom);
+  });
 
   @override
   String getType() => "location-indicator";
@@ -153,9 +152,9 @@ class LocationIndicatorLayer extends Layer {
       map["paint"] = {};
     }
     return LocationIndicatorLayer(
-      id: map["id"],
-      minZoom: map["minzoom"]?.toDouble(),
-      maxZoom: map["maxzoom"]?.toDouble(),
+      id: map["id"] as String? ?? '',
+      minZoom: (map["minzoom"] as num?)?.toDouble(),
+      maxZoom: (map["maxzoom"] as num?)?.toDouble(),
       visibility: map["layout"]["visibility"] == null
           ? Visibility.VISIBLE
           : Visibility.values.firstWhere((e) => e
@@ -163,7 +162,7 @@ class LocationIndicatorLayer extends Layer {
               .split('.')
               .last
               .toLowerCase()
-              .contains(map["layout"]["visibility"])),
+              .contains(map["layout"]["visibility"] as String)),
       bearingImage: map["layout"]["bearing-image"] is String?
           ? map["layout"]["bearing-image"] as String?
           : null,
@@ -195,7 +194,7 @@ class LocationIndicatorLayer extends Layer {
           ? (map["paint"]["image-pitch-displacement"] as num?)?.toDouble()
           : null,
       location: (map["paint"]["location"] as List?)
-          ?.map<double?>((e) => e.toDouble())
+          ?.map<double?>((e) => (e as num).toDouble())
           .toList(),
       perspectiveCompensation: map["paint"]["perspective-compensation"] is num?
           ? (map["paint"]["perspective-compensation"] as num?)?.toDouble()
