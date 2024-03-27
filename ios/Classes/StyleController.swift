@@ -6,7 +6,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
-public class StyleController: NSObject, FLTStyleManager {
+public class StyleController: NSObject, FlutterStreamHandler {
 
     let messenger: FlutterBinaryMessenger
     let channel: FlutterMethodChannel
