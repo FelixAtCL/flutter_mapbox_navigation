@@ -35,8 +35,175 @@ public class StyleController: NSObject, FlutterStreamHandler
             if(call.method == "getStyleURI")
             {
                 strongSelf.getStyleURI(result: result)
+            } 
+            else if(call.method == "setStyleURI") 
+            {
+                strongSelf.setStyleURI(arguments: arguments, result: result)
+            } 
+            else if(call.method == "getStyleJSON") 
+            {
+                strongSelf.getStyleJSON(result: result)
+            } 
+            else if(call.method == "setStyleJSON") 
+            {
+                strongSelf.setStyleJSON(arguments: arguments, result: result)
             }
-            // TODO: Add mising functions!
+            else if(call.method == "getStyleDefaultCamera") 
+            {
+                strongSelf.getStyleDefaultCamera(result: result)
+            }
+            else if(call.method == "getStyleTransition") 
+            {
+                strongSelf.getStyleTransition(result: result)
+            }
+            else if(call.method == "setStyleTransition") 
+            {
+                strongSelf.setStyleTransition(arguments: arguments, result: result)
+            }
+            else if(call.method == "addStyleLayer") 
+            {
+                strongSelf.addStyleLayer(arguments: arguments, result: result)
+            }
+            else if(call.method == "addPersistentStyleLayer") 
+            {
+                strongSelf.addPersistentStyleLayer(arguments: arguments, result: result)
+            }
+            else if(call.method == "isStyleLayerPersistent") 
+            {
+                strongSelf.isStyleLayerPersistent(arguments: arguments, result: result)
+            }
+            else if(call.method == "removeStyleLayer") 
+            {
+                strongSelf.removeStyleLayer(arguments: arguments, result: result)
+            }
+            else if(call.method == "moveStyleLayer") 
+            {
+                strongSelf.moveStyleLayer(arguments: arguments, result: result)
+            }
+            else if(call.method == "styleLayerExists") 
+            {
+                strongSelf.styleLayerExists(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleLayers") 
+            {
+                strongSelf.getStyleLayers(result: result)
+            }
+            else if(call.method == "getStyleLayerProperty") 
+            {
+                strongSelf.getStyleLayerProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleLayerProperty") 
+            {
+                strongSelf.setStyleLayerProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleLayerProperties") 
+            {
+                strongSelf.getStyleLayerProperties(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleLayerProperties") 
+            {
+                strongSelf.setStyleLayerProperties(arguments: arguments, result: result)
+            }
+            else if(call.method == "addStyleSource") 
+            {
+                strongSelf.addStyleSource(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleSourceProperty") 
+            {
+                strongSelf.getStyleSourceProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleSourceProperty") 
+            {
+                strongSelf.setStyleSourceProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleSourceProperties") 
+            {
+                strongSelf.getStyleSourceProperties(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleSourceProperties") 
+            {
+                strongSelf.setStyleSourceProperties(arguments: arguments, result: result)
+            }
+            else if(call.method == "updateStyleImageSourceImage") 
+            {
+                strongSelf.updateStyleImageSourceImage(arguments: arguments, result: result)
+            }
+            else if(call.method == "removeStyleSource") 
+            {
+                strongSelf.removeStyleSource(arguments: arguments, result: result)
+            }
+            else if(call.method == "styleSourceExists") 
+            {
+                strongSelf.styleSourceExists(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleSources") 
+            {
+                strongSelf.getStyleSources(result: result)
+            }
+            else if(call.method == "setStyleLight") 
+            {
+                strongSelf.setStyleLight(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleLightProperty") 
+            {
+                strongSelf.getStyleLightProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleLightProperty") 
+            {
+                strongSelf.setStyleLightProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleTerrain") 
+            {
+                strongSelf.setStyleTerrain(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleTerrainProperty") 
+            {
+                strongSelf.getStyleTerrainProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "setStyleTerrainProperty") 
+            {
+                strongSelf.setStyleTerrainProperty(arguments: arguments, result: result)
+            }
+            else if(call.method == "getStyleImage") 
+            {
+                strongSelf.getStyleImage(arguments: arguments, result: result)
+            }
+            else if(call.method == "addStyleImage") 
+            {
+                strongSelf.addStyleImage(arguments: arguments, result: result)
+            }
+            else if(call.method == "removeStyleImage") 
+            {
+                strongSelf.removeStyleImage(arguments: arguments, result: result)
+            }
+            else if(call.method == "hasStyleImage") 
+            {
+                strongSelf.hasStyleImage(arguments: arguments, result: result)
+            }
+            else if(call.method == "invalidateStyleCustomGeometrySourceTile") 
+            {
+                strongSelf.invalidateStyleCustomGeometrySourceTile(arguments: arguments, result: result)
+            }
+            else if(call.method == "invalidateStyleCustomGeometrySourceRegion") 
+            {
+                strongSelf.invalidateStyleCustomGeometrySourceRegion(arguments: arguments, result: result)
+            }
+            else if(call.method == "isStyleLoaded") 
+            {
+                strongSelf.isStyleLoaded(result: result)
+            }
+            else if(call.method == "setProjection") 
+            {
+                strongSelf.setProjection(arguments: arguments, result: result)
+            }
+            else if(call.method == "isStyleLoaded") 
+            {
+                strongSelf.isStyleLoaded(result: result)
+            }
+            else if(call.method == "localizeLabels") 
+            {
+                strongSelf.localizeLabels(arguments: arguments, result: result)
+            }
             else
             {
                 result("method is not implemented");
@@ -460,7 +627,7 @@ public class StyleController: NSObject, FlutterStreamHandler
         result(mapboxMap.style.isLoaded)
     }
 
-    func getProjection(_ result: @escaping FlutterResult) {
+    func getProjection(result: @escaping FlutterResult) {
         result(mapboxMap.style.projection.name.rawValue)
     }
 
