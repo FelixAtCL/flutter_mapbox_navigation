@@ -4,7 +4,10 @@ part of '../../../../../../mapbox_navigation_flutter.dart';
 class GestureAPI {
   /// Constructor for [GestureAPI].
   GestureAPI(int id) {
-    _methodChannel = MethodChannel('flutter_mapbox_navigation/gestures/$id');
+    _methodChannel = MethodChannel(
+      'flutter_mapbox_navigation/gestures/$id',
+      const StandardMethodCodec(GestureListenerCodec()),
+    );
     _methodChannel.setMethodCallHandler(_handleMethod);
 
     _eventChannel =

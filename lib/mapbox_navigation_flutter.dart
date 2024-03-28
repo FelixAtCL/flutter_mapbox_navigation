@@ -44,9 +44,12 @@ part 'src/embedded/boundings/map/style/domain/style.dart';
 part 'src/embedded/boundings/map/camera/port/api.dart';
 part 'src/embedded/boundings/map/camera/domain/screen_coordinate.dart';
 
+// Gesture Bounding
+part 'src/embedded/boundings/map/gestures/port/api.dart';
+part 'src/embedded/boundings/map/gestures/application/codec.dart';
+
 // Others
 part 'src/embedded/controller.dart';
-part 'src/embedded/boundings/map/gestures/port/api.dart';
 part 'src/annotation/circle_annotation_manager.dart';
 part 'src/annotation/point_annotation_manager.dart';
 part 'src/annotation/polygon_annotation_manager.dart';
