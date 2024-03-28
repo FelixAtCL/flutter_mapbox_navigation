@@ -15,10 +15,13 @@ class MapBoxNavigationViewController {
     _routeEventNotifier = eventNotifier;
 
     style = StyleAPI(id);
+    camera = CameraAPI(id);
+    gesture = GestureAPI(id);
   }
 
   late StyleAPI style;
   late CameraAPI camera;
+  late GestureAPI gesture;
 
   late MethodChannel _methodChannel;
   late EventChannel _eventChannel;
