@@ -5,13 +5,13 @@
 
 @protocol FlutterBinaryMessenger;
 @protocol FlutterMethodCodec;
+@protocol FLTScreenCoordinate;
+@protocol FLTMbxEdgeInsets;
 @class FlutterError;
 @class FlutterStandardTypedData;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class FLTScreenCoordinate;
-@class FLTMbxEdgeInsets;
 @class FLTCameraOptions;
 
 /// Various options for describing the viewpoint of a camera. All fields are
