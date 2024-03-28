@@ -2657,12 +2657,12 @@ void FLT_CameraManagerSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_MapInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_MapInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_MapInterfaceCodecReaderWriter *readerWriter = [[FLT_MapInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec initWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }

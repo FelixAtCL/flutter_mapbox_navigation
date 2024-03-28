@@ -1229,7 +1229,7 @@ NSObject<FlutterMessageCodec> *FLT_CameraManagerGetCodec(void);
 extern void FLT_CameraManagerSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLT_CameraManager> *_Nullable api);
 
 /// The codec used by FLT_MapInterface.
-NSObject<FlutterMessageCodec> *FLT_MapInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_MapInterfaceGetCodec(void);
 
 /// Map class provides map rendering functionality.
 ///
