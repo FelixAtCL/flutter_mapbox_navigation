@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 
 @protocol FlutterBinaryMessenger;
+@protocol FlutterMessageCodec;
 @protocol FlutterMethodCodec;
 @class FlutterError;
 @class FlutterStandardTypedData;
