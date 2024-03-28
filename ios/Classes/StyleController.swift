@@ -19,8 +19,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         self.mapboxMap = mapboxMap
         
         self.messenger = messenger
-        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/style/\(viewId)", binaryMessenger: messenger)
-        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/style/\(viewId)/events", binaryMessenger: messenger)
+        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/style/\(viewId)", binaryMessenger: messenger, codec: FLT_MapInterfaceGetCodec())
+        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/style/\(viewId)/events", binaryMessenger: messenger, codec: FLT_MapInterfaceGetCodec())
 
         super.init()
 
