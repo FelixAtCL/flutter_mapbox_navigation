@@ -2662,7 +2662,7 @@ NSObject<FlutterMethodCodec> *FLT_MapInterfaceGetCodec(void) {
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_MapInterfaceCodecReaderWriter *readerWriter = [[FLT_MapInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMethodCodec initWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }
