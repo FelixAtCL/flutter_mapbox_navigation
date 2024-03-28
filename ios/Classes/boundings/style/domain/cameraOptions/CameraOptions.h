@@ -5,8 +5,8 @@
 
 @protocol FlutterBinaryMessenger;
 @protocol FlutterMethodCodec;
-@protocol FLTScreenCoordinate;
-@protocol FLTMbxEdgeInsets;
+@class FLTScreenCoordinate;
+@class FLTMbxEdgeInsets;
 @class FlutterError;
 @class FlutterStandardTypedData;
 
