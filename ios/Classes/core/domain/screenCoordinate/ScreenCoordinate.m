@@ -15,12 +15,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
   return (result == [NSNull null]) ? nil : result;
 }
 
-@interface FLTScreenCoordinate ()
-+ (FLTScreenCoordinate *)fromList:(NSArray *)list;
-+ (nullable FLTScreenCoordinate *)nullableFromList:(NSArray *)list;
-- (NSArray *)toList;
-@end
-
 @implementation FLTScreenCoordinate
 + (instancetype)makeWithX:(NSNumber *)x
     y:(NSNumber *)y {
@@ -40,7 +34,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 + (nullable FLTScreenCoordinate *)nullableFromList:(NSArray *)list {
   return (list) ? [FLTScreenCoordinate fromList:list] : nil;
 }
-- (NSArray *)toList {
++ (NSArray *)toList {
   return @[
     (self.x ?: [NSNull null]),
     (self.y ?: [NSNull null]),

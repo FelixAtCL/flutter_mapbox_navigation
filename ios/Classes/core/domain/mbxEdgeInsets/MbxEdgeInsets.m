@@ -15,12 +15,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
   return (result == [NSNull null]) ? nil : result;
 }
 
-@interface FLTMbxEdgeInsets ()
-+ (FLTMbxEdgeInsets *)fromList:(NSArray *)list;
-+ (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list;
-- (NSArray *)toList;
-@end
-
 @implementation FLTMbxEdgeInsets
 + (instancetype)makeWithTop:(NSNumber *)top
     left:(NSNumber *)left
@@ -48,7 +42,7 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 + (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list {
   return (list) ? [FLTMbxEdgeInsets fromList:list] : nil;
 }
-- (NSArray *)toList {
++ (NSArray *)toList {
   return @[
     (self.top ?: [NSNull null]),
     (self.left ?: [NSNull null]),

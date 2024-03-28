@@ -18,6 +18,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithX:(NSNumber *)x
                         y:(NSNumber *)y;
++ (FLTScreenCoordinate *)fromList:(NSArray *)list;
++ (nullable FLTScreenCoordinate *)nullableFromList:(NSArray *)list;
++ (NSArray *)toList;
 /// A value representing the x position of this coordinate.
 @property(nonatomic, strong) NSNumber *x;
 /// A value representing the y position of this coordinate.

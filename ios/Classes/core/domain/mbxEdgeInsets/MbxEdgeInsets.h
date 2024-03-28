@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
                        left:(NSNumber *)left
                      bottom:(NSNumber *)bottom
                       right:(NSNumber *)right;
++ (FLTMbxEdgeInsets *)fromList:(NSArray *)list;
++ (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list;
++ (NSArray *)toList;
 /// Padding from the top.
 @property(nonatomic, strong) NSNumber *top;
 /// Padding from the left.
