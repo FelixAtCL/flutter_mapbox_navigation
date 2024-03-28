@@ -46,7 +46,7 @@ part 'src/embedded/boundings/map/camera/domain/screen_coordinate.dart';
 
 // Others
 part 'src/embedded/controller.dart';
-part 'src/embedded/boundings/map/gestures/port/gesture_manager.dart';
+part 'src/embedded/boundings/map/gestures/port/api.dart';
 part 'src/annotation/circle_annotation_manager.dart';
 part 'src/annotation/point_annotation_manager.dart';
 part 'src/annotation/polygon_annotation_manager.dart';

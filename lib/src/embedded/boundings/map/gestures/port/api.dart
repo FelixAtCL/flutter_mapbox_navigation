@@ -1,9 +1,9 @@
 part of '../../../../../../mapbox_navigation_flutter.dart';
 
 /// Interface for managing gestures of the `map`.
-class GestureManager {
-  /// Constructor for [GestureManager].
-  GestureManager(int id) {
+class GestureAPI {
+  /// Constructor for [GestureAPI].
+  GestureAPI(int id) {
     _methodChannel = MethodChannel('flutter_mapbox_navigation/gestures/$id');
     _methodChannel.setMethodCallHandler(_handleMethod);
 
@@ -20,6 +20,17 @@ class GestureManager {
       case 'sendFromNative':
         final text = call.arguments as String?;
         return Future.value('Text from native: $text');
+      case 'onMapTap':
+        print("onMapTap called with ${call.arguments}");
+        break;
+      case 'onScrollMap':
+        print("onScrollMap called with ${call.arguments}");
+        break;
+      case 'onLongTapMap':
+        print("onLongTapMap called with ${call.arguments}");
+        break;
+      default:
+        break;
     }
   }
 }
