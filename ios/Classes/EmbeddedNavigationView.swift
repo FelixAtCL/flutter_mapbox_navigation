@@ -119,6 +119,8 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         camera = CameraAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
         gestures = GesturesAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
 
+        gestures.listen()
+
         if(self.arguments != nil)
         {
             parseFlutterArguments(arguments: arguments)
