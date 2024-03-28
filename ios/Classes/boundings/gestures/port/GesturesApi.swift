@@ -57,7 +57,7 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
         if let pinchZoomEnabled = settings.pinchToZoomEnabled {
             mapView.gestures.options.pinchZoomEnabled = pinchZoomEnabled.boolValue
         }
-        switch settings.scrollMode?.value {
+        switch settings.scrollMode.value {
         case .HORIZONTAL:
             mapView.gestures.options.panMode = PanMode.horizontal
         case .VERTICAL:
