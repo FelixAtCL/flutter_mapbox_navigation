@@ -431,47 +431,111 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @class FLTImageContent;
 @class FLTCanonicalTileID;
 @class FLTStylePropertyValue;
+@class FLTScreenCoordinate;
+@class FLTMbxEdgeInsets;
+@class FLTTransitionOptions;
+@class FLTLayerPosition;
+@class FLTCameraOptions;
+
+/// Various options for describing the viewpoint of a camera. All fields are
+/// optional.
+///
+/// Anchor and center points are mutually exclusive, with preference for the
+/// center point when both are set.
+@interface FLTCameraOptions : NSObject
++ (instancetype)makeWithCenter:(nullable NSDictionary<NSString *, id> *)center
+                       padding:(nullable FLTMbxEdgeInsets *)padding
+                        anchor:(nullable FLTScreenCoordinate *)anchor
+                          zoom:(nullable NSNumber *)zoom
+                       bearing:(nullable NSNumber *)bearing
+                         pitch:(nullable NSNumber *)pitch;
+/// Coordinate at the center of the camera.
+@property(nonatomic, strong, nullable) NSDictionary<NSString *, id> *center;
+/// Padding around the interior of the view that affects the frame of
+/// reference for `center`.
+@property(nonatomic, strong, nullable) FLTMbxEdgeInsets *padding;
+/// Point of reference for `zoom` and `angle`, assuming an origin at the
+/// top-left corner of the view.
+@property(nonatomic, strong, nullable) FLTScreenCoordinate *anchor;
+/// Zero-based zoom level. Constrained to the minimum and maximum zoom
+/// levels.
+@property(nonatomic, strong, nullable) NSNumber *zoom;
+/// Bearing, measured in degrees from true north. Wrapped to [0, 360).
+@property(nonatomic, strong, nullable) NSNumber *bearing;
+/// Pitch toward the horizon measured in degrees.
+@property(nonatomic, strong, nullable) NSNumber *pitch;
+@end
+
+/// Specifies position of a layer that is added via addStyleLayer method.
+@interface FLTLayerPosition : NSObject
++ (instancetype)makeWithAbove:(nullable NSString *)above
+                        below:(nullable NSString *)below
+                           at:(nullable NSNumber *)at;
+/// Layer should be positioned above specified layer id.
+@property(nonatomic, copy, nullable) NSString *above;
+/// Layer should be positioned below specified layer id.
+@property(nonatomic, copy, nullable) NSString *below;
+/// Layer should be positioned at specified index in a layers stack.
+@property(nonatomic, strong, nullable) NSNumber *at;
+@end
+
+/// The `transition options` controls timing for the interpolation between a transitionable style
+/// property's previous value and new value. These can be used to define the style default property
+/// transition behavior. Also, any transitionable style property may also have its own `-transition`
+/// property that defines specific transition timing for that specific layer property, overriding
+/// the global transition values.
+@interface FLTTransitionOptions : NSObject
++ (instancetype)makeWithDuration:(nullable NSNumber *)duration
+                           delay:(nullable NSNumber *)delay
+      enablePlacementTransitions:(nullable NSNumber *)enablePlacementTransitions;
+/// Time allotted for transitions to complete. Units in milliseconds. Defaults to `300.0`.
+@property(nonatomic, strong, nullable) NSNumber *duration;
+/// Length of time before a transition begins. Units in milliseconds. Defaults to `0.0`.
+@property(nonatomic, strong, nullable) NSNumber *delay;
+/// Whether the fade in/out symbol placement transition is enabled. Defaults to `true`.
+@property(nonatomic, strong, nullable) NSNumber *enablePlacementTransitions;
+@end
 
 /// Describes the viewpoint of a camera.
 @interface FLTCameraState : NSObject
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithCenter:(NSDictionary<NSString *, id> *)center
-    padding:(FLTMbxEdgeInsets *)padding
-    zoom:(NSNumber *)zoom
-    bearing:(NSNumber *)bearing
-    pitch:(NSNumber *)pitch;
+                       padding:(FLTMbxEdgeInsets *)padding
+                          zoom:(NSNumber *)zoom
+                       bearing:(NSNumber *)bearing
+                         pitch:(NSNumber *)pitch;
 /// Coordinate at the center of the camera.
-@property(nonatomic, strong) NSDictionary<NSString *, id> * center;
+@property(nonatomic, strong) NSDictionary<NSString *, id> *center;
 /// Padding around the interior of the view that affects the frame of
 /// reference for `center`.
-@property(nonatomic, strong) FLTMbxEdgeInsets * padding;
+@property(nonatomic, strong) FLTMbxEdgeInsets *padding;
 /// Zero-based zoom level. Constrained to the minimum and maximum zoom
 /// levels.
-@property(nonatomic, strong) NSNumber * zoom;
+@property(nonatomic, strong) NSNumber *zoom;
 /// Bearing, measured in degrees from true north. Wrapped to [0, 360).
-@property(nonatomic, strong) NSNumber * bearing;
+@property(nonatomic, strong) NSNumber *bearing;
 /// Pitch toward the horizon measured in degrees.
-@property(nonatomic, strong) NSNumber * pitch;
+@property(nonatomic, strong) NSNumber *pitch;
 @end
 
 /// Holds options to be used for setting `camera bounds`.
 @interface FLTCameraBoundsOptions : NSObject
 + (instancetype)makeWithBounds:(nullable FLTCoordinateBounds *)bounds
-    maxZoom:(nullable NSNumber *)maxZoom
-    minZoom:(nullable NSNumber *)minZoom
-    maxPitch:(nullable NSNumber *)maxPitch
-    minPitch:(nullable NSNumber *)minPitch;
+                       maxZoom:(nullable NSNumber *)maxZoom
+                       minZoom:(nullable NSNumber *)minZoom
+                      maxPitch:(nullable NSNumber *)maxPitch
+                      minPitch:(nullable NSNumber *)minPitch;
 /// The latitude and longitude bounds to which the camera center are constrained.
-@property(nonatomic, strong, nullable) FLTCoordinateBounds * bounds;
+@property(nonatomic, strong, nullable) FLTCoordinateBounds *bounds;
 /// The maximum zoom level, in Mapbox zoom levels 0-25.5. At low zoom levels, a small set of map tiles covers a large geographical area. At higher zoom levels, a larger number of tiles cover a smaller geographical area.
-@property(nonatomic, strong, nullable) NSNumber * maxZoom;
+@property(nonatomic, strong, nullable) NSNumber *maxZoom;
 /// The minimum zoom level, in Mapbox zoom levels 0-25.5.
-@property(nonatomic, strong, nullable) NSNumber * minZoom;
+@property(nonatomic, strong, nullable) NSNumber *minZoom;
 /// The maximum allowed pitch value in degrees.
-@property(nonatomic, strong, nullable) NSNumber * maxPitch;
+@property(nonatomic, strong, nullable) NSNumber *maxPitch;
 /// The minimum allowed pitch value in degrees.
-@property(nonatomic, strong, nullable) NSNumber * minPitch;
+@property(nonatomic, strong, nullable) NSNumber *minPitch;
 @end
 
 /// Holds information about `camera bounds`.
@@ -479,31 +543,51 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithBounds:(FLTCoordinateBounds *)bounds
-    maxZoom:(NSNumber *)maxZoom
-    minZoom:(NSNumber *)minZoom
-    maxPitch:(NSNumber *)maxPitch
-    minPitch:(NSNumber *)minPitch;
+                       maxZoom:(NSNumber *)maxZoom
+                       minZoom:(NSNumber *)minZoom
+                      maxPitch:(NSNumber *)maxPitch
+                      minPitch:(NSNumber *)minPitch;
 /// The latitude and longitude bounds to which the camera center are constrained.
-@property(nonatomic, strong) FLTCoordinateBounds * bounds;
+@property(nonatomic, strong) FLTCoordinateBounds *bounds;
 /// The maximum zoom level, in Mapbox zoom levels 0-25.5. At low zoom levels, a small set of map tiles covers a large geographical area. At higher zoom levels, a larger number of tiles cover a smaller geographical area.
-@property(nonatomic, strong) NSNumber * maxZoom;
+@property(nonatomic, strong) NSNumber *maxZoom;
 /// The minimum zoom level, in Mapbox zoom levels 0-25.5.
-@property(nonatomic, strong) NSNumber * minZoom;
+@property(nonatomic, strong) NSNumber *minZoom;
 /// The maximum allowed pitch value in degrees.
-@property(nonatomic, strong) NSNumber * maxPitch;
+@property(nonatomic, strong) NSNumber *maxPitch;
 /// The minimum allowed pitch value in degrees.
-@property(nonatomic, strong) NSNumber * minPitch;
+@property(nonatomic, strong) NSNumber *minPitch;
+@end
+
+/// The distance on each side between rectangles, when one is contained into other.
+///
+/// All fields' values are in `logical pixel` units.
+@interface FLTMbxEdgeInsets : NSObject
+/// `init` unavailable to enforce nonnull fields, see the `make` class method.
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)makeWithTop:(NSNumber *)top
+                       left:(NSNumber *)left
+                     bottom:(NSNumber *)bottom
+                      right:(NSNumber *)right;
+/// Padding from the top.
+@property(nonatomic, strong) NSNumber *top;
+/// Padding from the left.
+@property(nonatomic, strong) NSNumber *left;
+/// Padding from the bottom.
+@property(nonatomic, strong) NSNumber *bottom;
+/// Padding from the right.
+@property(nonatomic, strong) NSNumber *right;
 @end
 
 @interface FLTMapAnimationOptions : NSObject
 + (instancetype)makeWithDuration:(nullable NSNumber *)duration
-    startDelay:(nullable NSNumber *)startDelay;
+                      startDelay:(nullable NSNumber *)startDelay;
 /// The duration of the animation in milliseconds.
 /// If not set explicitly default duration will be taken 300ms
-@property(nonatomic, strong, nullable) NSNumber * duration;
+@property(nonatomic, strong, nullable) NSNumber *duration;
 /// The amount of time, in milliseconds, to delay starting the animation after animation start.
 /// If not set explicitly default startDelay will be taken 0ms. This only works for Android.
-@property(nonatomic, strong, nullable) NSNumber * startDelay;
+@property(nonatomic, strong, nullable) NSNumber *startDelay;
 @end
 
 /// A rectangular area as measured on a two-dimensional map projection.
@@ -511,17 +595,17 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithSouthwest:(NSDictionary<NSString *, id> *)southwest
-    northeast:(NSDictionary<NSString *, id> *)northeast
-    infiniteBounds:(NSNumber *)infiniteBounds;
+                        northeast:(NSDictionary<NSString *, id> *)northeast
+                   infiniteBounds:(NSNumber *)infiniteBounds;
 /// Coordinate at the southwest corner.
 /// Note: setting this field with invalid values (infinite, NaN) will crash the application.
-@property(nonatomic, strong) NSDictionary<NSString *, id> * southwest;
+@property(nonatomic, strong) NSDictionary<NSString *, id> *southwest;
 /// Coordinate at the northeast corner.
 /// Note: setting this field with invalid values (infinite, NaN) will crash the application.
-@property(nonatomic, strong) NSDictionary<NSString *, id> * northeast;
+@property(nonatomic, strong) NSDictionary<NSString *, id> *northeast;
 /// If set to `true`, an infinite (unconstrained) bounds covering the world coordinates would be used.
 /// Coordinates provided in `southwest` and `northeast` fields would be omitted and have no effect.
-@property(nonatomic, strong) NSNumber * infiniteBounds;
+@property(nonatomic, strong) NSNumber *infiniteBounds;
 @end
 
 /// Options for enabling debugging features in a map.
@@ -537,7 +621,7 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithRasterizationMode:(FLTGlyphsRasterizationMode)rasterizationMode
-    fontFamily:(nullable NSString *)fontFamily;
+                               fontFamily:(nullable NSString *)fontFamily;
 /// Glyphs rasterization mode for client-side text rendering.
 @property(nonatomic, assign) FLTGlyphsRasterizationMode rasterizationMode;
 /// Font family to use as font fallback for client-side text renderings.
@@ -552,7 +636,7 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 ///
 /// Besides, the font family will be discarded if it is provided along with `NoGlyphsRasterizedLocally` mode.
 ///
-@property(nonatomic, copy, nullable) NSString * fontFamily;
+@property(nonatomic, copy, nullable) NSString *fontFamily;
 @end
 
 /// Map memory budget in megabytes.
@@ -560,7 +644,7 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithSize:(NSNumber *)size;
-@property(nonatomic, strong) NSNumber * size;
+@property(nonatomic, strong) NSNumber *size;
 @end
 
 /// Map memory budget in tiles.
@@ -568,7 +652,7 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithSize:(NSNumber *)size;
-@property(nonatomic, strong) NSNumber * size;
+@property(nonatomic, strong) NSNumber *size;
 @end
 
 /// Describes the map option values.
@@ -576,30 +660,30 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithContextMode:(nullable FLTContextModeBox *)contextMode
-    constrainMode:(nullable FLTConstrainModeBox *)constrainMode
-    viewportMode:(nullable FLTViewportModeBox *)viewportMode
-    orientation:(nullable FLTNorthOrientationBox *)orientation
-    crossSourceCollisions:(nullable NSNumber *)crossSourceCollisions
-    optimizeForTerrain:(nullable NSNumber *)optimizeForTerrain
-    size:(nullable FLTSize *)size
-    pixelRatio:(NSNumber *)pixelRatio
-    glyphsRasterizationOptions:(nullable FLTGlyphsRasterizationOptions *)glyphsRasterizationOptions;
+                      constrainMode:(nullable FLTConstrainModeBox *)constrainMode
+                       viewportMode:(nullable FLTViewportModeBox *)viewportMode
+                        orientation:(nullable FLTNorthOrientationBox *)orientation
+              crossSourceCollisions:(nullable NSNumber *)crossSourceCollisions
+                 optimizeForTerrain:(nullable NSNumber *)optimizeForTerrain
+                               size:(nullable FLTSize *)size
+                         pixelRatio:(NSNumber *)pixelRatio
+         glyphsRasterizationOptions:(nullable FLTGlyphsRasterizationOptions *)glyphsRasterizationOptions;
 /// The map context mode. This can be used to optimizations
 /// if we know that the drawing context is not shared with other code.
-@property(nonatomic, strong, nullable) FLTContextModeBox * contextMode;
+@property(nonatomic, strong, nullable) FLTContextModeBox *contextMode;
 /// The map constrain mode. This can be used to limit the map
 /// to wrap around the globe horizontally. By default, it is set to
 /// `HeightOnly`.
-@property(nonatomic, strong, nullable) FLTConstrainModeBox * constrainMode;
+@property(nonatomic, strong, nullable) FLTConstrainModeBox *constrainMode;
 /// The viewport mode. This can be used to flip the vertical
 /// orientation of the map as some devices may use inverted orientation.
-@property(nonatomic, strong, nullable) FLTViewportModeBox * viewportMode;
+@property(nonatomic, strong, nullable) FLTViewportModeBox *viewportMode;
 /// The orientation of the Map. By default, it is set to
 /// `Upwards`.
-@property(nonatomic, strong, nullable) FLTNorthOrientationBox * orientation;
+@property(nonatomic, strong, nullable) FLTNorthOrientationBox *orientation;
 /// Specify whether to enable cross-source symbol collision detection
 /// or not. By default, it is set to `true`.
-@property(nonatomic, strong, nullable) NSNumber * crossSourceCollisions;
+@property(nonatomic, strong, nullable) NSNumber *crossSourceCollisions;
 /// With terrain on, if `true`, the map will render for performance
 /// priority, which may lead to layer reordering allowing to maximize
 /// performance (layers that are draped over terrain will be drawn first,
@@ -607,16 +691,16 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// are positioned after symbols are draped last, over symbols. Otherwise, if
 /// set to `false`, the map will always be drawn for layer order priority.
 /// By default, it is set to `true`.
-@property(nonatomic, strong, nullable) NSNumber * optimizeForTerrain;
+@property(nonatomic, strong, nullable) NSNumber *optimizeForTerrain;
 /// The size to resize the map object and renderer backend.
 /// The size is given in `logical pixel` units. macOS and iOS platforms use
 /// device-independent pixel units, while other platforms, such as Android,
 /// use screen pixel units.
-@property(nonatomic, strong, nullable) FLTSize * size;
+@property(nonatomic, strong, nullable) FLTSize *size;
 /// The custom pixel ratio. By default, it is set to 1.0
-@property(nonatomic, strong) NSNumber * pixelRatio;
+@property(nonatomic, strong) NSNumber *pixelRatio;
 /// Glyphs rasterization options to use for client-side text rendering.
-@property(nonatomic, strong, nullable) FLTGlyphsRasterizationOptions * glyphsRasterizationOptions;
+@property(nonatomic, strong, nullable) FLTGlyphsRasterizationOptions *glyphsRasterizationOptions;
 @end
 
 /// Describes the coordinate box on the screen, measured in `logical pixels`
@@ -625,11 +709,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithMin:(FLTScreenCoordinate *)min
-    max:(FLTScreenCoordinate *)max;
+                        max:(FLTScreenCoordinate *)max;
 /// The screen coordinate close to the top left corner of the screen.
-@property(nonatomic, strong) FLTScreenCoordinate * min;
+@property(nonatomic, strong) FLTScreenCoordinate *min;
 /// The screen coordinate close to the bottom right corner of the screen.
-@property(nonatomic, strong) FLTScreenCoordinate * max;
+@property(nonatomic, strong) FLTScreenCoordinate *max;
 @end
 
 /// A coordinate bounds and zoom.
@@ -637,11 +721,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithBounds:(FLTCoordinateBounds *)bounds
-    zoom:(NSNumber *)zoom;
+                          zoom:(NSNumber *)zoom;
 /// The latitude and longitude bounds.
-@property(nonatomic, strong) FLTCoordinateBounds * bounds;
+@property(nonatomic, strong) FLTCoordinateBounds *bounds;
 /// Zoom.
-@property(nonatomic, strong) NSNumber * zoom;
+@property(nonatomic, strong) NSNumber *zoom;
 @end
 
 /// Size type.
@@ -649,21 +733,21 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithWidth:(NSNumber *)width
-    height:(NSNumber *)height;
+                       height:(NSNumber *)height;
 /// Width of the size.
-@property(nonatomic, strong) NSNumber * width;
+@property(nonatomic, strong) NSNumber *width;
 /// Height of the size.
-@property(nonatomic, strong) NSNumber * height;
+@property(nonatomic, strong) NSNumber *height;
 @end
 
 /// Options for querying rendered features.
 @interface FLTRenderedQueryOptions : NSObject
 + (instancetype)makeWithLayerIds:(nullable NSArray<NSString *> *)layerIds
-    filter:(nullable NSString *)filter;
+                          filter:(nullable NSString *)filter;
 /// Layer IDs to include in the query.
-@property(nonatomic, strong, nullable) NSArray<NSString *> * layerIds;
+@property(nonatomic, strong, nullable) NSArray<NSString *> *layerIds;
 /// Filters the returned features with an expression
-@property(nonatomic, copy, nullable) NSString * filter;
+@property(nonatomic, copy, nullable) NSString *filter;
 @end
 
 /// Options for querying source features.
@@ -671,21 +755,21 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithSourceLayerIds:(nullable NSArray<NSString *> *)sourceLayerIds
-    filter:(NSString *)filter;
+                                filter:(NSString *)filter;
 /// Source layer IDs to include in the query.
-@property(nonatomic, strong, nullable) NSArray<NSString *> * sourceLayerIds;
+@property(nonatomic, strong, nullable) NSArray<NSString *> *sourceLayerIds;
 /// Filters the returned features with an expression
-@property(nonatomic, copy) NSString * filter;
+@property(nonatomic, copy) NSString *filter;
 @end
 
 /// A value or a collection of a feature extension.
 @interface FLTFeatureExtensionValue : NSObject
 + (instancetype)makeWithValue:(nullable NSString *)value
-    featureCollection:(nullable NSArray<NSDictionary<NSString *, id> *> *)featureCollection;
+            featureCollection:(nullable NSArray<NSDictionary<NSString *, id> *> *)featureCollection;
 /// An optional value of a feature extension
-@property(nonatomic, copy, nullable) NSString * value;
+@property(nonatomic, copy, nullable) NSString *value;
 /// An optional array of features from a feature extension.
-@property(nonatomic, strong, nullable) NSArray<NSDictionary<NSString *, id> *> * featureCollection;
+@property(nonatomic, strong, nullable) NSArray<NSDictionary<NSString *, id> *> *featureCollection;
 @end
 
 /// Represents query result that is returned in QueryFeaturesCallback.
@@ -694,19 +778,19 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithFeature:(NSDictionary<NSString *, id> *)feature
-    source:(NSString *)source
-    sourceLayer:(nullable NSString *)sourceLayer
-    state:(NSString *)state;
+                         source:(NSString *)source
+                    sourceLayer:(nullable NSString *)sourceLayer
+                          state:(NSString *)state;
 /// Feature returned by the query.
-@property(nonatomic, strong) NSDictionary<NSString *, id> * feature;
+@property(nonatomic, strong) NSDictionary<NSString *, id> *feature;
 /// Source id for a queried feature.
-@property(nonatomic, copy) NSString * source;
+@property(nonatomic, copy) NSString *source;
 /// Source layer id for a queried feature. May be null if source does not support layers, e.g., 'geojson' source,
 /// or when data provided by the source is not layered.
-@property(nonatomic, copy, nullable) NSString * sourceLayer;
+@property(nonatomic, copy, nullable) NSString *sourceLayer;
 /// Feature state for a queried feature. Type of the value is an Object.
 /// @see `setFeatureState` and `getFeatureState`
-@property(nonatomic, copy) NSString * state;
+@property(nonatomic, copy) NSString *state;
 @end
 
 /// Geometry for querying rendered features.
@@ -714,9 +798,9 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithValue:(NSString *)value
-    type:(FLTType)type;
+                         type:(FLTType)type;
 /// ScreenCoordinate/List<ScreenCoordinate>/ScreenBox in Json mode.
-@property(nonatomic, copy) NSString * value;
+@property(nonatomic, copy) NSString *value;
 @property(nonatomic, assign) FLTType type;
 @end
 
@@ -729,21 +813,21 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithStyleURL:(NSString *)styleURL
-    geometry:(NSDictionary<NSString *, id> *)geometry
-    minZoom:(NSNumber *)minZoom
-    maxZoom:(NSNumber *)maxZoom
-    pixelRatio:(NSNumber *)pixelRatio
-    glyphsRasterizationMode:(FLTGlyphsRasterizationMode)glyphsRasterizationMode;
+                        geometry:(NSDictionary<NSString *, id> *)geometry
+                         minZoom:(NSNumber *)minZoom
+                         maxZoom:(NSNumber *)maxZoom
+                      pixelRatio:(NSNumber *)pixelRatio
+         glyphsRasterizationMode:(FLTGlyphsRasterizationMode)glyphsRasterizationMode;
 /// The style associated with the offline region
-@property(nonatomic, copy) NSString * styleURL;
+@property(nonatomic, copy) NSString *styleURL;
 /// The geometry that defines the boundary of the offline region
-@property(nonatomic, strong) NSDictionary<NSString *, id> * geometry;
+@property(nonatomic, strong) NSDictionary<NSString *, id> *geometry;
 /// Minimum zoom level for the offline region
-@property(nonatomic, strong) NSNumber * minZoom;
+@property(nonatomic, strong) NSNumber *minZoom;
 /// Maximum zoom level for the offline region
-@property(nonatomic, strong) NSNumber * maxZoom;
+@property(nonatomic, strong) NSNumber *maxZoom;
 /// Pixel ratio to be accounted for when downloading assets
-@property(nonatomic, strong) NSNumber * pixelRatio;
+@property(nonatomic, strong) NSNumber *pixelRatio;
 /// Specifies glyphs rasterization mode. It defines which glyphs will be loaded from the server
 @property(nonatomic, assign) FLTGlyphsRasterizationMode glyphsRasterizationMode;
 @end
@@ -757,21 +841,21 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithStyleURL:(NSString *)styleURL
-    bounds:(FLTCoordinateBounds *)bounds
-    minZoom:(NSNumber *)minZoom
-    maxZoom:(NSNumber *)maxZoom
-    pixelRatio:(NSNumber *)pixelRatio
-    glyphsRasterizationMode:(FLTGlyphsRasterizationMode)glyphsRasterizationMode;
+                          bounds:(FLTCoordinateBounds *)bounds
+                         minZoom:(NSNumber *)minZoom
+                         maxZoom:(NSNumber *)maxZoom
+                      pixelRatio:(NSNumber *)pixelRatio
+         glyphsRasterizationMode:(FLTGlyphsRasterizationMode)glyphsRasterizationMode;
 /// The style associated with the offline region.
-@property(nonatomic, copy) NSString * styleURL;
+@property(nonatomic, copy) NSString *styleURL;
 /// The bounds covering the region.
-@property(nonatomic, strong) FLTCoordinateBounds * bounds;
+@property(nonatomic, strong) FLTCoordinateBounds *bounds;
 /// Minimum zoom level for the offline region.
-@property(nonatomic, strong) NSNumber * minZoom;
+@property(nonatomic, strong) NSNumber *minZoom;
 /// Maximum zoom level for the offline region.
-@property(nonatomic, strong) NSNumber * maxZoom;
+@property(nonatomic, strong) NSNumber *maxZoom;
 /// Pixel ratio to be accounted for when downloading assets.
-@property(nonatomic, strong) NSNumber * pixelRatio;
+@property(nonatomic, strong) NSNumber *pixelRatio;
 /// Specifies glyphs download mode.
 @property(nonatomic, assign) FLTGlyphsRasterizationMode glyphsRasterizationMode;
 @end
@@ -786,11 +870,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithNorthing:(NSNumber *)northing
-    easting:(NSNumber *)easting;
+                         easting:(NSNumber *)easting;
 /// Projected meters in north direction.
-@property(nonatomic, strong) NSNumber * northing;
+@property(nonatomic, strong) NSNumber *northing;
 /// Projected meters in east direction.
-@property(nonatomic, strong) NSNumber * easting;
+@property(nonatomic, strong) NSNumber *easting;
 @end
 
 /// Describes a point on the map in Mercator projection.
@@ -798,11 +882,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithX:(NSNumber *)x
-    y:(NSNumber *)y;
+                        y:(NSNumber *)y;
 /// A value representing the x position of this coordinate.
-@property(nonatomic, strong) NSNumber * x;
+@property(nonatomic, strong) NSNumber *x;
 /// A value representing the y position of this coordinate.
-@property(nonatomic, strong) NSNumber * y;
+@property(nonatomic, strong) NSNumber *y;
 @end
 
 /// Options to configure a resource
@@ -810,14 +894,14 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithAccessToken:(NSString *)accessToken
-    baseURL:(nullable NSString *)baseURL
-    dataPath:(nullable NSString *)dataPath
-    assetPath:(nullable NSString *)assetPath
-    tileStoreUsageMode:(nullable FLTTileStoreUsageModeBox *)tileStoreUsageMode;
+                            baseURL:(nullable NSString *)baseURL
+                           dataPath:(nullable NSString *)dataPath
+                          assetPath:(nullable NSString *)assetPath
+                 tileStoreUsageMode:(nullable FLTTileStoreUsageModeBox *)tileStoreUsageMode;
 /// The access token that is used to access resources provided by Mapbox services.
-@property(nonatomic, copy) NSString * accessToken;
+@property(nonatomic, copy) NSString *accessToken;
 /// The base URL that would be used to make HTTP requests. By default it is `https://api.mapbox.com`.
-@property(nonatomic, copy, nullable) NSString * baseURL;
+@property(nonatomic, copy, nullable) NSString *baseURL;
 /// The path to the map data folder.
 ///
 /// The implementation will use this folder for storing offline style packages and temporary data.
@@ -825,13 +909,13 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// The application must have sufficient permissions to create files within the provided directory.
 /// If a dataPath is not provided, the default location will be used (the application data path defined
 /// in the `Mapbox Common SystemInformation API`).
-@property(nonatomic, copy, nullable) NSString * dataPath;
+@property(nonatomic, copy, nullable) NSString *dataPath;
 /// The path to the folder where application assets are located. Resources whose protocol is `asset://`
 /// will be fetched from an asset folder or asset management system provided by respective platform.
 /// This option is ignored for Android platform. An iOS application may provide path to an application bundle's path.
-@property(nonatomic, copy, nullable) NSString * assetPath;
+@property(nonatomic, copy, nullable) NSString *assetPath;
 /// The tile store usage mode.
-@property(nonatomic, strong, nullable) FLTTileStoreUsageModeBox * tileStoreUsageMode;
+@property(nonatomic, strong, nullable) FLTTileStoreUsageModeBox *tileStoreUsageMode;
 @end
 
 /// The information about style object (source or layer).
@@ -839,11 +923,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithId:(NSString *)id
-    type:(NSString *)type;
+                      type:(NSString *)type;
 /// The object's identifier.
-@property(nonatomic, copy) NSString * id;
+@property(nonatomic, copy) NSString *id;
 /// The object's type.
-@property(nonatomic, copy) NSString * type;
+@property(nonatomic, copy) NSString *type;
 @end
 
 /// Image type.
@@ -851,18 +935,18 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithWidth:(NSNumber *)width
-    height:(NSNumber *)height
-    data:(FlutterStandardTypedData *)data;
+                       height:(NSNumber *)height
+                         data:(FlutterStandardTypedData *)data;
 /// The width of the image, in screen pixels.
-@property(nonatomic, strong) NSNumber * width;
+@property(nonatomic, strong) NSNumber *width;
 /// The height of the image, in screen pixels.
-@property(nonatomic, strong) NSNumber * height;
+@property(nonatomic, strong) NSNumber *height;
 /// 32-bit premultiplied RGBA image data.
 ///
 /// An uncompressed image data encoded in 32-bit RGBA format with premultiplied
 /// alpha channel. This field should contain exactly `4 * width * height` bytes. It
 /// should consist of a sequence of scanlines.
-@property(nonatomic, strong) FlutterStandardTypedData * data;
+@property(nonatomic, strong) FlutterStandardTypedData *data;
 @end
 
 /// Describes the image stretch areas.
@@ -870,11 +954,11 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithFirst:(NSNumber *)first
-    second:(NSNumber *)second;
+                       second:(NSNumber *)second;
 /// The first stretchable part in screen pixel units.
-@property(nonatomic, strong) NSNumber * first;
+@property(nonatomic, strong) NSNumber *first;
 /// The second stretchable part in screen pixel units.
-@property(nonatomic, strong) NSNumber * second;
+@property(nonatomic, strong) NSNumber *second;
 @end
 
 /// Describes the image content, e.g. where text can be fit into an image.
@@ -884,17 +968,17 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithLeft:(NSNumber *)left
-    top:(NSNumber *)top
-    right:(NSNumber *)right
-    bottom:(NSNumber *)bottom;
+                         top:(NSNumber *)top
+                       right:(NSNumber *)right
+                      bottom:(NSNumber *)bottom;
 /// Distance to the left, in screen pixels.
-@property(nonatomic, strong) NSNumber * left;
+@property(nonatomic, strong) NSNumber *left;
 /// Distance to the top, in screen pixels.
-@property(nonatomic, strong) NSNumber * top;
+@property(nonatomic, strong) NSNumber *top;
 /// Distance to the right, in screen pixels.
-@property(nonatomic, strong) NSNumber * right;
+@property(nonatomic, strong) NSNumber *right;
 /// Distance to the bottom, in screen pixels.
-@property(nonatomic, strong) NSNumber * bottom;
+@property(nonatomic, strong) NSNumber *bottom;
 @end
 
 /// Represents a tile coordinate.
@@ -902,14 +986,14 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithZ:(NSNumber *)z
-    x:(NSNumber *)x
-    y:(NSNumber *)y;
+                        x:(NSNumber *)x
+                        y:(NSNumber *)y;
 /// The z value of the coordinate (zoom-level).
-@property(nonatomic, strong) NSNumber * z;
+@property(nonatomic, strong) NSNumber *z;
 /// The x value of the coordinate.
-@property(nonatomic, strong) NSNumber * x;
+@property(nonatomic, strong) NSNumber *x;
 /// The y value of the coordinate.
-@property(nonatomic, strong) NSNumber * y;
+@property(nonatomic, strong) NSNumber *y;
 @end
 
 /// Holds a style property value with meta data.
@@ -917,9 +1001,9 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithValue:(NSString *)value
-    kind:(FLTStylePropertyValueKind)kind;
+                         kind:(FLTStylePropertyValueKind)kind;
 /// The property value.
-@property(nonatomic, copy) NSString * value;
+@property(nonatomic, copy) NSString *value;
 /// The kind of the property value.
 @property(nonatomic, assign) FLTStylePropertyValueKind kind;
 @end
@@ -1319,6 +1403,9 @@ extern void FLT_MapInterfaceSetup(id<FlutterBinaryMessenger> binaryMessenger, NS
 /// The codec used by FLTOfflineRegion.
 NSObject<FlutterMessageCodec> *FLTOfflineRegionGetCodec(void);
 
+/// The codec used by FLT_MapInterface.
+NSObject<FlutterMethodCodec> *FLT_StyleGetCodec(void);
+
 /// An offline region represents an identifiable geographic region with optional metadata.
 @protocol FLTOfflineRegion
 /// The regions identifier
@@ -1567,6 +1654,19 @@ NSObject<FlutterMessageCodec> *FLTCancelableGetCodec(void);
 ///
 /// If the associated asynchronous operation has already finished, this call is ignored.
 - (void)cancelWithError:(FlutterError *_Nullable *_Nonnull)error;
+@end
+
+/// Describes the coordinate on the screen, measured from top to bottom and from left to right.
+/// Note: the `map` uses screen coordinate units measured in `logical pixels`.
+@interface FLTScreenCoordinate : NSObject
+/// `init` unavailable to enforce nonnull fields, see the `make` class method.
+- (instancetype)init NS_UNAVAILABLE;
++ (instancetype)makeWithX:(NSNumber *)x
+                        y:(NSNumber *)y;
+/// A value representing the x position of this coordinate.
+@property(nonatomic, strong) NSNumber *x;
+/// A value representing the y position of this coordinate.
+@property(nonatomic, strong) NSNumber *y;
 @end
 
 extern void FLTCancelableSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLTCancelable> *_Nullable api);
