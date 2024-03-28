@@ -10,6 +10,11 @@
 #error File requires ARC to be enabled.
 #endif
 
+static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
+  id result = array[key];
+  return (result == [NSNull null]) ? nil : result;
+}
+
 @interface FLTMbxEdgeInsets ()
 + (FLTMbxEdgeInsets *)fromList:(NSArray *)list;
 + (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list;

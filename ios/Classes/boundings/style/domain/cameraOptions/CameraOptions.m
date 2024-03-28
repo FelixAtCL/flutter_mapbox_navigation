@@ -10,6 +10,11 @@
 #error File requires ARC to be enabled.
 #endif
 
+static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
+  id result = array[key];
+  return (result == [NSNull null]) ? nil : result;
+}
+
 @interface FLTCameraOptions ()
 + (FLTCameraOptions *)fromList:(NSArray *)list;
 + (nullable FLTCameraOptions *)nullableFromList:(NSArray *)list;
