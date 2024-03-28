@@ -30,6 +30,7 @@ class GestureAPI {
         print("onLongTapMap called with ${call.arguments}");
         break;
       default:
+        print("${call.method}: ${call.arguments}");
         break;
     }
   }
