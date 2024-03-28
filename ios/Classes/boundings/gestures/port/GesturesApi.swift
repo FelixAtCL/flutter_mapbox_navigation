@@ -57,7 +57,7 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
         if let pinchZoomEnabled = settings.pinchToZoomEnabled {
             mapView.gestures.options.pinchZoomEnabled = pinchZoomEnabled.boolValue
         }
-        switch settings.scrollMode.value {
+        switch settings.scrollMode?.value {
         case .HORIZONTAL:
             mapView.gestures.options.panMode = PanMode.horizontal
         case .VERTICAL:
@@ -110,24 +110,34 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
     }
 
     func onTapMap(coordinate: FLT_GESTURESScreenCoordinate) {
+        guard let channel = channel else {return}
         channel.invokeMethod("onTapMap", arguments: coordinate)
     }
 
     func onScrollMap(coordinate: FLT_GESTURESScreenCoordinate) {
+        guard let channel = channel else {return}
         channel.invokeMethod("onScrollMap", arguments: coordinate)
     }
 
     func onLongTapMap(coordinate: FLT_GESTURESScreenCoordinate) {
+        guard let channel = channel else {return}
         channel.invokeMethod("onLongTapMap", arguments: coordinate)
     }
 
     private var mapView: MapView
     private var gestureRecognizer: UIGestureRecognizer?
     private var cancelable: Cancelable?
-    private var channel: FlutterMethodChannel
-
+    private var channel: FlutterMethodChannel?
+    private var viewId: Int64
+    private var messenger: FlutterBinaryMessenger
+    
     init(messenger: FlutterBinaryMessenger, withMapView mapView: MapView, viewId: Int64) {
         self.mapView = mapView
+        self.viewId = viewId
+        self.messenger = messenger
+    }
+    
+    func listen() {
         channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/gestures/\(viewId)", binaryMessenger: messenger, codec: FLT_GESTURESGestureListenerGetCodec())
         gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onMapLongTap))
         mapView.addGestureRecognizer(gestureRecognizer!)
