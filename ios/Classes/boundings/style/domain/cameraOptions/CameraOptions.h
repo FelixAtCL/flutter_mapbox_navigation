@@ -7,6 +7,8 @@
 @class FlutterError;
 @class FlutterStandardTypedData;
 
+@class FLTScreenCoordinate;
+@class FLTMbxEdgeInsets;
 @class FLTCameraOptions;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -39,3 +41,5 @@ NS_ASSUME_NONNULL_BEGIN
 /// Pitch toward the horizon measured in degrees.
 @property(nonatomic, strong, nullable) NSNumber * pitch;
 @end
+
+NS_ASSUME_NONNULL_END

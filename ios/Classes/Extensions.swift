@@ -66,15 +66,6 @@ extension ScreenBox {
         return CGRect(x: min.x, y: min.y, width: max.x - min.x, height: max.y - min.y)
     }
 }
-extension FLTScreenCoordinate {
-    func toScreenCoordinate() -> ScreenCoordinate {
-        return ScreenCoordinate(x: self.x.doubleValue, y: self.y.doubleValue)
-    }
-
-    func toCGPoint() -> CGPoint {
-        return CGPoint(x: self.x.doubleValue, y: self.y.doubleValue)
-    }
-}
 extension FLTCoordinateBounds {
     func toCoordinateBounds() -> CoordinateBounds {
         let southwest = convertDictionaryToCLLocationCoordinate2D(dict: self.southwest)
@@ -86,16 +77,6 @@ extension FLTCoordinateBounds {
 extension FLTCanonicalTileID {
     func toCanonicalTileID() -> CanonicalTileID {
         return CanonicalTileID(z: UInt8(truncating: self.z), x: UInt32(truncating: self.x), y: UInt32(truncating: self.y))
-    }
-}
-
-extension FLTMbxEdgeInsets {
-    func toUIEdgeInsets() -> UIEdgeInsets {
-        return UIEdgeInsets(
-            top: self.top.doubleValue,
-            left: self.left.doubleValue,
-            bottom: self.bottom.doubleValue,
-            right: self.right.doubleValue)
     }
 }
 

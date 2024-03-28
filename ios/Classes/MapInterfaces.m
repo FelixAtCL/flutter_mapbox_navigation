@@ -247,12 +247,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
   return (result == [NSNull null]) ? nil : result;
 }
 
-@interface FLTMbxEdgeInsets ()
-+ (FLTMbxEdgeInsets *)fromList:(NSArray *)list;
-+ (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list;
-- (NSArray *)toList;
-@end
-
 @interface FLTCameraState ()
 + (FLTCameraState *)fromList:(NSArray *)list;
 + (nullable FLTCameraState *)nullableFromList:(NSArray *)list;
@@ -310,12 +304,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 @interface FLTMapOptions ()
 + (FLTMapOptions *)fromList:(NSArray *)list;
 + (nullable FLTMapOptions *)nullableFromList:(NSArray *)list;
-- (NSArray *)toList;
-@end
-
-@interface FLTScreenCoordinate ()
-+ (FLTScreenCoordinate *)fromList:(NSArray *)list;
-+ (nullable FLTScreenCoordinate *)nullableFromList:(NSArray *)list;
 - (NSArray *)toList;
 @end
 
@@ -431,43 +419,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
 + (FLTStylePropertyValue *)fromList:(NSArray *)list;
 + (nullable FLTStylePropertyValue *)nullableFromList:(NSArray *)list;
 - (NSArray *)toList;
-@end
-
-@implementation FLTMbxEdgeInsets
-+ (instancetype)makeWithTop:(NSNumber *)top
-    left:(NSNumber *)left
-    bottom:(NSNumber *)bottom
-    right:(NSNumber *)right {
-  FLTMbxEdgeInsets* pigeonResult = [[FLTMbxEdgeInsets alloc] init];
-  pigeonResult.top = top;
-  pigeonResult.left = left;
-  pigeonResult.bottom = bottom;
-  pigeonResult.right = right;
-  return pigeonResult;
-}
-+ (FLTMbxEdgeInsets *)fromList:(NSArray *)list {
-  FLTMbxEdgeInsets *pigeonResult = [[FLTMbxEdgeInsets alloc] init];
-  pigeonResult.top = GetNullableObjectAtIndex(list, 0);
-  NSAssert(pigeonResult.top != nil, @"");
-  pigeonResult.left = GetNullableObjectAtIndex(list, 1);
-  NSAssert(pigeonResult.left != nil, @"");
-  pigeonResult.bottom = GetNullableObjectAtIndex(list, 2);
-  NSAssert(pigeonResult.bottom != nil, @"");
-  pigeonResult.right = GetNullableObjectAtIndex(list, 3);
-  NSAssert(pigeonResult.right != nil, @"");
-  return pigeonResult;
-}
-+ (nullable FLTMbxEdgeInsets *)nullableFromList:(NSArray *)list {
-  return (list) ? [FLTMbxEdgeInsets fromList:list] : nil;
-}
-- (NSArray *)toList {
-  return @[
-    (self.top ?: [NSNull null]),
-    (self.left ?: [NSNull null]),
-    (self.bottom ?: [NSNull null]),
-    (self.right ?: [NSNull null]),
-  ];
-}
 @end
 
 @implementation FLTCameraState
@@ -796,33 +747,6 @@ static id GetNullableObjectAtIndex(NSArray *array, NSInteger key) {
     (self.size ? [self.size toList] : [NSNull null]),
     (self.pixelRatio ?: [NSNull null]),
     (self.glyphsRasterizationOptions ? [self.glyphsRasterizationOptions toList] : [NSNull null]),
-  ];
-}
-@end
-
-@implementation FLTScreenCoordinate
-+ (instancetype)makeWithX:(NSNumber *)x
-    y:(NSNumber *)y {
-  FLTScreenCoordinate* pigeonResult = [[FLTScreenCoordinate alloc] init];
-  pigeonResult.x = x;
-  pigeonResult.y = y;
-  return pigeonResult;
-}
-+ (FLTScreenCoordinate *)fromList:(NSArray *)list {
-  FLTScreenCoordinate *pigeonResult = [[FLTScreenCoordinate alloc] init];
-  pigeonResult.x = GetNullableObjectAtIndex(list, 0);
-  NSAssert(pigeonResult.x != nil, @"");
-  pigeonResult.y = GetNullableObjectAtIndex(list, 1);
-  NSAssert(pigeonResult.y != nil, @"");
-  return pigeonResult;
-}
-+ (nullable FLTScreenCoordinate *)nullableFromList:(NSArray *)list {
-  return (list) ? [FLTScreenCoordinate fromList:list] : nil;
-}
-- (NSArray *)toList {
-  return @[
-    (self.x ?: [NSNull null]),
-    (self.y ?: [NSNull null]),
   ];
 }
 @end

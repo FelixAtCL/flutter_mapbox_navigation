@@ -432,26 +432,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @class FLTCanonicalTileID;
 @class FLTStylePropertyValue;
 
-/// The distance on each side between rectangles, when one is contained into other.
-///
-/// All fields' values are in `logical pixel` units.
-@interface FLTMbxEdgeInsets : NSObject
-/// `init` unavailable to enforce nonnull fields, see the `make` class method.
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)makeWithTop:(NSNumber *)top
-    left:(NSNumber *)left
-    bottom:(NSNumber *)bottom
-    right:(NSNumber *)right;
-/// Padding from the top.
-@property(nonatomic, strong) NSNumber * top;
-/// Padding from the left.
-@property(nonatomic, strong) NSNumber * left;
-/// Padding from the bottom.
-@property(nonatomic, strong) NSNumber * bottom;
-/// Padding from the right.
-@property(nonatomic, strong) NSNumber * right;
-@end
-
 /// Describes the viewpoint of a camera.
 @interface FLTCameraState : NSObject
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
@@ -637,19 +617,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @property(nonatomic, strong) NSNumber * pixelRatio;
 /// Glyphs rasterization options to use for client-side text rendering.
 @property(nonatomic, strong, nullable) FLTGlyphsRasterizationOptions * glyphsRasterizationOptions;
-@end
-
-/// Describes the coordinate on the screen, measured from top to bottom and from left to right.
-/// Note: the `map` uses screen coordinate units measured in `logical pixels`.
-@interface FLTScreenCoordinate : NSObject
-/// `init` unavailable to enforce nonnull fields, see the `make` class method.
-- (instancetype)init NS_UNAVAILABLE;
-+ (instancetype)makeWithX:(NSNumber *)x
-    y:(NSNumber *)y;
-/// A value representing the x position of this coordinate.
-@property(nonatomic, strong) NSNumber * x;
-/// A value representing the y position of this coordinate.
-@property(nonatomic, strong) NSNumber * y;
 @end
 
 /// Describes the coordinate box on the screen, measured in `logical pixels`

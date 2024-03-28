@@ -23,3 +23,5 @@ NS_ASSUME_NONNULL_BEGIN
 /// Layer should be positioned at specified index in a layers stack.
 @property(nonatomic, strong, nullable) NSNumber * at;
 @end
+
+NS_ASSUME_NONNULL_END

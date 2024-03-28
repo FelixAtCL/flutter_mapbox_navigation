@@ -10,4 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// The codec used by FLT_MapInterface.
-NSObject<FlutterMethodCodec> *FLT_MapInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_MapInterfaceGetCodec(void);#
+
+
+NS_ASSUME_NONNULL_END

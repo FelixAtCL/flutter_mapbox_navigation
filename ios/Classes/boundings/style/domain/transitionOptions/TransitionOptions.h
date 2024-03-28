@@ -27,3 +27,5 @@ NS_ASSUME_NONNULL_BEGIN
 /// Whether the fade in/out symbol placement transition is enabled. Defaults to `true`.
 @property(nonatomic, strong, nullable) NSNumber * enablePlacementTransitions;
 @end
+
+NS_ASSUME_NONNULL_END
