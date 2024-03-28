@@ -4,7 +4,10 @@ part of '../../mapbox_navigation_flutter.dart';
 class StyleManager {
   /// Constructor for [StyleManager].
   StyleManager(int id) {
-    _methodChannel = MethodChannel('flutter_mapbox_navigation/style/$id');
+    _methodChannel = MethodChannel(
+      'flutter_mapbox_navigation/style/$id',
+      const StandardMethodCodec(StyleManagerCodec()),
+    );
     _methodChannel.setMethodCallHandler(_handleMethod);
 
     _eventChannel = EventChannel('flutter_mapbox_navigation/style/$id/events');

@@ -14,6 +14,7 @@ class SampleNavigationApp extends StatefulWidget {
 }
 
 class _SampleNavigationAppState extends State<SampleNavigationApp> {
+  final List<String> _loadedImgs = [];
   String? _platformVersion;
   String? _instruction;
   final _origin = WayPoint(
@@ -290,6 +291,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var layer = "example-layer";
     var img = "assets/deselected.png";
 
+    await _addImage(img: img);
+
     var data = jsonEncode({
       "type": "FeatureCollection",
       "features": [],
@@ -331,9 +334,35 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
   Future _addSource(
       {required String id, required String data, bool? isCluster}) async {
     var exists = await _controller?.style.styleSourceExists(id);
+    print("source exists: $exists");
     if (exists == true) return;
     var source = GeoJsonSource(id: id, data: data, cluster: isCluster);
     await _controller?.style.addSource(source);
+  }
+
+  Future _addImage({required String img}) async {
+    var bundle = await rootBundle.load(img);
+    var image = bundle.buffer.asUint8List();
+    var decodedImage = await decodeImageFromList(image);
+    var id = img;
+
+    if (_loadedImgs.contains(id)) _loadedImgs.remove(id);
+
+    await _controller?.style.addStyleImage(
+        id,
+        1.0,
+        MbxImage(
+            width: decodedImage.width,
+            height: decodedImage.height,
+            data: image),
+        false,
+        [],
+        [],
+        null);
+
+    _loadedImgs.add(id);
+
+    return id;
   }
 
   Future _addStyleLayer(
@@ -341,6 +370,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       required String props,
       LayerPosition? position}) async {
     var exists = await _controller?.style.styleLayerExists(id);
+    print("layer exists: $exists");
     if (exists == true) return;
     await _controller?.style.addStyleLayer(props, position);
   }

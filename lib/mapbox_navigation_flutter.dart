@@ -17,6 +17,7 @@ import 'package:flutter_mapbox_navigation/src/proxy_binary_messenger.dart'
 
 export 'package:turf/helpers.dart';
 
+part 'src/embedded/codec.dart';
 part 'src/embedded/controller.dart';
 part 'src/embedded/style_manager.dart';
 part 'src/annotation/circle_annotation_manager.dart';
