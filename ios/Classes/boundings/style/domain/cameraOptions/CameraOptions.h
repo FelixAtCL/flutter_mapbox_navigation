@@ -2,8 +2,8 @@
 // See also: https://pub.dev/packages/pigeon
 
 #import <Foundation/Foundation.h>
-#import "../../../common/domain/screenCoordinate/ScreenCoordinate.h"
-#import "../../../common/domain/mbxEdgeInsets/MbxEdgeInsets.h"
+#import <flutter_mapbox_navigation/ScreenCoordinate.h>
+#import <flutter_mapbox_navigation/MbxEdgeInsets.h>
 
 @protocol FlutterBinaryMessenger;
 @protocol FlutterMethodCodec;
