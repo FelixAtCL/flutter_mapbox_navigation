@@ -291,44 +291,48 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var layer = "example-layer";
     var img = "assets/deselected.png";
 
-    await _addImage(img: img);
+    try {
+      await _addImage(img: img);
 
-    var data = jsonEncode({
-      "type": "FeatureCollection",
-      "features": [],
-    });
+      var data = jsonEncode({
+        "type": "FeatureCollection",
+        "features": [],
+      });
 
-    await _addSource(id: source, data: data, isCluster: false);
+      await _addSource(id: source, data: data, isCluster: false);
 
-    dynamic markerProps = {
-      "id": layer,
-      "type": "symbol",
-      "source": source,
-      "filter": [
-        "!",
-        ["has", "point_count"]
-      ],
-      "layout": {
-        "icon-image": img,
-        "icon-size": 0.25,
-        "icon-anchor":
-            IconAnchor.BOTTOM.toString().split('.').last.toLowerCase(),
-      }
-    };
+      dynamic markerProps = {
+        "id": layer,
+        "type": "symbol",
+        "source": source,
+        "filter": [
+          "!",
+          ["has", "point_count"]
+        ],
+        "layout": {
+          "icon-image": img,
+          "icon-size": 0.25,
+          "icon-anchor":
+              IconAnchor.BOTTOM.toString().split('.').last.toLowerCase(),
+        }
+      };
 
-    await _addStyleLayer(id: layer, props: json.encode(markerProps));
+      await _addStyleLayer(id: layer, props: json.encode(markerProps));
 
-    var latitudeBuldern = 51.866478;
-    var longitudeBuldern = 7.369059;
-    var content =
-        _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
-    var features = jsonEncode({
-      "type": "FeatureCollection",
-      "features": [content]
-    });
-    var sourceToUpdate =
-        (await _controller?.style.getSource(source)) as GeoJsonSource;
-    await sourceToUpdate.updateGeoJSON(features);
+      var latitudeBuldern = 51.866478;
+      var longitudeBuldern = 7.369059;
+      var content =
+          _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
+      var features = jsonEncode({
+        "type": "FeatureCollection",
+        "features": [content]
+      });
+      var sourceToUpdate =
+          (await _controller?.style.getSource(source)) as GeoJsonSource;
+      await sourceToUpdate.updateGeoJSON(features);
+    } catch (error) {
+      print(error.toString());
+    }
   }
 
   Future _addSource(

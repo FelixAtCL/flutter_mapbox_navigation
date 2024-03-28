@@ -12,110 +12,114 @@ class StyleManagerCodec extends StandardMessageCodec {
   const StyleManagerCodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
-    if (value is CameraBounds) {
-      buffer.putUint8(128);
-      writeValue(buffer, value.encode());
-    } else if (value is CameraBoundsOptions) {
-      buffer.putUint8(129);
-      writeValue(buffer, value.encode());
-    } else if (value is CameraOptions) {
-      buffer.putUint8(130);
-      writeValue(buffer, value.encode());
-    } else if (value is CameraState) {
-      buffer.putUint8(131);
-      writeValue(buffer, value.encode());
-    } else if (value is CanonicalTileID) {
-      buffer.putUint8(132);
-      writeValue(buffer, value.encode());
-    } else if (value is CoordinateBounds) {
-      buffer.putUint8(133);
-      writeValue(buffer, value.encode());
-    } else if (value is CoordinateBoundsZoom) {
-      buffer.putUint8(134);
-      writeValue(buffer, value.encode());
-    } else if (value is FeatureExtensionValue) {
-      buffer.putUint8(135);
-      writeValue(buffer, value.encode());
-    } else if (value is GlyphsRasterizationOptions) {
-      buffer.putUint8(136);
-      writeValue(buffer, value.encode());
-    } else if (value is ImageContent) {
-      buffer.putUint8(137);
-      writeValue(buffer, value.encode());
-    } else if (value is ImageStretches) {
-      buffer.putUint8(138);
-      writeValue(buffer, value.encode());
-    } else if (value is LayerPosition) {
-      buffer.putUint8(139);
-      writeValue(buffer, value.encode());
-    } else if (value is MapAnimationOptions) {
-      buffer.putUint8(140);
-      writeValue(buffer, value.encode());
-    } else if (value is MapDebugOptions) {
-      buffer.putUint8(141);
-      writeValue(buffer, value.encode());
-    } else if (value is MapMemoryBudgetInMegabytes) {
-      buffer.putUint8(142);
-      writeValue(buffer, value.encode());
-    } else if (value is MapMemoryBudgetInTiles) {
-      buffer.putUint8(143);
-      writeValue(buffer, value.encode());
-    } else if (value is MapOptions) {
-      buffer.putUint8(144);
-      writeValue(buffer, value.encode());
-    } else if (value is MbxEdgeInsets) {
-      buffer.putUint8(145);
-      writeValue(buffer, value.encode());
-    } else if (value is MbxImage) {
-      buffer.putUint8(146);
-      writeValue(buffer, value.encode());
-    } else if (value is MercatorCoordinate) {
-      buffer.putUint8(147);
-      writeValue(buffer, value.encode());
-    } else if (value is OfflineRegionGeometryDefinition) {
-      buffer.putUint8(148);
-      writeValue(buffer, value.encode());
-    } else if (value is OfflineRegionTilePyramidDefinition) {
-      buffer.putUint8(149);
-      writeValue(buffer, value.encode());
-    } else if (value is ProjectedMeters) {
-      buffer.putUint8(150);
-      writeValue(buffer, value.encode());
-    } else if (value is QueriedFeature) {
-      buffer.putUint8(151);
-      writeValue(buffer, value.encode());
-    } else if (value is RenderedQueryGeometry) {
-      buffer.putUint8(152);
-      writeValue(buffer, value.encode());
-    } else if (value is RenderedQueryOptions) {
-      buffer.putUint8(153);
-      writeValue(buffer, value.encode());
-    } else if (value is ResourceOptions) {
-      buffer.putUint8(154);
-      writeValue(buffer, value.encode());
-    } else if (value is ScreenBox) {
-      buffer.putUint8(155);
-      writeValue(buffer, value.encode());
-    } else if (value is ScreenCoordinate) {
-      buffer.putUint8(156);
-      writeValue(buffer, value.encode());
-    } else if (value is Size) {
-      buffer.putUint8(157);
-      writeValue(buffer, value.encode());
-    } else if (value is SourceQueryOptions) {
-      buffer.putUint8(158);
-      writeValue(buffer, value.encode());
-    } else if (value is StyleObjectInfo) {
-      buffer.putUint8(159);
-      writeValue(buffer, value.encode());
-    } else if (value is StylePropertyValue) {
-      buffer.putUint8(160);
-      writeValue(buffer, value.encode());
-    } else if (value is TransitionOptions) {
-      buffer.putUint8(161);
-      writeValue(buffer, value.encode());
-    } else {
-      super.writeValue(buffer, value);
+    try {
+      if (value is CameraBounds) {
+        buffer.putUint8(128);
+        writeValue(buffer, value.encode());
+      } else if (value is CameraBoundsOptions) {
+        buffer.putUint8(129);
+        writeValue(buffer, value.encode());
+      } else if (value is CameraOptions) {
+        buffer.putUint8(130);
+        writeValue(buffer, value.encode());
+      } else if (value is CameraState) {
+        buffer.putUint8(131);
+        writeValue(buffer, value.encode());
+      } else if (value is CanonicalTileID) {
+        buffer.putUint8(132);
+        writeValue(buffer, value.encode());
+      } else if (value is CoordinateBounds) {
+        buffer.putUint8(133);
+        writeValue(buffer, value.encode());
+      } else if (value is CoordinateBoundsZoom) {
+        buffer.putUint8(134);
+        writeValue(buffer, value.encode());
+      } else if (value is FeatureExtensionValue) {
+        buffer.putUint8(135);
+        writeValue(buffer, value.encode());
+      } else if (value is GlyphsRasterizationOptions) {
+        buffer.putUint8(136);
+        writeValue(buffer, value.encode());
+      } else if (value is ImageContent) {
+        buffer.putUint8(137);
+        writeValue(buffer, value.encode());
+      } else if (value is ImageStretches) {
+        buffer.putUint8(138);
+        writeValue(buffer, value.encode());
+      } else if (value is LayerPosition) {
+        buffer.putUint8(139);
+        writeValue(buffer, value.encode());
+      } else if (value is MapAnimationOptions) {
+        buffer.putUint8(140);
+        writeValue(buffer, value.encode());
+      } else if (value is MapDebugOptions) {
+        buffer.putUint8(141);
+        writeValue(buffer, value.encode());
+      } else if (value is MapMemoryBudgetInMegabytes) {
+        buffer.putUint8(142);
+        writeValue(buffer, value.encode());
+      } else if (value is MapMemoryBudgetInTiles) {
+        buffer.putUint8(143);
+        writeValue(buffer, value.encode());
+      } else if (value is MapOptions) {
+        buffer.putUint8(144);
+        writeValue(buffer, value.encode());
+      } else if (value is MbxEdgeInsets) {
+        buffer.putUint8(145);
+        writeValue(buffer, value.encode());
+      } else if (value is MbxImage) {
+        buffer.putUint8(146);
+        writeValue(buffer, value.encode());
+      } else if (value is MercatorCoordinate) {
+        buffer.putUint8(147);
+        writeValue(buffer, value.encode());
+      } else if (value is OfflineRegionGeometryDefinition) {
+        buffer.putUint8(148);
+        writeValue(buffer, value.encode());
+      } else if (value is OfflineRegionTilePyramidDefinition) {
+        buffer.putUint8(149);
+        writeValue(buffer, value.encode());
+      } else if (value is ProjectedMeters) {
+        buffer.putUint8(150);
+        writeValue(buffer, value.encode());
+      } else if (value is QueriedFeature) {
+        buffer.putUint8(151);
+        writeValue(buffer, value.encode());
+      } else if (value is RenderedQueryGeometry) {
+        buffer.putUint8(152);
+        writeValue(buffer, value.encode());
+      } else if (value is RenderedQueryOptions) {
+        buffer.putUint8(153);
+        writeValue(buffer, value.encode());
+      } else if (value is ResourceOptions) {
+        buffer.putUint8(154);
+        writeValue(buffer, value.encode());
+      } else if (value is ScreenBox) {
+        buffer.putUint8(155);
+        writeValue(buffer, value.encode());
+      } else if (value is ScreenCoordinate) {
+        buffer.putUint8(156);
+        writeValue(buffer, value.encode());
+      } else if (value is Size) {
+        buffer.putUint8(157);
+        writeValue(buffer, value.encode());
+      } else if (value is SourceQueryOptions) {
+        buffer.putUint8(158);
+        writeValue(buffer, value.encode());
+      } else if (value is StyleObjectInfo) {
+        buffer.putUint8(159);
+        writeValue(buffer, value.encode());
+      } else if (value is StylePropertyValue) {
+        buffer.putUint8(160);
+        writeValue(buffer, value.encode());
+      } else if (value is TransitionOptions) {
+        buffer.putUint8(161);
+        writeValue(buffer, value.encode());
+      } else {
+        super.writeValue(buffer, value);
+      }
+    } catch (error) {
+      print(error);
     }
   }
 
