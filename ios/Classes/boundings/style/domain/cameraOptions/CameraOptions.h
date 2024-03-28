@@ -3,15 +3,16 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol FlutterBinaryMessenger;
 @protocol FlutterMethodCodec;
 @class FlutterError;
 @class FlutterStandardTypedData;
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class FLTScreenCoordinate;
 @class FLTMbxEdgeInsets;
 @class FLTCameraOptions;
-
-NS_ASSUME_NONNULL_BEGIN
 
 /// Various options for describing the viewpoint of a camera. All fields are
 /// optional.
@@ -20,26 +21,26 @@ NS_ASSUME_NONNULL_BEGIN
 /// center point when both are set.
 @interface FLTCameraOptions : NSObject
 + (instancetype)makeWithCenter:(nullable NSDictionary<NSString *, id> *)center
-    padding:(nullable FLTMbxEdgeInsets *)padding
-    anchor:(nullable FLTScreenCoordinate *)anchor
-    zoom:(nullable NSNumber *)zoom
-    bearing:(nullable NSNumber *)bearing
-    pitch:(nullable NSNumber *)pitch;
+                       padding:(nullable FLTMbxEdgeInsets *)padding
+                        anchor:(nullable FLTScreenCoordinate *)anchor
+                          zoom:(nullable NSNumber *)zoom
+                       bearing:(nullable NSNumber *)bearing
+                         pitch:(nullable NSNumber *)pitch;
 /// Coordinate at the center of the camera.
-@property(nonatomic, strong, nullable) NSDictionary<NSString *, id> * center;
+@property(nonatomic, strong, nullable) NSDictionary<NSString *, id> *center;
 /// Padding around the interior of the view that affects the frame of
 /// reference for `center`.
-@property(nonatomic, strong, nullable) FLTMbxEdgeInsets * padding;
+@property(nonatomic, strong, nullable) FLTMbxEdgeInsets *padding;
 /// Point of reference for `zoom` and `angle`, assuming an origin at the
 /// top-left corner of the view.
-@property(nonatomic, strong, nullable) FLTScreenCoordinate * anchor;
+@property(nonatomic, strong, nullable) FLTScreenCoordinate *anchor;
 /// Zero-based zoom level. Constrained to the minimum and maximum zoom
 /// levels.
-@property(nonatomic, strong, nullable) NSNumber * zoom;
+@property(nonatomic, strong, nullable) NSNumber *zoom;
 /// Bearing, measured in degrees from true north. Wrapped to [0, 360).
-@property(nonatomic, strong, nullable) NSNumber * bearing;
+@property(nonatomic, strong, nullable) NSNumber *bearing;
 /// Pitch toward the horizon measured in degrees.
-@property(nonatomic, strong, nullable) NSNumber * pitch;
+@property(nonatomic, strong, nullable) NSNumber *pitch;
 @end
 
 NS_ASSUME_NONNULL_END

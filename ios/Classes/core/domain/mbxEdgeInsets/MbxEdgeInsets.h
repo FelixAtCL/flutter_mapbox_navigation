@@ -7,9 +7,9 @@
 @class FlutterError;
 @class FlutterStandardTypedData;
 
-@class FLTMbxEdgeInsets;
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class FLTMbxEdgeInsets;
 
 /// The distance on each side between rectangles, when one is contained into other.
 ///
@@ -18,17 +18,17 @@ NS_ASSUME_NONNULL_BEGIN
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithTop:(NSNumber *)top
-    left:(NSNumber *)left
-    bottom:(NSNumber *)bottom
-    right:(NSNumber *)right;
+                       left:(NSNumber *)left
+                     bottom:(NSNumber *)bottom
+                      right:(NSNumber *)right;
 /// Padding from the top.
-@property(nonatomic, strong) NSNumber * top;
+@property(nonatomic, strong) NSNumber *top;
 /// Padding from the left.
-@property(nonatomic, strong) NSNumber * left;
+@property(nonatomic, strong) NSNumber *left;
 /// Padding from the bottom.
-@property(nonatomic, strong) NSNumber * bottom;
+@property(nonatomic, strong) NSNumber *bottom;
 /// Padding from the right.
-@property(nonatomic, strong) NSNumber * right;
+@property(nonatomic, strong) NSNumber *right;
 @end
 
 NS_ASSUME_NONNULL_END

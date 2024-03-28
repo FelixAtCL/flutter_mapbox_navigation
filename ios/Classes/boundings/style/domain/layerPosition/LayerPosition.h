@@ -3,25 +3,26 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol FlutterBinaryMessenger;
 @protocol FlutterMethodCodec;
 @class FlutterError;
 @class FlutterStandardTypedData;
 
-@class FLTLayerPosition;
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class FLTLayerPosition;
 
 /// Specifies position of a layer that is added via addStyleLayer method.
 @interface FLTLayerPosition : NSObject
 + (instancetype)makeWithAbove:(nullable NSString *)above
-    below:(nullable NSString *)below
-    at:(nullable NSNumber *)at;
+                        below:(nullable NSString *)below
+                           at:(nullable NSNumber *)at;
 /// Layer should be positioned above specified layer id.
-@property(nonatomic, copy, nullable) NSString * above;
+@property(nonatomic, copy, nullable) NSString *above;
 /// Layer should be positioned below specified layer id.
-@property(nonatomic, copy, nullable) NSString * below;
+@property(nonatomic, copy, nullable) NSString *below;
 /// Layer should be positioned at specified index in a layers stack.
-@property(nonatomic, strong, nullable) NSNumber * at;
+@property(nonatomic, strong, nullable) NSNumber *at;
 @end
 
 NS_ASSUME_NONNULL_END

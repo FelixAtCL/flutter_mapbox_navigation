@@ -7,9 +7,9 @@
 @class FlutterError;
 @class FlutterStandardTypedData;
 
-@class FLTScreenCoordinate;
-
 NS_ASSUME_NONNULL_BEGIN
+
+@class FLTScreenCoordinate;
 
 /// Describes the coordinate on the screen, measured from top to bottom and from left to right.
 /// Note: the `map` uses screen coordinate units measured in `logical pixels`.
@@ -17,11 +17,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// `init` unavailable to enforce nonnull fields, see the `make` class method.
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)makeWithX:(NSNumber *)x
-    y:(NSNumber *)y;
+                        y:(NSNumber *)y;
 /// A value representing the x position of this coordinate.
-@property(nonatomic, strong) NSNumber * x;
+@property(nonatomic, strong) NSNumber *x;
 /// A value representing the y position of this coordinate.
-@property(nonatomic, strong) NSNumber * y;
+@property(nonatomic, strong) NSNumber *y;
 @end
 
 NS_ASSUME_NONNULL_END
