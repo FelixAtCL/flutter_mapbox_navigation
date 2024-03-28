@@ -1,3 +1,6 @@
+import Foundation
+import MapboxMaps
+
 extension FLTScreenCoordinate {
     func toScreenCoordinate() -> ScreenCoordinate {
         return ScreenCoordinate(x: self.x.doubleValue, y: self.y.doubleValue)
