@@ -1,6 +1,10 @@
+import Flutter
 import Foundation
-import MapboxMaps
 import UIKit
+import MapboxMaps
+import MapboxDirections
+import MapboxCoreNavigation
+import MapboxNavigation
 
 class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRecognizerDelegate, GestureManagerDelegate {
     func gestureManager(_ gestureManager: MapboxMaps.GestureManager, didBegin gestureType: MapboxMaps.GestureType) {}
@@ -9,10 +13,10 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
         switch gestureType {
         case .pan:
             let point = Point(mapView.mapboxMap.coordinate(for: gestureManager.panGestureRecognizer.location(in: mapView)))
-            self.onScrollMap(FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)), completion: {_ in })
+            self.onScrollMap(coordinate: FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)))
         case .singleTap:
             let point = Point(mapView.mapboxMap.coordinate(for: gestureManager.singleTapGestureRecognizer.location(in: mapView)))
-            self.onTapMap(FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)), completion: {_ in })
+            self.onTapMap(coordinate: FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)))
         default: break
         }
     }
@@ -22,7 +26,7 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
     @objc private func onMapLongTap(_ sender: UITapGestureRecognizer) {
         guard sender.state == .ended else { return }
         let point = Point(mapView.mapboxMap.coordinate(for: sender.location(in: mapView)))
-        self.onLongTapMap(FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)))
+        self.onLongTapMap(coordinate: FLT_GESTURESScreenCoordinate.makeWith(x: NSNumber(value: point.coordinates.latitude), y: NSNumber(value: point.coordinates.longitude)))
     }
 
     func updateSettingsSettings(_ settings: FLT_SETTINGSGesturesSettings, error: AutoreleasingUnsafeMutablePointer<FlutterError?>) {
@@ -105,21 +109,6 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
         return settings
     }
 
-    func addListeners(messenger: FlutterBinaryMessenger) {
-        removeListeners()
-        gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onMapLongTap))
-        mapView.addGestureRecognizer(gestureRecognizer!)
-        mapView.gestures.delegate = self
-        channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/gestures/\(viewId)", binaryMessenger: messenger, codec: FLT_GESTURESGestureListenerGetCodec())
-        eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/gestures/\(viewId)/events", binaryMessenger: messenger, codec: FLT_GESTURESGestureListenerGetCodec())
-    }
-
-    func removeListeners() {
-        if let gestureRecognizer = self.gestureRecognizer {
-            mapView.removeGestureRecognizer(gestureRecognizer)
-        }
-    }
-
     func onTapMap(coordinate: FLT_GESTURESScreenCoordinate) {
         channel.invokeMethod("onTapMap", arguments: coordinate)
     }
@@ -137,7 +126,7 @@ class GesturesAPI: NSObject, FLT_SETTINGSGesturesSettingsInterface, UIGestureRec
     private var cancelable: Cancelable?
     private var channel: FlutterMethodChannel
 
-    init(messenger: FlutterBinaryMessenger, withMapView mapView: MapView) {
+    init(messenger: FlutterBinaryMessenger, withMapView mapView: MapView, viewId: Int64) {
         self.mapView = mapView
         channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/gestures/\(viewId)", binaryMessenger: messenger, codec: FLT_GESTURESGestureListenerGetCodec())
         gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(onMapLongTap))
