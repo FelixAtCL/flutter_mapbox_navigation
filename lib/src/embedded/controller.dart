@@ -14,10 +14,10 @@ class MapBoxNavigationViewController {
     _eventChannel = EventChannel('flutter_mapbox_navigation/$id/events');
     _routeEventNotifier = eventNotifier;
 
-    style = StyleManager(id);
+    style = StyleAPI(id);
   }
 
-  late StyleManager style;
+  late StyleAPI style;
 
   late MethodChannel _methodChannel;
   late EventChannel _eventChannel;

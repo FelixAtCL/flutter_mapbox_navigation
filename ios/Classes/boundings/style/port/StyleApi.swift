@@ -6,7 +6,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
-public class StyleController: NSObject, FlutterStreamHandler 
+public class StyleAPI: NSObject, FlutterStreamHandler 
 {
     var _eventSink: FlutterEventSink? = nil
     private var mapboxMap: MapboxMap
@@ -19,8 +19,8 @@ public class StyleController: NSObject, FlutterStreamHandler
         self.mapboxMap = mapboxMap
         
         self.messenger = messenger
-        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/style/\(viewId)", binaryMessenger: messenger, codec: FLT_MapInterfaceGetCodec())
-        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/style/\(viewId)/events", binaryMessenger: messenger, codec: FLT_MapInterfaceGetCodec())
+        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/style/\(viewId)", binaryMessenger: messenger, codec: FLT_StyleGetCodec())
+        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/style/\(viewId)/events", binaryMessenger: messenger, codec: FLT_StyleGetCodec())
 
         super.init()
 
@@ -255,7 +255,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.addLayer(with: layerProperties, layerPosition: layerPosition?.toLayerPosition())
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -267,7 +267,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.addPersistentLayer(with: layerProperties, layerPosition: layerPosition?.toLayerPosition())
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -287,7 +287,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.removeLayer(withId: layerId)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -302,7 +302,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             }
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -343,7 +343,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setLayerProperty(for: layerId, property: property, value: mappedValue)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -366,7 +366,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setLayerProperties(for: layerId, properties: jsonObject as? [String: Any] ?? [:])
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -378,7 +378,7 @@ public class StyleController: NSObject, FlutterStreamHandler
                                           properties: convertStringToDictionary(properties: properties))
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -397,7 +397,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setSourceProperty(for: sourceId, property: property, value: value)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -419,7 +419,7 @@ public class StyleController: NSObject, FlutterStreamHandler
                                                        properties: convertStringToDictionary(properties: properties))
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -431,7 +431,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.updateImageSource(withId: sourceId, image: image)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -441,7 +441,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.removeSource(withId: sourceId)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -466,7 +466,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setLight(properties: jsonObject as? [String: Any] ?? [:])
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -483,7 +483,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setLightProperty(property, value: value)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -495,7 +495,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setTerrain(properties: jsonObject as? [String: Any] ?? [:])
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -512,7 +512,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.setTerrainProperty(property, value: value)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -559,7 +559,7 @@ public class StyleController: NSObject, FlutterStreamHandler
                                          content: imageContent)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -569,7 +569,7 @@ public class StyleController: NSObject, FlutterStreamHandler
             try mapboxMap.style.removeImage(withId: imageId)
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -595,7 +595,7 @@ public class StyleController: NSObject, FlutterStreamHandler
 //                                         features: features.features)
 //            completion(nil)
 //        } catch {
-//            completion(FlutterError(code: StyleController.errorCode , message: "\(error)", details: nil))
+//            completion(FlutterError(code: StyleAPI.errorCode , message: "\(error)", details: nil))
 //        }
 //    }
 
@@ -607,7 +607,7 @@ public class StyleController: NSObject, FlutterStreamHandler
                                                                    tileId: tileId.toCanonicalTileID())
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
@@ -619,7 +619,7 @@ public class StyleController: NSObject, FlutterStreamHandler
                                                                      bounds: bounds.toCoordinateBounds())
             result(nil)
         } catch {
-            result(FlutterError(code: StyleController.errorCode, message: "\(error)", details: nil))
+            result(FlutterError(code: StyleAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 

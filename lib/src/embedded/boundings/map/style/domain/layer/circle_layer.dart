@@ -1,5 +1,5 @@
 // This file is generated.
-part of '../../../mapbox_navigation_flutter.dart';
+part of '../../../../../../../mapbox_navigation_flutter.dart';
 
 /// A filled circle.
 class CircleLayer extends Layer {

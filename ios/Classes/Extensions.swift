@@ -46,11 +46,6 @@ extension FLTMapDebugOptions {
         return MapDebugOptions(rawValue: Int(self.data.rawValue))!
     }
 }
-extension FLTCameraOptions {
-    func toCameraOptions() -> CameraOptions {
-        return CameraOptions(center: convertDictionaryToCLLocationCoordinate2D(dict: self.center), padding: self.padding?.toUIEdgeInsets(), anchor: self.anchor?.toCGPoint(), zoom: self.zoom?.CGFloat, bearing: self.bearing?.CLLocationDirection, pitch: self.pitch?.CGFloat)
-    }
-}
 
 extension FLTCameraBoundsOptions {
     func toCameraBoundsOptions() -> CameraBoundsOptions {
@@ -91,23 +86,6 @@ extension FLTCoordinateBounds {
 extension FLTCanonicalTileID {
     func toCanonicalTileID() -> CanonicalTileID {
         return CanonicalTileID(z: UInt8(truncating: self.z), x: UInt32(truncating: self.x), y: UInt32(truncating: self.y))
-    }
-}
-
-extension FLTLayerPosition {
-    func toLayerPosition() -> LayerPosition {
-        var position = LayerPosition.default
-        if self.above != nil {position = LayerPosition.above(self.above!)} else if self.below != nil {position = LayerPosition.below(self.below!)} else if self.at != nil {position = LayerPosition.at(Int(truncating: (self.at)!))}
-        return position
-    }
-}
-
-extension FLTTransitionOptions {
-    func toTransitionOptions() -> TransitionOptions {
-        return TransitionOptions(
-            duration: self.duration?.doubleValue,
-            delay: self.delay?.doubleValue,
-            enablePlacementTransitions: self.enablePlacementTransitions?.boolValue)
     }
 }
 
@@ -212,32 +190,6 @@ extension CoordinateBoundsZoom {
 extension CoordinateBounds {
     func toFLTCoordinateBounds() -> FLTCoordinateBounds {
         return FLTCoordinateBounds.make(withSouthwest: self.southwest.toDict(), northeast: self.northeast.toDict(), infiniteBounds: NSNumber(value: self.isInfiniteBounds))
-    }
-}
-extension CameraOptions {
-    func toFLTCameraOptions() -> FLTCameraOptions {
-        let center = self.center != nil ? self.center?.toDict(): nil
-        let padding = self.padding != nil ? FLTMbxEdgeInsets.make(
-            withTop: NSNumber(value: self.padding!.top),
-            left: NSNumber(value: self.padding!.left),
-            bottom: NSNumber(value: self.padding!.bottom),
-            right: NSNumber(value: self.padding!.right)) : nil
-
-        let anchor = self.anchor != nil ? FLTScreenCoordinate.makeWith(x: self.anchor!.x as NSNumber, y: self.anchor!.y as NSNumber) : nil
-        let zoom = self.zoom != nil ? NSNumber(value: self.zoom!) : nil
-        let bearing = self.bearing != nil ? NSNumber(value: self.bearing!) : nil
-        let pitch = self.pitch != nil ? NSNumber(value: self.pitch!) : nil
-
-        return FLTCameraOptions.make(withCenter: center, padding: padding, anchor: anchor, zoom: zoom, bearing: bearing, pitch: pitch)
-    }
-}
-extension TransitionOptions {
-    func toFLTTransitionOptions() -> FLTTransitionOptions {
-        let duration = self.duration != nil ? NSNumber(value: Int(self.duration!)) : nil
-        let delay = self.delay != nil ? NSNumber(value: Int(self.delay!)) : nil
-        let enablePlacementTransitions = self.enablePlacementTransitions != nil ? NSNumber(value: self.enablePlacementTransitions!) : nil
-
-        return FLTTransitionOptions.make(withDuration: duration, delay: delay, enablePlacementTransitions: enablePlacementTransitions)
     }
 }
 extension StylePropertyValue {

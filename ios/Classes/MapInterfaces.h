@@ -401,7 +401,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @end
 
 @class FLTMbxEdgeInsets;
-@class FLTCameraOptions;
 @class FLTCameraState;
 @class FLTCameraBoundsOptions;
 @class FLTCameraBounds;
@@ -419,7 +418,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @class FLTRenderedQueryOptions;
 @class FLTSourceQueryOptions;
 @class FLTFeatureExtensionValue;
-@class FLTLayerPosition;
 @class FLTQueriedFeature;
 @class FLTRenderedQueryGeometry;
 @class FLTOfflineRegionGeometryDefinition;
@@ -431,7 +429,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @class FLTMbxImage;
 @class FLTImageStretches;
 @class FLTImageContent;
-@class FLTTransitionOptions;
 @class FLTCanonicalTileID;
 @class FLTStylePropertyValue;
 
@@ -453,35 +450,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @property(nonatomic, strong) NSNumber * bottom;
 /// Padding from the right.
 @property(nonatomic, strong) NSNumber * right;
-@end
-
-/// Various options for describing the viewpoint of a camera. All fields are
-/// optional.
-///
-/// Anchor and center points are mutually exclusive, with preference for the
-/// center point when both are set.
-@interface FLTCameraOptions : NSObject
-+ (instancetype)makeWithCenter:(nullable NSDictionary<NSString *, id> *)center
-    padding:(nullable FLTMbxEdgeInsets *)padding
-    anchor:(nullable FLTScreenCoordinate *)anchor
-    zoom:(nullable NSNumber *)zoom
-    bearing:(nullable NSNumber *)bearing
-    pitch:(nullable NSNumber *)pitch;
-/// Coordinate at the center of the camera.
-@property(nonatomic, strong, nullable) NSDictionary<NSString *, id> * center;
-/// Padding around the interior of the view that affects the frame of
-/// reference for `center`.
-@property(nonatomic, strong, nullable) FLTMbxEdgeInsets * padding;
-/// Point of reference for `zoom` and `angle`, assuming an origin at the
-/// top-left corner of the view.
-@property(nonatomic, strong, nullable) FLTScreenCoordinate * anchor;
-/// Zero-based zoom level. Constrained to the minimum and maximum zoom
-/// levels.
-@property(nonatomic, strong, nullable) NSNumber * zoom;
-/// Bearing, measured in degrees from true north. Wrapped to [0, 360).
-@property(nonatomic, strong, nullable) NSNumber * bearing;
-/// Pitch toward the horizon measured in degrees.
-@property(nonatomic, strong, nullable) NSNumber * pitch;
 @end
 
 /// Describes the viewpoint of a camera.
@@ -753,19 +721,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @property(nonatomic, strong, nullable) NSArray<NSDictionary<NSString *, id> *> * featureCollection;
 @end
 
-/// Specifies position of a layer that is added via addStyleLayer method.
-@interface FLTLayerPosition : NSObject
-+ (instancetype)makeWithAbove:(nullable NSString *)above
-    below:(nullable NSString *)below
-    at:(nullable NSNumber *)at;
-/// Layer should be positioned above specified layer id.
-@property(nonatomic, copy, nullable) NSString * above;
-/// Layer should be positioned below specified layer id.
-@property(nonatomic, copy, nullable) NSString * below;
-/// Layer should be positioned at specified index in a layers stack.
-@property(nonatomic, strong, nullable) NSNumber * at;
-@end
-
 /// Represents query result that is returned in QueryFeaturesCallback.
 /// @see `queryRenderedFeatures` or `querySourceFeatures`
 @interface FLTQueriedFeature : NSObject
@@ -973,23 +928,6 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @property(nonatomic, strong) NSNumber * right;
 /// Distance to the bottom, in screen pixels.
 @property(nonatomic, strong) NSNumber * bottom;
-@end
-
-/// The `transition options` controls timing for the interpolation between a transitionable style
-/// property's previous value and new value. These can be used to define the style default property
-/// transition behavior. Also, any transitionable style property may also have its own `-transition`
-/// property that defines specific transition timing for that specific layer property, overriding
-/// the global transition values.
-@interface FLTTransitionOptions : NSObject
-+ (instancetype)makeWithDuration:(nullable NSNumber *)duration
-    delay:(nullable NSNumber *)delay
-    enablePlacementTransitions:(nullable NSNumber *)enablePlacementTransitions;
-/// Time allotted for transitions to complete. Units in milliseconds. Defaults to `300.0`.
-@property(nonatomic, strong, nullable) NSNumber * duration;
-/// Length of time before a transition begins. Units in milliseconds. Defaults to `0.0`.
-@property(nonatomic, strong, nullable) NSNumber * delay;
-/// Whether the fade in/out symbol placement transition is enabled. Defaults to `true`.
-@property(nonatomic, strong, nullable) NSNumber * enablePlacementTransitions;
 @end
 
 /// Represents a tile coordinate.
@@ -1649,320 +1587,6 @@ NSObject<FlutterMessageCodec> *FLTMapSnapshotterGetCodec(void);
 @end
 
 extern void FLTMapSnapshotterSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLTMapSnapshotter> *_Nullable api);
-
-/// The codec used by FLTStyleManager.
-NSObject<FlutterMessageCodec> *FLTStyleManagerGetCodec(void);
-
-/// Interface for managing style of the `map`.
-@protocol FLTStyleManager
-/// Get the URI of the current style in use.
-///
-/// @return A string containing a style URI.
-- (void)getStyleURIWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
-/// Load style from provided URI.
-///
-/// This is an asynchronous call. To check the result of this operation the user must register an observer observing
-/// `MapLoaded` or `MapLoadingError` events. In case of successful style load, `StyleLoaded` event will be also emitted.
-///
-/// @param uri URI where the style should be loaded from.
-- (void)setStyleURIUri:(NSString *)uri completion:(void (^)(FlutterError *_Nullable))completion;
-/// Get the JSON serialization string of the current style in use.
-///
-/// @return A JSON string containing a serialized style.
-- (void)getStyleJSONWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
-/// Load the style from a provided JSON string.
-///
-/// @param json A JSON string containing a serialized style.
-- (void)setStyleJSONJson:(NSString *)json completion:(void (^)(FlutterError *_Nullable))completion;
-/// Returns the map style's default camera, if any, or a default camera otherwise.
-/// The map style's default camera is defined as follows:
-/// - [center](https://docs.mapbox.com/mapbox-gl-js/style-spec/#root-center)
-/// - [zoom](https://docs.mapbox.com/mapbox-gl-js/style-spec/#root-zoom)
-/// - [bearing](https://docs.mapbox.com/mapbox-gl-js/style-spec/#root-bearing)
-/// - [pitch](https://docs.mapbox.com/mapbox-gl-js/style-spec/#root-pitch)
-///
-/// The style default camera is re-evaluated when a new style is loaded.
-///
-/// @return The default `camera options` of the current style in use.
-- (void)getStyleDefaultCameraWithCompletion:(void (^)(FLTCameraOptions *_Nullable, FlutterError *_Nullable))completion;
-/// Returns the map style's transition options. By default, the style parser will attempt
-/// to read the style default transition options, if any, fallbacking to an immediate transition
-/// otherwise. Transition options can be overriden via `setStyleTransition`, but the options are
-/// reset once a new style has been loaded.
-///
-/// The style transition is re-evaluated when a new style is loaded.
-///
-/// @return The `transition options` of the current style in use.
-- (void)getStyleTransitionWithCompletion:(void (^)(FLTTransitionOptions *_Nullable, FlutterError *_Nullable))completion;
-/// Overrides the map style's transition options with user-provided options.
-///
-/// The style transition is re-evaluated when a new style is loaded.
-///
-/// @param transitionOptions The `transition options`.
-- (void)setStyleTransitionTransitionOptions:(FLTTransitionOptions *)transitionOptions completion:(void (^)(FlutterError *_Nullable))completion;
-/// Adds a new [style layer](https://docs.mapbox.com/mapbox-gl-js/style-spec/#layers).
-///
-/// Runtime style layers are valid until they are either removed or a new style is loaded.
-///
-/// @param properties A map of style layer properties.
-/// @param layerPosition If not empty, the new layer will be positioned according to `layer position` parameters.
-///
-/// @return A string describing an error if the operation was not successful, or empty otherwise.
-- (void)addStyleLayerProperties:(NSString *)properties layerPosition:(nullable FLTLayerPosition *)layerPosition completion:(void (^)(FlutterError *_Nullable))completion;
-/// Adds a new [style layer](https://docs.mapbox.com/mapbox-gl-js/style-spec/#layers).
-///
-/// Whenever a new style is being parsed and currently used style has persistent layers,
-/// an engine will try to do following:
-///   - keep the persistent layer at its relative position
-///   - keep the source used by a persistent layer
-///   - keep images added through `addStyleImage` method
-///
-/// In cases when a new style has the same layer, source or image resource, style's resources would be
-/// used instead and `MapLoadingError` event will be emitted.
-///
-/// @param properties A map of style layer properties.
-/// @param layerPosition If not empty, the new layer will be positioned according to `layer position` parameters.
-///
-/// @return A string describing an error if the operation was not successful, or empty otherwise.
-- (void)addPersistentStyleLayerProperties:(NSString *)properties layerPosition:(nullable FLTLayerPosition *)layerPosition completion:(void (^)(FlutterError *_Nullable))completion;
-/// Checks if a style layer is persistent.
-///
-/// @param layerId A style layer identifier.
-/// @return A string describing an error if the operation was not successful, boolean representing state otherwise.
-- (void)isStyleLayerPersistentLayerId:(NSString *)layerId completion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;
-/// Removes an existing style layer.
-///
-/// @param layerId An identifier of the style layer to remove.
-///
-/// @return A string describing an error if the operation was not successful, or empty otherwise.
-- (void)removeStyleLayerLayerId:(NSString *)layerId completion:(void (^)(FlutterError *_Nullable))completion;
-/// Moves an existing style layer
-///
-/// @param layerId Identifier of the style layer to move.
-/// @param layerPosition The layer will be positioned according to the LayerPosition parameters. If an empty LayerPosition
-///                      is provided then the layer is moved to the top of the layerstack.
-///
-/// @return A string describing an error if the operation was not successful, or empty otherwise.
-- (void)moveStyleLayerLayerId:(NSString *)layerId layerPosition:(nullable FLTLayerPosition *)layerPosition completion:(void (^)(FlutterError *_Nullable))completion;
-/// Checks whether a given style layer exists.
-///
-/// @param layerId Style layer identifier.
-///
-/// @return A `true` value if the given style layer exists, `false` otherwise.
-- (void)styleLayerExistsLayerId:(NSString *)layerId completion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;
-/// Returns the existing style layers.
-///
-/// @return The list containing the information about existing style layer objects.
-- (void)getStyleLayersWithCompletion:(void (^)(NSArray<FLTStyleObjectInfo *> *_Nullable, FlutterError *_Nullable))completion;
-/// Gets the value of style layer property.
-///
-/// @param layerId A style layer identifier.
-/// @param property The style layer property name.
-/// @return The `style property value`.
-- (void)getStyleLayerPropertyLayerId:(NSString *)layerId property:(NSString *)property completion:(void (^)(FLTStylePropertyValue *_Nullable, FlutterError *_Nullable))completion;
-/// Sets a value to a style layer property.
-///
-/// @param layerId A style layer identifier.
-/// @param property The style layer property name.
-/// @param value The style layer property value.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleLayerPropertyLayerId:(NSString *)layerId property:(NSString *)property value:(id)value completion:(void (^)(FlutterError *_Nullable))completion;
-/// Gets style layer properties.
-///
-/// @return The style layer properties or a string describing an error if the operation was not successful.
-- (void)getStyleLayerPropertiesLayerId:(NSString *)layerId completion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
-/// Sets style layer properties.
-/// This method can be used to perform batch update for a style layer properties. The structure of a
-/// provided `properties` value must conform to a format for a corresponding [layer type](https://docs.mapbox.com/mapbox-gl-js/style-spec/layers/).
-/// Modification of a layer [id](https://docs.mapbox.com/mapbox-gl-js/style-spec/layers/#id) and/or a [layer type] (https://docs.mapbox.com/mapbox-gl-js/style-spec/layers/#type) is not allowed.
-///
-/// @param layerId A style layer identifier.
-/// @param properties A map of style layer properties.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleLayerPropertiesLayerId:(NSString *)layerId properties:(NSString *)properties completion:(void (^)(FlutterError *_Nullable))completion;
-/// Adds a new [style source](https://docs.mapbox.com/mapbox-gl-js/style-spec/#sources).
-///
-/// @param sourceId An identifier for the style source.
-/// @param properties A map of style source properties.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)addStyleSourceSourceId:(NSString *)sourceId properties:(NSString *)properties completion:(void (^)(FlutterError *_Nullable))completion;
-/// Gets the value of style source property.
-///
-/// @param sourceId A style source identifier.
-/// @param property The style source property name.
-/// @return The value of a `property` in the source with a `sourceId`.
-- (void)getStyleSourcePropertySourceId:(NSString *)sourceId property:(NSString *)property completion:(void (^)(FLTStylePropertyValue *_Nullable, FlutterError *_Nullable))completion;
-/// Sets a value to a style source property.
-/// Note: When setting the `data` property of a `geojson` source, this method never returns an error.
-/// In case of success, a `map-loaded` event will be propagated. In case of errors, a `map-loading-error` event will be propagated instead.
-///
-///
-/// @param sourceId A style source identifier.
-/// @param property The style source property name.
-/// @param value The style source property value.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleSourcePropertySourceId:(NSString *)sourceId property:(NSString *)property value:(id)value completion:(void (^)(FlutterError *_Nullable))completion;
-/// Gets style source properties.
-///
-/// @param sourceId A style source identifier.
-///
-/// @return The style source properties or a string describing an error if the operation was not successful.
-- (void)getStyleSourcePropertiesSourceId:(NSString *)sourceId completion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
-/// Sets style source properties.
-///
-/// This method can be used to perform batch update for a style source properties. The structure of a
-/// provided `properties` value must conform to a format for a corresponding [source type](https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/).
-/// Modification of a source [type](https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#type) is not allowed.
-///
-/// @param sourceId A style source identifier.
-/// @param properties A map of Style source properties.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleSourcePropertiesSourceId:(NSString *)sourceId properties:(NSString *)properties completion:(void (^)(FlutterError *_Nullable))completion;
-/// Updates the image of an [image style source](https://docs.mapbox.com/mapbox-gl-js/style-spec/#sources-image).
-///
-/// @param sourceId A style source identifier.
-/// @param image An `image`.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)updateStyleImageSourceImageSourceId:(NSString *)sourceId image:(FLTMbxImage *)image completion:(void (^)(FlutterError *_Nullable))completion;
-/// Removes an existing style source.
-///
-/// @param sourceId An identifier of the style source to remove.
-- (void)removeStyleSourceSourceId:(NSString *)sourceId completion:(void (^)(FlutterError *_Nullable))completion;
-/// Checks whether a given style source exists.
-///
-/// @param sourceId A style source identifier.
-///
-/// @return `true` if the given source exists, `false` otherwise.
-- (void)styleSourceExistsSourceId:(NSString *)sourceId completion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;
-/// Returns the existing style sources.
-///
-/// @return The list containing the information about existing style source objects.
-- (void)getStyleSourcesWithCompletion:(void (^)(NSArray<FLTStyleObjectInfo *> *_Nullable, FlutterError *_Nullable))completion;
-/// Sets the style global [light](https://docs.mapbox.com/mapbox-gl-js/style-spec/#light) properties.
-///
-/// @param properties A map of style light properties values, with their names as a key.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleLightProperties:(NSString *)properties completion:(void (^)(FlutterError *_Nullable))completion;
-/// Gets the value of a style light property.
-///
-/// @param property The style light property name.
-/// @return The style light property value.
-- (void)getStyleLightPropertyProperty:(NSString *)property completion:(void (^)(FLTStylePropertyValue *_Nullable, FlutterError *_Nullable))completion;
-/// Sets a value to the the style light property.
-///
-/// @param property The style light property name.
-/// @param value The style light property value.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleLightPropertyProperty:(NSString *)property value:(id)value completion:(void (^)(FlutterError *_Nullable))completion;
-/// Sets the style global [terrain](https://docs.mapbox.com/mapbox-gl-js/style-spec/#terrain) properties.
-///
-/// @param properties A map of style terrain properties values, with their names as a key.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleTerrainProperties:(NSString *)properties completion:(void (^)(FlutterError *_Nullable))completion;
-/// Gets the value of a style terrain property.
-///
-/// @param property The style terrain property name.
-/// @return The style terrain property value.
-- (void)getStyleTerrainPropertyProperty:(NSString *)property completion:(void (^)(FLTStylePropertyValue *_Nullable, FlutterError *_Nullable))completion;
-/// Sets a value to the the style terrain property.
-///
-/// @param property The style terrain property name.
-/// @param value The style terrain property value.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)setStyleTerrainPropertyProperty:(NSString *)property value:(id)value completion:(void (^)(FlutterError *_Nullable))completion;
-/// Get an `image` from the style.
-///
-/// @param imageId The identifier of the `image`.
-///
-/// @return The `image` for the given `imageId`, or empty if no image is associated with the `imageId`.
-- (void)getStyleImageImageId:(NSString *)imageId completion:(void (^)(FLTMbxImage *_Nullable, FlutterError *_Nullable))completion;
-/// Adds an image to be used in the style. This API can also be used for updating
-/// an image. If the image for a given `imageId` was already added, it gets replaced by the new image.
-///
-/// The image can be used in [`icon-image`](https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-icon-image),
-/// [`fill-pattern`](https://www.mapbox.com/mapbox-gl-js/style-spec/#paint-fill-fill-pattern),
-/// [`line-pattern`](https://www.mapbox.com/mapbox-gl-js/style-spec/#paint-line-line-pattern) and
-/// [`text-field`](https://www.mapbox.com/mapbox-gl-js/style-spec/#layout-symbol-text-field) properties.
-///
-/// @param imageId An identifier of the image.
-/// @param scale A scale factor for the image.
-/// @param image A pixel data of the image.
-/// @param sdf An option to treat whether image is SDF(signed distance field) or not.
-/// @param stretchX An array of two-element arrays, consisting of two numbers that represent
-/// the from position and the to position of areas that can be stretched horizontally.
-/// @param stretchY An array of two-element arrays, consisting of two numbers that represent
-/// the from position and the to position of areas that can be stretched vertically.
-/// @param content An array of four numbers, with the first two specifying the left, top
-/// corner, and the last two specifying the right, bottom corner. If present, and if the
-/// icon uses icon-text-fit, the symbol's text will be fit inside the content box.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)addStyleImageImageId:(NSString *)imageId scale:(NSNumber *)scale image:(FLTMbxImage *)image sdf:(NSNumber *)sdf stretchX:(NSArray<FLTImageStretches *> *)stretchX stretchY:(NSArray<FLTImageStretches *> *)stretchY content:(nullable FLTImageContent *)content completion:(void (^)(FlutterError *_Nullable))completion;
-/// Removes an image from the style.
-///
-/// @param imageId The identifier of the image to remove.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)removeStyleImageImageId:(NSString *)imageId completion:(void (^)(FlutterError *_Nullable))completion;
-/// Checks whether an image exists.
-///
-/// @param imageId The identifier of the image.
-///
-/// @return True if image exists, false otherwise.
-- (void)hasStyleImageImageId:(NSString *)imageId completion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;
-/// Set tile data of a custom geometry.
-///
-/// @param sourceId A style source identifier.
-/// @param tileId A `canonical tile id` of the tile.
-/// @param featureCollection An array with the features to add.
-/// Invalidate tile for provided custom geometry source.
-///
-/// @param sourceId A style source identifier,.
-/// @param tileId A `canonical tile id` of the tile.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)invalidateStyleCustomGeometrySourceTileSourceId:(NSString *)sourceId tileId:(FLTCanonicalTileID *)tileId completion:(void (^)(FlutterError *_Nullable))completion;
-/// Invalidate region for provided custom geometry source.
-///
-/// @param sourceId A style source identifier
-/// @param bounds A `coordinate bounds` object.
-///
-/// @return A string describing an error if the operation was not successful, empty otherwise.
-- (void)invalidateStyleCustomGeometrySourceRegionSourceId:(NSString *)sourceId bounds:(FLTCoordinateBounds *)bounds completion:(void (^)(FlutterError *_Nullable))completion;
-/// Check if the style is completely loaded.
-///
-/// Note: The style specified sprite would be marked as loaded even with sprite loading error (An error will be emitted via `MapLoadingError`).
-/// Sprite loading error is not fatal and we don't want it to block the map rendering, thus the function will still return `true` if style and sources are fully loaded.
-///
-/// @return `true` iff the style JSON contents, the style specified sprite and sources are all loaded, otherwise returns `false`.
-///
-- (void)isStyleLoadedWithCompletion:(void (^)(NSNumber *_Nullable, FlutterError *_Nullable))completion;
-/// Function to get the projection provided by the Style Extension.
-///
-/// @return Projection that is currently applied to the map
-- (void)getProjectionWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
-/// Function to set the projection provided by the Style Extension.
-///
-/// @param projection The projection to be set.
-- (void)setProjectionProjection:(NSString *)projection completion:(void (^)(FlutterError *_Nullable))completion;
-/// Function to localize style labels.
-///
-/// @param locale The locale to apply for localization
-/// @param layerIds The ids of layers that will localize on, default is null which means will localize all the feasible layers.
-- (void)localizeLabelsLocale:(NSString *)locale layerIds:(nullable NSArray<NSString *> *)layerIds completion:(void (^)(FlutterError *_Nullable))completion;
-@end
-
-extern void FLTStyleManagerSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLTStyleManager> *_Nullable api);
 
 /// The codec used by FLTCancelable.
 NSObject<FlutterMessageCodec> *FLTCancelableGetCodec(void);

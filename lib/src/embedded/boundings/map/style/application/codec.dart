@@ -1,15 +1,15 @@
-part of '../../mapbox_navigation_flutter.dart';
+part of mapbox_navigation_flutter;
 
 /// A custom codec for encoding and decoding messages related to the StyleManager class.
 ///
 /// This codec extends the StandardMessageCodec class and provides the necessary
 /// functionality to encode and decode messages specific to the StyleManager class.
-class StyleManagerCodec extends StandardMessageCodec {
+class StyleAPICodec extends StandardMessageCodec {
   /// A codec for managing styles.
   ///
   /// This codec is responsible for managing the styles used in the application.
   /// It provides methods for encoding and decoding style data.
-  const StyleManagerCodec();
+  const StyleAPICodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     try {

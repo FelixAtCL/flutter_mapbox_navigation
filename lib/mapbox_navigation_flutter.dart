@@ -17,9 +17,36 @@ import 'package:flutter_mapbox_navigation/src/proxy_binary_messenger.dart'
 
 export 'package:turf/helpers.dart';
 
-part 'src/embedded/codec.dart';
+// Style Bounding
+part 'src/embedded/boundings/map/style/port/api.dart';
+part 'src/embedded/boundings/map/style/application/codec.dart';
+part 'src/embedded/boundings/map/style/domain/layer/background_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/circle_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/fill_extrusion_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/fill_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/heatmap_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/hillshade_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/line_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/location_indicator_layer.dart';
+part 'src/embedded/boundings/map/style/domain/mapbox_styles.dart';
+part 'src/embedded/boundings/map/style/domain/layer/raster_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/sky_layer.dart';
+part 'src/embedded/boundings/map/style/domain/layer/symbol_layer.dart';
+part 'src/embedded/boundings/map/style/domain/light.dart';
+part 'src/embedded/boundings/map/style/domain/source/geojson_source.dart';
+part 'src/embedded/boundings/map/style/domain/source/image_source.dart';
+part 'src/embedded/boundings/map/style/domain/source/raster_source.dart';
+part 'src/embedded/boundings/map/style/domain/source/rasterdem_source.dart';
+part 'src/embedded/boundings/map/style/domain/source/vector_source.dart';
+part 'src/embedded/boundings/map/style/domain/style.dart';
+
+// Control Bounding
+part 'src/embedded/boundings/map/camera/port/api.dart';
+part 'src/embedded/boundings/map/camera/domain/screen_coordinate.dart';
+
+// Others
 part 'src/embedded/controller.dart';
-part 'src/embedded/style_manager.dart';
+part 'src/embedded/boundings/map/gestures/port/gesture_manager.dart';
 part 'src/annotation/circle_annotation_manager.dart';
 part 'src/annotation/point_annotation_manager.dart';
 part 'src/annotation/polygon_annotation_manager.dart';
@@ -37,22 +64,3 @@ part 'src/pigeons/polyline_annotation_messager.dart';
 part 'src/pigeons/map_interfaces.dart';
 part 'src/pigeons/settings.dart';
 part 'src/pigeons/gesture_listeners.dart';
-part 'src/style/layer/background_layer.dart';
-part 'src/style/layer/circle_layer.dart';
-part 'src/style/layer/fill_extrusion_layer.dart';
-part 'src/style/layer/fill_layer.dart';
-part 'src/style/layer/heatmap_layer.dart';
-part 'src/style/layer/hillshade_layer.dart';
-part 'src/style/layer/line_layer.dart';
-part 'src/style/layer/location_indicator_layer.dart';
-part 'src/style/layer/raster_layer.dart';
-part 'src/style/layer/sky_layer.dart';
-part 'src/style/layer/symbol_layer.dart';
-part 'src/style/light.dart';
-part 'src/style/mapbox_styles.dart';
-part 'src/style/source/geojson_source.dart';
-part 'src/style/source/image_source.dart';
-part 'src/style/source/raster_source.dart';
-part 'src/style/source/rasterdem_source.dart';
-part 'src/style/source/vector_source.dart';
-part 'src/style/style.dart';

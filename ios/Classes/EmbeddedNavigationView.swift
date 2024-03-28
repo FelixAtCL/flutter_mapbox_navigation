@@ -21,7 +21,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     var selectedRouteIndex = 0
     var routeOptions: NavigationRouteOptions?
     var navigationService: NavigationService!
-    var styleController: StyleController!
+    var style: StyleAPI!
 
     var _mapInitialized = false;
     var locationManager = CLLocationManager()
@@ -113,7 +113,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     {
         navigationMapView = NavigationMapView(frame: frame)
         navigationMapView.delegate = self            
-        styleController = StyleController(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
+        style = StyleAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
 
         if(self.arguments != nil)
         {

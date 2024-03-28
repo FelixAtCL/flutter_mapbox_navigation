@@ -1,16 +1,16 @@
-part of '../../mapbox_navigation_flutter.dart';
+part of mapbox_navigation_flutter;
 
 /// Interface for managing style of the `map`.
-class StyleManager {
-  /// Constructor for [StyleManager].
-  StyleManager(int id) {
+class StyleAPI {
+  /// Constructor for [StyleAPI].
+  StyleAPI(int id) {
     _methodChannel = MethodChannel(
-      'flutter_mapbox_navigation/style/$id',
-      const StandardMethodCodec(StyleManagerCodec()),
+      'mapbox_navigation_flutter/style/$id',
+      const StandardMethodCodec(StyleAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
 
-    _eventChannel = EventChannel('flutter_mapbox_navigation/style/$id/events');
+    _eventChannel = EventChannel('mapbox_navigation_flutter/style/$id/events');
   }
 
   late MethodChannel _methodChannel;
@@ -913,8 +913,8 @@ class StyleManager {
   }
 }
 
-/// Extension for StyleManager to add/update/get layers from the current style.
-extension StyleLayer on StyleManager {
+/// Extension for StyleAPI to add/update/get layers from the current style.
+extension StyleLayer on StyleAPI {
   /// Add a layer the the current style.
   Future<void> addLayer(Layer layer) {
     final encode = layer._encode();
@@ -985,8 +985,8 @@ extension StyleLayer on StyleManager {
   }
 }
 
-/// Extension for StyleManager to add/get sources from the current style.
-extension StyleSource on StyleManager {
+/// Extension for StyleAPI to add/get sources from the current style.
+extension StyleSource on StyleAPI {
   /// Adds a [source] to the style.
   ///
   /// The [source] parameter is the source to be added to the style.
@@ -996,7 +996,7 @@ extension StyleSource on StyleManager {
   /// The [nonVolatileProperties] are properties that do not change frequently,
   /// while the [volatileProperties] are properties that change frequently.
   ///
-  /// The [source] is bound to the [StyleManager] using the [bind] method.
+  /// The [source] is bound to the [StyleAPI] using the [bind] method.
   ///
   /// After the source has been added to the style, the volatile properties are set
   /// using the [setStyleSourceProperties] method.
@@ -1004,7 +1004,7 @@ extension StyleSource on StyleManager {
   /// Example usage:
   /// ```dart
   /// final source = Source();
-  /// styleManager.addSource(source);
+  /// StyleAPI.addSource(source);
   /// ```
   Future<void> addSource(Source source) {
     final nonVolatileProperties = source._encode(false);
@@ -1052,8 +1052,8 @@ extension StyleSource on StyleManager {
   }
 }
 
-/// Extension for StyleManager to set light in the current style.
-extension StyleLight on StyleManager {
+/// Extension for StyleAPI to set light in the current style.
+extension StyleLight on StyleAPI {
   Future<void> setLight(Light light) {
     final encode = light.encode();
     return setStyleLight(encode);

@@ -1,4 +1,4 @@
-part of '../../mapbox_navigation_flutter.dart';
+part of '../../../../../../mapbox_navigation_flutter.dart';
 
 /// Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed.
 ///
@@ -167,10 +167,10 @@ abstract class Source {
 
   String _encode(bool volatile);
 
-  StyleManager? _style;
+  StyleAPI? _style;
 
   /// Binds the given [style] to the current instance.
-  void bind(StyleManager style) => _style = style;
+  void bind(StyleAPI style) => _style = style;
 }
 
 /// Extension to convert color format

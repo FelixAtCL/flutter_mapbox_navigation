@@ -1,5 +1,5 @@
 // This file is generated.
-part of '../../../mapbox_navigation_flutter.dart';
+part of '../../../../../../../mapbox_navigation_flutter.dart';
 
 /// An image data source.
 /// @see [The online documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#image)
