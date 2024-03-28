@@ -23,10 +23,12 @@ class CameraAPI {
   ///
   /// @return A `screen coordinate` on the screen in `logical pixels`.
   Future<ScreenCoordinate> pixelForCoordinate(
-    Map<String?, Object?> argCoordinate,
+    double argLatitude,
+    double argLongitude,
   ) async {
     final args = <String, dynamic>{};
-    args['coordinate'] = argCoordinate;
+    args['latitude'] = argLatitude;
+    args['longitude'] = argLongitude;
     final result =
         await _methodChannel.invokeMethod('pixelForCoordinate', args);
     if (result is! ScreenCoordinate) {

@@ -18,6 +18,7 @@ class MapBoxNavigationViewController {
   }
 
   late StyleAPI style;
+  late CameraAPI camera;
 
   late MethodChannel _methodChannel;
   late EventChannel _eventChannel;

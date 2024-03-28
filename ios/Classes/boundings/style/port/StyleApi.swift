@@ -655,5 +655,5 @@ public class StyleAPI: NSObject, FlutterStreamHandler
         return nil
     }
 
-    private static let errorCode = "0"
+    private static let errorCode = "style"
 }
