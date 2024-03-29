@@ -16,7 +16,7 @@ public class CameraAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
-    init(messenger: FlutterBinaryMessenger, withMapView mapView: mapView, viewId: Int64) {
+    init(messenger: FlutterBinaryMessenger, withMapView mapView: MapView, viewId: Int64) {
         self.mapView = mapView
         
         self.messenger = messenger
