@@ -330,6 +330,13 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       var sourceToUpdate =
           (await _controller?.style.getSource(source)) as GeoJsonSource;
       await sourceToUpdate.updateGeoJSON(features);
+      var cameraOptions = CameraOptions(
+          center:
+              Point(coordinates: Position(latitudeBuldern, longitudeBuldern))
+                  .toJson(),
+          zoom: 12);
+      await _controller?.camera
+          .flyTo(cameraOptions, MapAnimationOptions(duration: 500));
     } catch (error) {
       print(error.toString());
     }

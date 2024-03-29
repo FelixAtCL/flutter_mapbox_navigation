@@ -1009,7 +1009,7 @@ typedef NS_ENUM(NSUInteger, FLTTileRegionErrorType) {
 @end
 
 /// The codec used by FLT_AnimationManager.
-NSObject<FlutterMessageCodec> *FLT_AnimationManagerGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_AnimationManagerGetCodec(void);
 
 /// Interface for managing animation.
 @protocol FLT_AnimationManager

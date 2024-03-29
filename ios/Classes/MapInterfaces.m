@@ -1799,12 +1799,12 @@ NSObject<FlutterMethodCodec> *FLT_StyleGetCodec(void) {
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_AnimationManagerGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_AnimationManagerGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_AnimationManagerCodecReaderWriter *readerWriter = [[FLT_AnimationManagerCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }
