@@ -5,7 +5,7 @@ class MapAPI {
   /// Constructor for [MapAPI].
   MapAPI(int id) {
     _methodChannel = MethodChannel(
-      'mapbox_navigation_flutter/map/$id',
+      'flutter_mapbox_navigation/map/$id',
       const StandardMethodCodec(MapAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
