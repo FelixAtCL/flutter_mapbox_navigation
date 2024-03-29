@@ -114,7 +114,7 @@ public class CameraAPI: NSObject, FlutterStreamHandler
         result(FlutterError(code: CameraAPI.errorCode, message: "Not available.", details: nil))
     }
 
-    func cancelCameraAnimation(result: @escaping FlutterResult) {
+    func cancelCameraAnimation(arguments: NSDictionary?, result: @escaping FlutterResult) {
         do {
             if cancelable != nil {
                 cancelable?.cancel()
