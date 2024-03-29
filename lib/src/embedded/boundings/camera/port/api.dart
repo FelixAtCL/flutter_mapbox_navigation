@@ -5,7 +5,7 @@ class CameraAPI {
   /// Constructor for [CameraAPI].
   CameraAPI(int id) {
     _methodChannel = MethodChannel(
-      'mapbox_navigation_flutter/camera/$id',
+      'flutter_mapbox_navigation/camera/$id',
       const StandardMethodCodec(CameraAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
