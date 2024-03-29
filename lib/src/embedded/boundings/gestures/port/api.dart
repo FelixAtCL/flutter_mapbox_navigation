@@ -49,7 +49,7 @@ class GestureAPI {
       case 'sendFromNative':
         final text = call.arguments as String?;
         return Future.value('Text from native: $text');
-      case 'onMapTap':
+      case 'onTapMap':
         if (call.arguments is! ScreenCoordinate) break;
         _onTapMap?.call(call.arguments as ScreenCoordinate);
         break;

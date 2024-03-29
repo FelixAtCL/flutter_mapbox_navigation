@@ -71,6 +71,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
 
   @override
   void dispose() {
+    _controller?.gesture.removeListenerOnMapTap();
     _controller?.dispose();
     super.dispose();
   }
@@ -231,6 +232,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
                       controller.initialize();
+                      _listenOnTap();
                     }),
               ),
             )
@@ -238,6 +240,20 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
         ),
       ),
     );
+  }
+
+  _listenOnTap() {
+    _controller?.gesture.addListenerOnMapTap((coordinate) async {
+      if (_controller == null) return;
+      var conv =
+          await _controller!.map.pixelForCoordinate(coordinate.x, coordinate.y);
+      var features = await _controller!.map.queryRenderedFeatures(
+          RenderedQueryGeometry(
+              value: jsonEncode(conv.encode()), type: Type.SCREEN_COORDINATE),
+          RenderedQueryOptions(layerIds: ["example-layer"]));
+      print("features is empty: ${features.isEmpty}");
+      print(features.first);
+    });
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {
