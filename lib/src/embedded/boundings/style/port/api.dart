@@ -5,16 +5,13 @@ class StyleAPI {
   /// Constructor for [StyleAPI].
   StyleAPI(int id) {
     _methodChannel = MethodChannel(
-      'mapbox_navigation_flutter/style/$id',
+      'flutter_mapbox_navigation/style/$id',
       const StandardMethodCodec(StyleAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
-
-    _eventChannel = EventChannel('mapbox_navigation_flutter/style/$id/events');
   }
 
   late MethodChannel _methodChannel;
-  late EventChannel _eventChannel;
 
   /// Get the URI of the current style in use.
   ///
