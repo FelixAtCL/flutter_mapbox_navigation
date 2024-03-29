@@ -1,7 +1,7 @@
 part of mapbox_navigation_flutter;
 
-class GestureListenerCodec extends StandardMessageCodec {
-  const GestureListenerCodec();
+class GestureAPICodec extends StandardMessageCodec {
+  const GestureAPICodec();
   @override
   void writeValue(WriteBuffer buffer, Object? value) {
     if (value is ScreenCoordinate) {

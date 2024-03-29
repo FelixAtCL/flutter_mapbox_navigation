@@ -10,6 +10,7 @@ public class CameraAPI: NSObject, FlutterStreamHandler
 {
     var _eventSink: FlutterEventSink? = nil
     private var mapboxMap: MapboxMap
+    private var cancelable: Cancelable?
 
     let messenger: FlutterBinaryMessenger
     let channel: FlutterMethodChannel
@@ -19,8 +20,8 @@ public class CameraAPI: NSObject, FlutterStreamHandler
         self.mapboxMap = mapboxMap
         
         self.messenger = messenger
-        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/camera/\(viewId)", binaryMessenger: messenger)
-        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/camera/\(viewId)/events", binaryMessenger: messenger)
+        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/camera/\(viewId)", binaryMessenger: messenger, codec: FLT_AnimationManagerGetCodec())
+        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/camera/\(viewId)/events", binaryMessenger: messenger, codec: FLT_AnimationManagerGetCodec())
 
         super.init()
 
@@ -32,7 +33,94 @@ public class CameraAPI: NSObject, FlutterStreamHandler
 
             let arguments = call.arguments as? NSDictionary
 
-            result("method is not implemented");
+            if(call.method == "easeTo") 
+            {
+                strongSelf.easeTo(arguments: arguments, result: result)
+            } 
+            else if (call.method == "flyTo") 
+            {
+                strongSelf.flyTo(arguments: arguments, result: result)
+            }
+            else if (call.method == "pitchBy") 
+            {
+                strongSelf.pitchBy(arguments: arguments, result: result)
+            }
+            else if (call.method == "scaleBy") 
+            {
+                strongSelf.scaleBy(arguments: arguments, result: result)
+            }
+            else if (call.method == "moveBy") 
+            {
+                strongSelf.moveBy(arguments: arguments, result: result)
+            }
+            else if (call.method == "rotateBy") 
+            {
+                strongSelf.rotateBy(arguments: arguments, result: result)
+            }
+            else if (call.method == "cancelCameraAnimation") 
+            {
+                strongSelf.cancelCameraAnimation(arguments: arguments, result: result)
+            }
+            else 
+            {
+                result("method is not implemented");
+            }
+        }
+    }
+
+    func easeTo(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        do {
+            guard let cameraOptions = arguments?["cameraoptions"] as? FLTCameraOptions else {return}
+            var mapAnimationOptions = arguments?["animationoptions"] as? FLTMapAnimationOptions ?? nil
+            var cameraDuration = 1.0
+            if mapAnimationOptions != nil && mapAnimationOptions!.duration != nil {
+                cameraDuration = mapAnimationOptions!.duration!.doubleValue / 1000
+            }
+            cancelable = self.mapView.camera.ease(to: cameraOptions.toCameraOptions(), duration: cameraDuration)
+            result(nil)
+        } catch {
+            result(FlutterError(code: "\(error)", message: nil, details: nil))
+        }
+    }
+
+    func flyTo(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        do {
+            guard let cameraOptions = arguments?["cameraoptions"] as? FLTCameraOptions else {return}
+            var mapAnimationOptions = arguments?["animationoptions"] as? FLTMapAnimationOptions ?? nil
+            var cameraDuration = 1.0
+            if mapAnimationOptions != nil && mapAnimationOptions!.duration != nil {
+                cameraDuration = mapAnimationOptions!.duration!.doubleValue / 1000
+            }
+            cancelable = self.mapView.camera.fly(to: cameraOptions.toCameraOptions(), duration: cameraDuration)
+            result(nil) 
+        } catch {
+            result(FlutterError(code: CameraAPI.errorCode, message: nil, details: nil))
+        }
+    }
+
+    func pitch(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        result(FlutterError(code: CameraAPI.errorCode, message: "Not available.", details: nil))
+    }
+
+    func scale(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        result(FlutterError(code: CameraAPI.errorCode, message: "Not available.", details: nil))
+    }
+
+    func move(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        result(FlutterError(code: CameraAPI.errorCode, message: "Not available.", details: nil))
+    }
+
+    func rotate(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        result(FlutterError(code: CameraAPI.errorCode, message: "Not available.", details: nil))
+    }
+
+    func cancelCameraAnimation(result: @escaping FlutterResult) {
+        do {
+            if cancelable != nil {
+                cancelable?.cancel()
+            }
+        } catch {
+            result(FlutterError(code: CameraAPI.errorCode, message: nil, details: nil))
         }
     }
     

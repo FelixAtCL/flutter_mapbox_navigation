@@ -40,9 +40,11 @@ part 'src/embedded/boundings/style/domain/source/rasterdem_source.dart';
 part 'src/embedded/boundings/style/domain/source/vector_source.dart';
 part 'src/embedded/boundings/style/domain/style.dart';
 
-// Control Bounding
+// Camera Bounding
 part 'src/embedded/boundings/camera/port/api.dart';
-part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
+part 'src/embedded/boundings/camera/application/codec.dart';
+part 'src/embedded/boundings/camera/domain/camera_options.dart';
+part 'src/embedded/boundings/camera/domain/animation_options.dart';
 
 // Gesture Bounding
 part 'src/embedded/boundings/gestures/port/api.dart';
@@ -50,6 +52,7 @@ part 'src/embedded/boundings/gestures/application/codec.dart';
 
 // Map Bounding
 part 'src/embedded/boundings/map/port/api.dart';
+part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
 
 // Others
 part 'src/embedded/controller.dart';

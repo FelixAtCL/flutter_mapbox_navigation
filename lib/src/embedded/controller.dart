@@ -14,14 +14,16 @@ class MapBoxNavigationViewController {
     _eventChannel = EventChannel('flutter_mapbox_navigation/$id/events');
     _routeEventNotifier = eventNotifier;
 
-    style = StyleAPI(id);
     camera = CameraAPI(id);
     gesture = GestureAPI(id);
+    map = MapAPI(id);
+    style = StyleAPI(id);
   }
 
-  late StyleAPI style;
   late CameraAPI camera;
   late GestureAPI gesture;
+  late MapAPI map;
+  late StyleAPI style;
 
   late MethodChannel _methodChannel;
   late EventChannel _eventChannel;

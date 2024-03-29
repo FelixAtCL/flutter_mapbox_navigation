@@ -8,7 +8,7 @@ class GestureAPI {
   GestureAPI(int id) {
     _methodChannel = MethodChannel(
       'flutter_mapbox_navigation/gestures/$id',
-      const StandardMethodCodec(GestureListenerCodec()),
+      const StandardMethodCodec(GestureAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
   }
