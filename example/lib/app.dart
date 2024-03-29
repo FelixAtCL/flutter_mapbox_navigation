@@ -332,7 +332,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       await sourceToUpdate.updateGeoJSON(features);
       var cameraOptions = CameraOptions(
           center:
-              Point(coordinates: Position(latitudeBuldern, longitudeBuldern))
+              Point(coordinates: Position(longitudeBuldern, latitudeBuldern))
                   .toJson(),
           zoom: 12);
       await _controller?.camera
