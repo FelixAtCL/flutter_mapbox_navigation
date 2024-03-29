@@ -6,7 +6,7 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
-public class CameraAPI: NSObject, FlutterStreamHandler 
+public class MapAPI: NSObject, FlutterStreamHandler 
 {
     var _eventSink: FlutterEventSink? = nil
     private var mapboxMap: MapboxMap
@@ -19,8 +19,8 @@ public class CameraAPI: NSObject, FlutterStreamHandler
         self.mapboxMap = mapboxMap
         
         self.messenger = messenger
-        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/camera/\(viewId)", binaryMessenger: messenger)
-        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/camera/\(viewId)/events", binaryMessenger: messenger)
+        self.channel = FlutterMethodChannel(name: "flutter_mapbox_navigation/map/\(viewId)", binaryMessenger: messenger)
+        self.eventChannel = FlutterEventChannel(name: "flutter_mapbox_navigation/map/\(viewId)/events", binaryMessenger: messenger)
 
         super.init()
 
@@ -32,8 +32,23 @@ public class CameraAPI: NSObject, FlutterStreamHandler
 
             let arguments = call.arguments as? NSDictionary
 
-            result("method is not implemented");
+            if(call.method == "pixelForCoordinate")
+            {
+                strongSelf.pixelForCoordinate(arguments: arguments, result: result)
+            } 
+            else
+            {
+                result("method is not implemented");
+            }
         }
+    }
+
+    public func pixelForCoordinate(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        guard let lat = arguments?["latitude"] as? Double else {return}
+        guard let lon = arguments?["longitude"] as? Double else {return}
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+        let point = self.mapboxMap.point(for: coordinate)
+        result(point.toFLTScreenCoordinate())
     }
     
     //MARK: EventListener Delegates
@@ -47,5 +62,5 @@ public class CameraAPI: NSObject, FlutterStreamHandler
         return nil
     }
 
-    private static let errorCode = "camera"
+    private static let errorCode = "map"
 }

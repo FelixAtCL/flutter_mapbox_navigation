@@ -1,17 +1,14 @@
 part of mapbox_navigation_flutter;
 
 /// Interface for managing camera of the `map`.
-class CameraAPI {
-  /// Constructor for [CameraAPI].
-  CameraAPI(int id) {
-    _methodChannel = MethodChannel('mapbox_navigation_flutter/camera/$id');
+class MapAPI {
+  /// Constructor for [MapAPI].
+  MapAPI(int id) {
+    _methodChannel = MethodChannel('mapbox_navigation_flutter/map/$id');
     _methodChannel.setMethodCallHandler(_handleMethod);
-
-    _eventChannel = EventChannel('mapbox_navigation_flutter/camera/$id/events');
   }
 
   late MethodChannel _methodChannel;
-  late EventChannel _eventChannel;
 
   /// Calculates a `screen coordinate` that corresponds to a geographical coordinate
   /// (i.e., longitude-latitude pair).

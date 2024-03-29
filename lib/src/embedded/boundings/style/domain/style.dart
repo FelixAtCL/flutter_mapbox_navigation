@@ -1,4 +1,4 @@
-part of '../../../../../../mapbox_navigation_flutter.dart';
+part of '../../../../../mapbox_navigation_flutter.dart';
 
 /// Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed.
 ///

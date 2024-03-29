@@ -21,9 +21,11 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     var selectedRouteIndex = 0
     var routeOptions: NavigationRouteOptions?
     var navigationService: NavigationService!
-    var style: StyleAPI!
+    
     var camera: CameraAPI!
     var gestures: GesturesAPI!
+    var map: MapAPI!
+    var style: StyleAPI!
 
     var _mapInitialized = false;
     var locationManager = CLLocationManager()
@@ -116,6 +118,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         navigationMapView = NavigationMapView(frame: frame)
         navigationMapView.delegate = self            
         style = StyleAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
+        map = MapAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
         camera = CameraAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
         gestures = GesturesAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
 

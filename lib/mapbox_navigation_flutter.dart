@@ -18,35 +18,38 @@ import 'package:flutter_mapbox_navigation/src/proxy_binary_messenger.dart'
 export 'package:turf/helpers.dart';
 
 // Style Bounding
-part 'src/embedded/boundings/map/style/port/api.dart';
-part 'src/embedded/boundings/map/style/application/codec.dart';
-part 'src/embedded/boundings/map/style/domain/layer/background_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/circle_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/fill_extrusion_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/fill_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/heatmap_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/hillshade_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/line_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/location_indicator_layer.dart';
-part 'src/embedded/boundings/map/style/domain/mapbox_styles.dart';
-part 'src/embedded/boundings/map/style/domain/layer/raster_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/sky_layer.dart';
-part 'src/embedded/boundings/map/style/domain/layer/symbol_layer.dart';
-part 'src/embedded/boundings/map/style/domain/light.dart';
-part 'src/embedded/boundings/map/style/domain/source/geojson_source.dart';
-part 'src/embedded/boundings/map/style/domain/source/image_source.dart';
-part 'src/embedded/boundings/map/style/domain/source/raster_source.dart';
-part 'src/embedded/boundings/map/style/domain/source/rasterdem_source.dart';
-part 'src/embedded/boundings/map/style/domain/source/vector_source.dart';
-part 'src/embedded/boundings/map/style/domain/style.dart';
+part 'src/embedded/boundings/style/port/api.dart';
+part 'src/embedded/boundings/style/application/codec.dart';
+part 'src/embedded/boundings/style/domain/layer/background_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/circle_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/fill_extrusion_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/fill_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/heatmap_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/hillshade_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/line_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/location_indicator_layer.dart';
+part 'src/embedded/boundings/style/domain/mapbox_styles.dart';
+part 'src/embedded/boundings/style/domain/layer/raster_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/sky_layer.dart';
+part 'src/embedded/boundings/style/domain/layer/symbol_layer.dart';
+part 'src/embedded/boundings/style/domain/light.dart';
+part 'src/embedded/boundings/style/domain/source/geojson_source.dart';
+part 'src/embedded/boundings/style/domain/source/image_source.dart';
+part 'src/embedded/boundings/style/domain/source/raster_source.dart';
+part 'src/embedded/boundings/style/domain/source/rasterdem_source.dart';
+part 'src/embedded/boundings/style/domain/source/vector_source.dart';
+part 'src/embedded/boundings/style/domain/style.dart';
 
 // Control Bounding
-part 'src/embedded/boundings/map/camera/port/api.dart';
-part 'src/embedded/boundings/map/camera/domain/screen_coordinate.dart';
+part 'src/embedded/boundings/camera/port/api.dart';
+part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
 
 // Gesture Bounding
-part 'src/embedded/boundings/map/gestures/port/api.dart';
-part 'src/embedded/boundings/map/gestures/application/codec.dart';
+part 'src/embedded/boundings/gestures/port/api.dart';
+part 'src/embedded/boundings/gestures/application/codec.dart';
+
+// Map Bounding
+part 'src/embedded/boundings/map/port/api.dart';
 
 // Others
 part 'src/embedded/controller.dart';

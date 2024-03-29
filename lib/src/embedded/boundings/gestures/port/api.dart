@@ -1,4 +1,4 @@
-part of '../../../../../../mapbox_navigation_flutter.dart';
+part of '../../../../../mapbox_navigation_flutter.dart';
 
 typedef MapGestureListener = void Function(ScreenCoordinate coordinate);
 

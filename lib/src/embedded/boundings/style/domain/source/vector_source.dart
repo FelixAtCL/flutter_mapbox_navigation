@@ -1,19 +1,18 @@
 // This file is generated.
-part of '../../../../../../../mapbox_navigation_flutter.dart';
+part of '../../../../../../mapbox_navigation_flutter.dart';
 
-/// A RGB-encoded raster DEM source
-/// @see [The online documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#raster_dem)
-class RasterDemSource extends Source {
-  RasterDemSource({
+/// A vector tile source.
+/// @see [The online documentation](https://docs.mapbox.com/mapbox-gl-js/style-spec/sources/#vector)
+class VectorSource extends Source {
+  VectorSource({
     required super.id,
     String? url,
     List<String?>? tiles,
     List<double?>? bounds,
+    Scheme? scheme,
     double? minzoom,
     double? maxzoom,
-    double? tileSize,
     String? attribution,
-    Encoding? encoding,
     bool? volatile,
     double? prefetchZoomDelta,
     double? minimumTileUpdateInterval,
@@ -24,11 +23,10 @@ class RasterDemSource extends Source {
     _url = url;
     _tiles = tiles;
     _bounds = bounds;
+    _scheme = scheme;
     _minzoom = minzoom;
     _maxzoom = maxzoom;
-    _tileSize = tileSize;
     _attribution = attribution;
-    _encoding = encoding;
     _volatile = volatile;
     _prefetchZoomDelta = prefetchZoomDelta;
     _minimumTileUpdateInterval = minimumTileUpdateInterval;
@@ -38,7 +36,7 @@ class RasterDemSource extends Source {
   }
 
   @override
-  String getType() => "raster-dem";
+  String getType() => "vector";
 
   String? _url;
 
@@ -86,6 +84,20 @@ class RasterDemSource extends Source {
     });
   }
 
+  Scheme? _scheme;
+
+  /// Influences the y direction of the tile coordinates. The global-mercator (aka Spherical Mercator) profile is assumed.
+  Future<Scheme?> get scheme async {
+    return _style?.getStyleSourceProperty(id, 'scheme').then((value) {
+      if (value.value != '<null>') {
+        return Scheme.values.firstWhere((e) =>
+            e.toString().split('.').last.toLowerCase().contains(value.value));
+      } else {
+        return null;
+      }
+    });
+  }
+
   double? _minzoom;
 
   /// Minimum zoom level for which tiles are available, as in the TileJSON spec.
@@ -112,19 +124,6 @@ class RasterDemSource extends Source {
     });
   }
 
-  double? _tileSize;
-
-  /// The minimum visual size to display tiles for this layer. Only configurable for raster layers.
-  Future<double?> get tileSize async {
-    return _style?.getStyleSourceProperty(id, 'tileSize').then((value) {
-      if (value.value != '<null>') {
-        return double.parse(value.value);
-      } else {
-        return null;
-      }
-    });
-  }
-
   String? _attribution;
 
   /// Contains an attribution to be displayed when the map is shown to a user.
@@ -132,20 +131,6 @@ class RasterDemSource extends Source {
     return _style?.getStyleSourceProperty(id, 'attribution').then((value) {
       if (value.value != '<null>') {
         return value.value;
-      } else {
-        return null;
-      }
-    });
-  }
-
-  Encoding? _encoding;
-
-  /// The encoding used by this source. Mapbox Terrain RGB is used by default
-  Future<Encoding?> get encoding async {
-    return _style?.getStyleSourceProperty(id, 'encoding').then((value) {
-      if (value.value != '<null>') {
-        return Encoding.values.firstWhere((e) =>
-            e.toString().split('.').last.toLowerCase().contains(value.value));
       } else {
         return null;
       }
@@ -277,21 +262,17 @@ class RasterDemSource extends Source {
       if (_bounds != null) {
         properties['bounds'] = _bounds;
       }
+      if (_scheme != null) {
+        properties['scheme'] = _scheme.toString().split('.').last.toLowerCase();
+      }
       if (_minzoom != null) {
         properties['minzoom'] = _minzoom;
       }
       if (_maxzoom != null) {
         properties['maxzoom'] = _maxzoom;
       }
-      if (_tileSize != null) {
-        properties['tileSize'] = _tileSize;
-      }
       if (_attribution != null) {
         properties['attribution'] = _attribution;
-      }
-      if (_encoding != null) {
-        properties['encoding'] =
-            _encoding.toString().split('.').last.toLowerCase();
       }
       if (_volatile != null) {
         properties['volatile'] = _volatile;
