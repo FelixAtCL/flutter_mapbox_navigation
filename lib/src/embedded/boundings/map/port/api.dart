@@ -4,7 +4,10 @@ part of mapbox_navigation_flutter;
 class MapAPI {
   /// Constructor for [MapAPI].
   MapAPI(int id) {
-    _methodChannel = MethodChannel('mapbox_navigation_flutter/map/$id');
+    _methodChannel = MethodChannel(
+      'mapbox_navigation_flutter/map/$id',
+      const StandardMethodCodec(MapAPICodec()),
+    );
     _methodChannel.setMethodCallHandler(_handleMethod);
   }
 
@@ -35,6 +38,29 @@ class MapAPI {
       );
     }
     return result;
+  }
+
+  /// Queries the map for source features.
+  ///
+  /// @param sourceId The style source identifier used to query for source features.
+  /// @param options The `source query options` for querying source features.
+  /// @param completion The `query features completion` called when the query completes.
+  Future<List<QueriedFeature?>> queryRenderedFeatures(
+    RenderedQueryGeometry argGeometry,
+    RenderedQueryOptions argOptions,
+  ) async {
+    final args = <String, dynamic>{};
+    args['geometry'] = argGeometry;
+    args['options'] = argOptions;
+    final result =
+        await _methodChannel.invokeMethod('queryRenderedFeatures', args);
+    if (result is! List) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    }
+    return result.cast<QueriedFeature?>();
   }
 
   /// Generic Handler for Messages sent from the Platform

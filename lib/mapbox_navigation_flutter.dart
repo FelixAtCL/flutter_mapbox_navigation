@@ -52,6 +52,7 @@ part 'src/embedded/boundings/gestures/application/codec.dart';
 
 // Map Bounding
 part 'src/embedded/boundings/map/port/api.dart';
+part 'src/embedded/boundings/map/application/codec.dart';
 part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
 
 // Others
