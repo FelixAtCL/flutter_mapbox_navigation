@@ -29,6 +29,7 @@ class MapBoxNavigationViewController {
 
     camera = CameraAPI(id);
     gesture = GestureAPI(id);
+    logo = LogoAPI(id);
     map = MapAPI(id);
     style = StyleAPI(id);
 
@@ -101,6 +102,7 @@ class MapBoxNavigationViewController {
 
   late CameraAPI camera;
   late GestureAPI gesture;
+  late LogoAPI logo;
   late MapAPI map;
   late StyleAPI style;
 
