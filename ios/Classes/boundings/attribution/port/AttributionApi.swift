@@ -64,7 +64,7 @@ public class AttributionAPI: NSObject, FlutterStreamHandler
         result(settings)
     }
 
-    func updateSettingsSettings(arguments: NSDictionary?, result: @escaping FlutterResult) {
+    func updateSettings(arguments: NSDictionary?, result: @escaping FlutterResult) {
         guard let settings = arguments?["settings"] as? FLT_SETTINGSAttributionSettings else {return}
         do {
             var attributionButton = self.mapView.ornaments.options.attributionButton
