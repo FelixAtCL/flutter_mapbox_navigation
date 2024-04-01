@@ -102,8 +102,7 @@ public class ScaleBarAPI : NSObject, FlutterStreamHandler
 
             self.mapView.ornaments.options.scaleBar = scaleBar
         } catch {
-            result(FlutterError(code: ScaleBarAPI
-             , message: "\(error)", details: nil))
+            result(FlutterError(code: ScaleBarAPI.errorCode, message: "\(error)", details: nil))
         }
     }
 
