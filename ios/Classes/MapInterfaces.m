@@ -1757,6 +1757,8 @@ NSObject<FlutterMethodCodec> *FLT_StyleGetCodec(void) {
       return [FLTScreenCoordinate fromList:[self readValue]];
     case 132: 
       return [FLTScreenCoordinate fromList:[self readValue]];
+    case 133: 
+      return [FLTCameraState fromList:[self readValue]];
     default:
       return [super readValueOfType:type];
   }
@@ -1781,6 +1783,9 @@ NSObject<FlutterMethodCodec> *FLT_StyleGetCodec(void) {
     [self writeValue:[value toList]];
   } else if ([value isKindOfClass:[FLTScreenCoordinate class]]) {
     [self writeByte:132];
+    [self writeValue:[value toList]];
+  } else if ([value isKindOfClass:[FLTCameraState class]]) {
+    [self writeByte:133];
     [self writeValue:[value toList]];
   } else {
     [super writeValue:value];

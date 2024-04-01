@@ -182,6 +182,17 @@ class CameraAPI {
     }
   }
 
+  Future<CameraState> getState() async {
+    final result = await _methodChannel.invokeMethod('getState', null);
+    if (result is! CameraState) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    }
+    return result;
+  }
+
   /// Generic Handler for Messages sent from the Platform
   Future<dynamic> _handleMethod(MethodCall call) async {
     switch (call.method) {

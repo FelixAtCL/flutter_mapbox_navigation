@@ -233,6 +233,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                       _controller = controller;
                       controller.initialize();
                       _listenOnTap();
+                      _listenOnCameraChange();
                     }),
               ),
             )
@@ -254,6 +255,12 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       print("features is empty: ${features.isEmpty}");
       print(features.first);
     });
+  }
+
+  _listenOnCameraChange() {
+    _controller?.map.addEventListener((event) {
+      print("camera changed: ${event.data}");
+    }, [MapEvent.cameraChanged]);
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {

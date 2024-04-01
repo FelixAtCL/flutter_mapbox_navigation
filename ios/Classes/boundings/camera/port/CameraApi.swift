@@ -61,6 +61,10 @@ public class CameraAPI: NSObject, FlutterStreamHandler
             {
                 strongSelf.cancelCameraAnimation(arguments: arguments, result: result)
             }
+            else if (call.method == "getState") 
+            {
+                strongSelf.getState(arguments: arguments, result: result)
+            }
             else 
             {
                 result("method is not implemented");
@@ -122,6 +126,11 @@ public class CameraAPI: NSObject, FlutterStreamHandler
         } catch {
             result(FlutterError(code: CameraAPI.errorCode, message: nil, details: nil))
         }
+    }
+
+    func getState(arguments: NSDictionary?, result: @escaping FlutterResult) {
+        let camera = self.mapboxMap.cameraState
+        result(FLTCameraState.make(withCenter: ["coordinates": [camera.center.longitude, camera.center.latitude]], padding: FLTMbxEdgeInsets.make(withTop: NSNumber(value: camera.padding.top), left: NSNumber(value: camera.padding.left), bottom: NSNumber(value: camera.padding.bottom), right: NSNumber(value: camera.padding.right)), zoom: NSNumber(value: camera.zoom), bearing: NSNumber(value: camera.bearing), pitch: NSNumber(value: camera.pitch)))
     }
     
     //MARK: EventListener Delegates
