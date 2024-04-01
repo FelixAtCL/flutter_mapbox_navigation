@@ -210,9 +210,11 @@ class CameraAPI {
   /// CoordinateBounds bounds = await coordinateBounds(camera);
   /// print(bounds);
   /// ```
-  Future<CoordinateBounds> getCoordinateBounds(CameraOptions camera) async {
+  Future<CoordinateBounds> getCoordinateBounds(
+    CameraOptions argCameraOptions,
+  ) async {
     final args = <String, dynamic>{};
-    args['camera'] = camera;
+    args['camera'] = argCameraOptions;
     final result = await _methodChannel.invokeMethod(
       'getCoordinateBounds',
       args,
