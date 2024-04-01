@@ -133,13 +133,13 @@ public class CameraAPI: NSObject, FlutterStreamHandler
     }
 
     func getState(arguments: NSDictionary?, result: @escaping FlutterResult) {
-        let camera = self.mapboxMap.cameraState
+        let camera = self.mapView.mapboxMap.cameraState
         result(FLTCameraState.make(withCenter: ["coordinates": [camera.center.longitude, camera.center.latitude]], padding: FLTMbxEdgeInsets.make(withTop: NSNumber(value: camera.padding.top), left: NSNumber(value: camera.padding.left), bottom: NSNumber(value: camera.padding.bottom), right: NSNumber(value: camera.padding.right)), zoom: NSNumber(value: camera.zoom), bearing: NSNumber(value: camera.bearing), pitch: NSNumber(value: camera.pitch)))
     }
 
     func getCoordinateBounds(arguments: NSDictionary?, result: @escaping FlutterResult) {
         guard let camera = arguments?["camera"] as? FLTCameraOptions else { return }
-        let bounds = self.mapboxMap.coordinateBounds(for: camera.toCameraOptions())
+        let bounds = self.mapView.mapboxMap.coordinateBounds(for: camera.toCameraOptions())
         result(bounds.toFLTCoordinateBounds())
     }
     
