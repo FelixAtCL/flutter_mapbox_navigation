@@ -182,9 +182,42 @@ class CameraAPI {
     }
   }
 
+  /// Retrieves the current state of the camera.
+  ///
+  /// Returns a [Future] that resolves to a [CameraState] object representing the current state of the camera.
+  /// Throws a [PlatformException] if there is an error establishing a connection on the channel.
   Future<CameraState> getState() async {
     final result = await _methodChannel.invokeMethod('getState', null);
     if (result is! CameraState) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel.',
+      );
+    }
+    return result;
+  }
+
+  /// Retrieves the coordinate bounds of the camera view.
+  ///
+  /// This method takes a [CameraOptions] object as a parameter and returns a [Future] that resolves to a [CoordinateBounds] object.
+  /// The [CameraOptions] object contains the necessary information to determine the camera view, such as the zoom level and center coordinates.
+  ///
+  /// Throws a [PlatformException] if there is an error establishing a connection on the method channel.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// CameraOptions camera = CameraOptions(zoom: 15, center: LatLng(37.7749, -122.4194));
+  /// CoordinateBounds bounds = await coordinateBounds(camera);
+  /// print(bounds);
+  /// ```
+  Future<CoordinateBounds> getCoordinateBounds(CameraOptions camera) async {
+    final args = <String, dynamic>{};
+    args['camera'] = camera;
+    final result = await _methodChannel.invokeMethod(
+      'getCoordinateBounds',
+      args,
+    );
+    if (result is! CoordinateBounds) {
       throw PlatformException(
         code: 'channel-error',
         message: 'Unable to establish connection on channel.',

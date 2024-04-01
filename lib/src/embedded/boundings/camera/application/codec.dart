@@ -22,6 +22,9 @@ class CameraAPICodec extends StandardMessageCodec {
     } else if (value is CameraState) {
       buffer.putUint8(133);
       writeValue(buffer, value.encode());
+    } else if (value is CoordinateBounds) {
+      buffer.putUint8(134);
+      writeValue(buffer, value.encode());
     } else {
       super.writeValue(buffer, value);
     }
@@ -42,6 +45,8 @@ class CameraAPICodec extends StandardMessageCodec {
         return ScreenCoordinate.decode(readValue(buffer)!);
       case 133:
         return CameraState.decode(readValue(buffer)!);
+      case 134:
+        return CoordinateBounds.decode(readValue(buffer)!);
       default:
         return super.readValueOfType(type, buffer);
     }
