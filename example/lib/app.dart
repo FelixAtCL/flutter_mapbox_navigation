@@ -198,11 +198,12 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 print(state);
                                 var bounds = await _controller?.camera
                                     .getCoordinateBounds(CameraOptions(
-                                        zoom: 15,
+                                        zoom: 10,
                                         center: Point(
-                                                coordinates: Position(
-                                                    37.7749, -122.4194))
-                                            .toJson() // San Francisco
+                                            coordinates: Position(
+                                          -122.4194,
+                                          37.7749,
+                                        )).toJson() // San Francisco
                                         ));
                                 print(bounds);
                                 await _loadMarker();

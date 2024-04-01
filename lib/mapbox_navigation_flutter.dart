@@ -6,7 +6,6 @@ import 'dart:io';
 
 import 'package:enum_to_string/enum_to_string.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
@@ -56,6 +55,10 @@ part 'src/embedded/boundings/map/application/codec.dart';
 part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
 part 'src/embedded/boundings/map/domain/events.dart';
 part 'src/embedded/boundings/map/domain/map_events.dart';
+
+// Logo Bounding
+part 'src/embedded/boundings/logo/port/api.dart';
+part 'src/embedded/boundings/logo/application/codec.dart';
 
 // Others
 part 'src/embedded/controller.dart';
