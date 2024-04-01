@@ -48,9 +48,6 @@ class ArgumentCallbacks<T> {
   bool get isNotEmpty => _callbacks.isNotEmpty;
 }
 
-/// Definition for listener invoked when the map is created.
-typedef MapCreatedCallback = void Function(MapboxMap controller);
-
 /// Definition for listener invoked when the style is fully loaded.
 typedef OnStyleLoadedListener = void Function(
   StyleLoadedEventData styleLoadedEventData,

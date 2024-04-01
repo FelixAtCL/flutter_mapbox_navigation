@@ -54,19 +54,12 @@ part 'src/embedded/boundings/gestures/application/codec.dart';
 part 'src/embedded/boundings/map/port/api.dart';
 part 'src/embedded/boundings/map/application/codec.dart';
 part 'src/embedded/boundings/map/domain/screen_coordinate.dart';
+part 'src/embedded/boundings/map/domain/events.dart';
+part 'src/embedded/boundings/map/domain/map_events.dart';
 
 // Others
 part 'src/embedded/controller.dart';
-part 'src/annotation/circle_annotation_manager.dart';
-part 'src/annotation/point_annotation_manager.dart';
-part 'src/annotation/polygon_annotation_manager.dart';
-part 'src/annotation/polyline_annotation_manager.dart';
-part 'src/annotation/annotation_manager.dart';
 part 'src/callbacks.dart';
-part 'src/events.dart';
-part 'src/map_widget.dart';
-part 'src/mapbox_map.dart';
-part 'src/mapbox_maps_platform.dart';
 part 'src/pigeons/circle_annotation_messager.dart';
 part 'src/pigeons/point_annotation_messager.dart';
 part 'src/pigeons/polygon_annotation_messager.dart';

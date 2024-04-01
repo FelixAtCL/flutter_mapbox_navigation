@@ -40,6 +40,10 @@ public class MapAPI: NSObject, FlutterStreamHandler
             {
                 strongSelf.queryRenderedFeatures(arguments: arguments, result: result)
             }
+            else if (call.method == "subscribe") 
+            {
+                strongSelf.subscribe(arguments: arguments, result: result)
+            }
             else
             {
                 result("method is not implemented");
@@ -107,6 +111,38 @@ public class MapAPI: NSObject, FlutterStreamHandler
         } catch {
             result(FlutterError(code: MapAPI.errorCode, message: "\(error)", details: nil))
         }
+    }
+
+    func subscribe(arguments: NSDictionary?, result: @escaping FlutterResult) {
+            guard let eventType = arguments["event"] as? String else { return }
+            self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
+                guard let data = event.data as? [String: Any] else {return}
+                self.channel.invokeMethod(self.getEventMethodName(eventType: eventType),
+                                          arguments: self.convertDictionaryToString(dict: data))
+            }
+            result(nil)
+    }
+
+    private func getEventMethodName(eventType: String) -> String {
+        return "event#\(eventType)"
+    }
+
+    private func convertDictionaryToString(dict: [String: Any]) -> String {
+        var result: String = ""
+        do {
+            let jsonData =
+            try JSONSerialization.data(
+                withJSONObject: dict,
+                options: JSONSerialization.WritingOptions.init(rawValue: 0)
+            )
+
+            if let JSONString = String(data: jsonData, encoding: String.Encoding.utf8) {
+                result = JSONString
+            }
+        } catch {
+            result = ""
+        }
+        return result
     }
     
     //MARK: EventListener Delegates
