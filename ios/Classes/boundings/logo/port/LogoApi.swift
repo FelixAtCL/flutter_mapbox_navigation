@@ -79,6 +79,7 @@ public class LogoAPI: NSObject, FlutterStreamHandler
                     logo.margins = CGPoint(x: settings.marginRight?.CGFloat ?? 0.0, y: settings.marginTop?.CGFloat ?? 0.0)
             }
             self.mapView.ornaments.options.logo = logo
+            result(nil)
         } catch {
             result(FlutterError(code: LogoAPI.errorCode, message: "\(error)", details: nil))
         }

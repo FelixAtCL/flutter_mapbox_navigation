@@ -88,6 +88,7 @@ public class AttributionAPI: NSObject, FlutterStreamHandler
             if let iconColor = settings.iconColor?.intValue {
                 self.mapView.ornaments.attributionButton.tintColor = uiColorFromHex(rgbValue: iconColor)
             }
+            result(nil)
         } catch {
             result(FlutterError(code: AttributionAPI.errorCode, message: "\(error)", details: nil))
         }

@@ -123,6 +123,7 @@ public class CompassAPI: NSObject, FlutterStreamHandler
             }
 
             self.mapView.ornaments.options.compass = compass
+            result(nil)
         } catch {
             result(FlutterError(code: CompassAPI.errorCode, message: "\(error)", details: nil))
         }

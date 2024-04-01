@@ -268,6 +268,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
               value: jsonEncode(conv.encode()), type: Type.SCREEN_COORDINATE),
           RenderedQueryOptions(layerIds: ["example-layer"]));
       print("features is empty: ${features.isEmpty}");
+      if (features.isEmpty) return;
       print(features.first);
     });
   }
@@ -281,11 +282,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
   Future _testSettings() async {
     var logoSettings = await _controller?.logo.getSettings();
     print("logo settings: $logoSettings");
+    print("somethin wrong here?");
     await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    var compassSettings = await _controller?.compass.getSettings();
-    print("compass settings: $compassSettings");
-    await _controller?.compass
-        .updateSettings(CompassSettings(marginRight: 150));
     var attributionSettings = await _controller?.attribution.getSettings();
     print("attribution settings: $attributionSettings");
     await _controller?.attribution
@@ -294,6 +292,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("scaleBar settings: $scaleBarSettings");
     await _controller?.scaleBar
         .updateSettings(ScaleBarSettings(marginLeft: 150));
+    var compassSettings = await _controller?.compass.getSettings();
+    print("compass settings: $compassSettings");
+    await _controller?.compass
+        .updateSettings(CompassSettings(marginRight: 150));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {
