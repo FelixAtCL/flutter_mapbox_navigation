@@ -24,6 +24,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     
     var camera: CameraAPI!
     var gestures: GesturesAPI!
+    var logo: LogoAPI!
     var map: MapAPI!
     var style: StyleAPI!
 
@@ -119,6 +120,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         navigationMapView.delegate = self            
         camera = CameraAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         gestures = GesturesAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
+        logo = LogoAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         map = MapAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
         style = StyleAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
 

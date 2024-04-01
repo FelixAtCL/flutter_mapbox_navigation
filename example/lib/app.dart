@@ -206,6 +206,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                         )).toJson() // San Francisco
                                         ));
                                 print(bounds);
+                                await _updateSettings();
                                 await _loadMarker();
                               },
                         child: const Text("Testing"),
@@ -274,6 +275,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     _controller?.map.addEventListener((event) {
       print("camera changed: ${event.data}");
     }, [MapEvent.cameraChanged]);
+  }
+
+  Future _updateSettings() async {
+    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {
