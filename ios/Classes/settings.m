@@ -1132,12 +1132,12 @@ void FLT_SETTINGSAttributionSettingsInterfaceSetup(id<FlutterBinaryMessenger> bi
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_SETTINGSLogoSettingsInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_SETTINGSLogoSettingsInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_SETTINGSLogoSettingsInterfaceCodecReaderWriter *readerWriter = [[FLT_SETTINGSLogoSettingsInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }
