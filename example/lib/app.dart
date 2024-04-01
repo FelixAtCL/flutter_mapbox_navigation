@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
@@ -281,15 +282,18 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var logoSettings = await _controller?.logo.getSettings();
     print("logo settings: $logoSettings");
     await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    var logoSettings = await _controller?.logo.getSettings();
-    print("logo settings: $logoSettings");
-    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    var logoSettings = await _controller?.logo.getSettings();
-    print("logo settings: $logoSettings");
-    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    var logoSettings = await _controller?.logo.getSettings();
-    print("logo settings: $logoSettings");
-    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    var compassSettings = await _controller?.compass.getSettings();
+    print("compass settings: $compassSettings");
+    await _controller?.compass
+        .updateSettings(CompassSettings(marginRight: 150));
+    var attributionSettings = await _controller?.attribution.getSettings();
+    print("attribution settings: $attributionSettings");
+    await _controller?.attribution
+        .updateSettings(AttributionSettings(marginRight: 150));
+    var scaleBarSettings = await _controller?.scaleBar.getSettings();
+    print("scaleBar settings: $scaleBarSettings");
+    await _controller?.scaleBar
+        .updateSettings(ScaleBarSettings(marginLeft: 150));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {

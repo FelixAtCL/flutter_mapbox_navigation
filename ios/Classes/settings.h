@@ -12,10 +12,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, FLT_SETTINGSOrnamentPosition) {
-    FLT_SETTINGSOrnamentPositionTOP_LEFT = 0,
-    FLT_SETTINGSOrnamentPositionTOP_RIGHT = 1,
-    FLT_SETTINGSOrnamentPositionBOTTOM_RIGHT = 2,
-    FLT_SETTINGSOrnamentPositionBOTTOM_LEFT = 3,
+  FLT_SETTINGSOrnamentPositionTOP_LEFT = 0,
+  FLT_SETTINGSOrnamentPositionTOP_RIGHT = 1,
+  FLT_SETTINGSOrnamentPositionBOTTOM_RIGHT = 2,
+  FLT_SETTINGSOrnamentPositionBOTTOM_LEFT = 3,
 };
 
 /// Wrapper for FLT_SETTINGSOrnamentPosition to allow for nullability.
@@ -26,12 +26,12 @@ typedef NS_ENUM(NSUInteger, FLT_SETTINGSOrnamentPosition) {
 
 /// Configures the directions in which the map is allowed to move during a scroll gesture.
 typedef NS_ENUM(NSUInteger, FLT_SETTINGSScrollMode) {
-    /// The map may only move horizontally.
-    FLT_SETTINGSScrollModeHORIZONTAL = 0,
-    /// The map may only move vertically.
-    FLT_SETTINGSScrollModeVERTICAL = 1,
-    /// The map may move both horizontally and vertically.
-    FLT_SETTINGSScrollModeHORIZONTAL_AND_VERTICAL = 2,
+  /// The map may only move horizontally.
+  FLT_SETTINGSScrollModeHORIZONTAL = 0,
+  /// The map may only move vertically.
+  FLT_SETTINGSScrollModeVERTICAL = 1,
+  /// The map may move both horizontally and vertically.
+  FLT_SETTINGSScrollModeHORIZONTAL_AND_VERTICAL = 2,
 };
 
 /// Wrapper for FLT_SETTINGSScrollMode to allow for nullability.
@@ -42,10 +42,10 @@ typedef NS_ENUM(NSUInteger, FLT_SETTINGSScrollMode) {
 
 /// The enum controls how the puck is oriented
 typedef NS_ENUM(NSUInteger, FLT_SETTINGSPuckBearingSource) {
-    /// Orients the puck to match the direction in which the device is facing.
-    FLT_SETTINGSPuckBearingSourceHEADING = 0,
-    /// Orients the puck to match the direction in which the device is moving.
-    FLT_SETTINGSPuckBearingSourceCOURSE = 1,
+  /// Orients the puck to match the direction in which the device is facing.
+  FLT_SETTINGSPuckBearingSourceHEADING = 0,
+  /// Orients the puck to match the direction in which the device is moving.
+  FLT_SETTINGSPuckBearingSourceCOURSE = 1,
 };
 
 /// Wrapper for FLT_SETTINGSPuckBearingSource to allow for nullability.
@@ -390,7 +390,7 @@ NSObject<FlutterMessageCodec> *FLT_SETTINGSLocationComponentSettingsInterfaceGet
 extern void FLT_SETTINGSLocationComponentSettingsInterfaceSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLT_SETTINGSLocationComponentSettingsInterface> *_Nullable api);
 
 /// The codec used by FLT_SETTINGSScaleBarSettingsInterface.
-NSObject<FlutterMessageCodec> *FLT_SETTINGSScaleBarSettingsInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_SETTINGSScaleBarSettingsInterfaceGetCodec(void);
 
 /// Shows the scale bar on the map.
 @protocol FLT_SETTINGSScaleBarSettingsInterface
@@ -402,7 +402,7 @@ NSObject<FlutterMessageCodec> *FLT_SETTINGSScaleBarSettingsInterfaceGetCodec(voi
 extern void FLT_SETTINGSScaleBarSettingsInterfaceSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLT_SETTINGSScaleBarSettingsInterface> *_Nullable api);
 
 /// The codec used by FLT_SETTINGSCompassSettingsInterface.
-NSObject<FlutterMessageCodec> *FLT_SETTINGSCompassSettingsInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_SETTINGSCompassSettingsInterfaceGetCodec(void);
 
 /// Shows the compass on the map.
 @protocol FLT_SETTINGSCompassSettingsInterface
@@ -414,7 +414,7 @@ NSObject<FlutterMessageCodec> *FLT_SETTINGSCompassSettingsInterfaceGetCodec(void
 extern void FLT_SETTINGSCompassSettingsInterfaceSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLT_SETTINGSCompassSettingsInterface> *_Nullable api);
 
 /// The codec used by FLT_SETTINGSAttributionSettingsInterface.
-NSObject<FlutterMessageCodec> *FLT_SETTINGSAttributionSettingsInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_SETTINGSAttributionSettingsInterfaceGetCodec(void);
 
 /// Shows the attribution icon on the map.
 @protocol FLT_SETTINGSAttributionSettingsInterface
