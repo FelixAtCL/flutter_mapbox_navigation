@@ -206,7 +206,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                         )).toJson() // San Francisco
                                         ));
                                 print(bounds);
-                                await _updateSettings();
+                                await _testSettings();
                                 await _loadMarker();
                               },
                         child: const Text("Testing"),
@@ -277,7 +277,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     }, [MapEvent.cameraChanged]);
   }
 
-  Future _updateSettings() async {
+  Future _testSettings() async {
+    var logoSettings = await _controller?.logo.getSettings();
+    print("logo settings: $logoSettings");
     await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
   }
 

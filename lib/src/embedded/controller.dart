@@ -27,6 +27,7 @@ class MapBoxNavigationViewController {
     _eventChannel = EventChannel('flutter_mapbox_navigation/$id/events');
     _routeEventNotifier = onRouteEvent;
 
+    attribution = AttributionAPI(id);
     camera = CameraAPI(id);
     gesture = GestureAPI(id);
     logo = LogoAPI(id);
@@ -100,6 +101,7 @@ class MapBoxNavigationViewController {
     }
   }
 
+  late AttributionAPI attribution;
   late CameraAPI camera;
   late GestureAPI gesture;
   late LogoAPI logo;

@@ -60,6 +60,18 @@ part 'src/embedded/boundings/map/domain/map_events.dart';
 part 'src/embedded/boundings/logo/port/api.dart';
 part 'src/embedded/boundings/logo/application/codec.dart';
 
+// Compass Bounding
+part 'src/embedded/boundings/compass/port/api.dart';
+part 'src/embedded/boundings/compass/application/codec.dart';
+
+// ScaleBar Bounding
+part 'src/embedded/boundings/scaleBar/port/api.dart';
+part 'src/embedded/boundings/scaleBar/application/codec.dart';
+
+// Attribution Bounding
+part 'src/embedded/boundings/attribution/port/api.dart';
+part 'src/embedded/boundings/attribution/application/codec.dart';
+
 // Others
 part 'src/embedded/controller.dart';
 part 'src/callbacks.dart';

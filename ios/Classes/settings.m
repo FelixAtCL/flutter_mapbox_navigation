@@ -877,12 +877,12 @@ void FLT_SETTINGSLocationComponentSettingsInterfaceSetup(id<FlutterBinaryMesseng
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_SETTINGSScaleBarSettingsInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_SETTINGSScaleBarSettingsInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_SETTINGSScaleBarSettingsInterfaceCodecReaderWriter *readerWriter = [[FLT_SETTINGSScaleBarSettingsInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }
@@ -962,12 +962,12 @@ void FLT_SETTINGSScaleBarSettingsInterfaceSetup(id<FlutterBinaryMessenger> binar
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_SETTINGSCompassSettingsInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_SETTINGSCompassSettingsInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_SETTINGSCompassSettingsInterfaceCodecReaderWriter *readerWriter = [[FLT_SETTINGSCompassSettingsInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }
@@ -1047,12 +1047,12 @@ void FLT_SETTINGSCompassSettingsInterfaceSetup(id<FlutterBinaryMessenger> binary
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_SETTINGSAttributionSettingsInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_SETTINGSAttributionSettingsInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_SETTINGSAttributionSettingsInterfaceCodecReaderWriter *readerWriter = [[FLT_SETTINGSAttributionSettingsInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }

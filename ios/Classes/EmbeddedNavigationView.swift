@@ -22,10 +22,13 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     var routeOptions: NavigationRouteOptions?
     var navigationService: NavigationService!
     
+    var attribution: AttributionAPI!
     var camera: CameraAPI!
+    var compass: CompassAPI!
     var gestures: GesturesAPI!
     var logo: LogoAPI!
     var map: MapAPI!
+    var scaleBar: ScaleBarAPI!
     var style: StyleAPI!
 
     var _mapInitialized = false;
@@ -117,11 +120,15 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     private func setupMapView()
     {
         navigationMapView = NavigationMapView(frame: frame)
-        navigationMapView.delegate = self            
+        navigationMapView.delegate = self        
+
+        attribution = AttributionAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)    
         camera = CameraAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
+        compass = CompassAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         gestures = GesturesAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         logo = LogoAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         map = MapAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
+        scaleBar = ScaleBarAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         style = StyleAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
 
         gestures.listen()
