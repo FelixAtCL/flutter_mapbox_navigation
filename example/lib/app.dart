@@ -281,6 +281,15 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var logoSettings = await _controller?.logo.getSettings();
     print("logo settings: $logoSettings");
     await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    var logoSettings = await _controller?.logo.getSettings();
+    print("logo settings: $logoSettings");
+    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    var logoSettings = await _controller?.logo.getSettings();
+    print("logo settings: $logoSettings");
+    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    var logoSettings = await _controller?.logo.getSettings();
+    print("logo settings: $logoSettings");
+    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {

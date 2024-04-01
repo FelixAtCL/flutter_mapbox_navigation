@@ -29,9 +29,11 @@ class MapBoxNavigationViewController {
 
     attribution = AttributionAPI(id);
     camera = CameraAPI(id);
+    compass = CompassAPI(id);
     gesture = GestureAPI(id);
     logo = LogoAPI(id);
     map = MapAPI(id);
+    scaleBar = ScaleBarAPI(id);
     style = StyleAPI(id);
 
     if (onStyleLoadedListener != null) {
@@ -103,9 +105,11 @@ class MapBoxNavigationViewController {
 
   late AttributionAPI attribution;
   late CameraAPI camera;
+  late CompassAPI compass;
   late GestureAPI gesture;
   late LogoAPI logo;
   late MapAPI map;
+  late ScaleBarAPI scaleBar;
   late StyleAPI style;
 
   late MethodChannel _methodChannel;
