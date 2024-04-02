@@ -31,6 +31,7 @@ class MapBoxNavigationViewController {
     camera = CameraAPI(id);
     compass = CompassAPI(id);
     gesture = GestureAPI(id);
+    location = LocationAPI(id);
     logo = LogoAPI(id);
     map = MapAPI(id);
     scaleBar = ScaleBarAPI(id);
@@ -107,6 +108,7 @@ class MapBoxNavigationViewController {
   late CameraAPI camera;
   late CompassAPI compass;
   late GestureAPI gesture;
+  late LocationAPI location;
   late LogoAPI logo;
   late MapAPI map;
   late ScaleBarAPI scaleBar;

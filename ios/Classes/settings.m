@@ -792,12 +792,12 @@ void FLT_SETTINGSGesturesSettingsInterfaceSetup(id<FlutterBinaryMessenger> binar
 }
 @end
 
-NSObject<FlutterMessageCodec> *FLT_SETTINGSLocationComponentSettingsInterfaceGetCodec(void) {
-  static FlutterStandardMessageCodec *sSharedObject = nil;
+NSObject<FlutterMethodCodec> *FLT_SETTINGSLocationComponentSettingsInterfaceGetCodec(void) {
+  static FlutterStandardMethodCodec *sSharedObject = nil;
   static dispatch_once_t sPred = 0;
   dispatch_once(&sPred, ^{
     FLT_SETTINGSLocationComponentSettingsInterfaceCodecReaderWriter *readerWriter = [[FLT_SETTINGSLocationComponentSettingsInterfaceCodecReaderWriter alloc] init];
-    sSharedObject = [FlutterStandardMessageCodec codecWithReaderWriter:readerWriter];
+    sSharedObject = [FlutterStandardMethodCodec codecWithReaderWriter:readerWriter];
   });
   return sSharedObject;
 }

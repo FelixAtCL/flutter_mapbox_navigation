@@ -26,6 +26,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
     var camera: CameraAPI!
     var compass: CompassAPI!
     var gestures: GesturesAPI!
+    var location: LocationAPI!
     var logo: LogoAPI!
     var map: MapAPI!
     var scaleBar: ScaleBarAPI!
@@ -126,6 +127,7 @@ public class FlutterMapboxNavigationView : NavigationFactory, FlutterPlatformVie
         camera = CameraAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         compass = CompassAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         gestures = GesturesAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
+        location = LocationAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         logo = LogoAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)
         map = MapAPI(messenger: self.messenger, withMapboxMap: navigationMapView.mapView.mapboxMap, viewId: self.viewId)
         scaleBar = ScaleBarAPI(messenger: self.messenger, withMapView: navigationMapView.mapView, viewId: self.viewId)

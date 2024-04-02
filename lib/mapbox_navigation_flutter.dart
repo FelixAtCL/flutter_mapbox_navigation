@@ -72,6 +72,14 @@ part 'src/embedded/boundings/scaleBar/application/codec.dart';
 part 'src/embedded/boundings/attribution/port/api.dart';
 part 'src/embedded/boundings/attribution/application/codec.dart';
 
+// Location Bounding
+part 'src/embedded/boundings/location/port/api.dart';
+part 'src/embedded/boundings/location/application/codec.dart';
+part 'src/embedded/boundings/location/domain/location_listener.dart';
+part 'src/embedded/boundings/location/domain/location.dart';
+part 'src/embedded/boundings/location/domain/coordinate.dart';
+part 'src/embedded/boundings/location/domain/heading.dart';
+
 // Others
 part 'src/embedded/controller.dart';
 part 'src/callbacks.dart';

@@ -378,7 +378,7 @@ NSObject<FlutterMessageCodec> *FLT_SETTINGSGesturesSettingsInterfaceGetCodec(voi
 extern void FLT_SETTINGSGesturesSettingsInterfaceSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<FLT_SETTINGSGesturesSettingsInterface> *_Nullable api);
 
 /// The codec used by FLT_SETTINGSLocationComponentSettingsInterface.
-NSObject<FlutterMessageCodec> *FLT_SETTINGSLocationComponentSettingsInterfaceGetCodec(void);
+NSObject<FlutterMethodCodec> *FLT_SETTINGSLocationComponentSettingsInterfaceGetCodec(void);
 
 /// Shows a location puck on the map.
 @protocol FLT_SETTINGSLocationComponentSettingsInterface
