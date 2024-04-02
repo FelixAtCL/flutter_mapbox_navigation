@@ -31,8 +31,9 @@ class EmbeddedNavigationViewFactory(
             accessToken
         )
 
-        var viewBinding = MapboxActivityRouteLineBinding.inflate(inflater)
-        view.initialize(viewBinding)
+        print(binding.navigationView.mapView == null)
+
+        view.initialize()
 
         activity.setTheme(R.style.Theme_AppCompat_NoActionBar)
 

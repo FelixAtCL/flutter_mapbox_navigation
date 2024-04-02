@@ -38,7 +38,7 @@ class EmbeddedNavigationMapView(
         super.initFlutterChannelHandlers()
     }
 
-    open fun initialize(viewBinding: MapboxActivityRouteLineBinding) {
+    open fun initialize() {
         initFlutterChannelHandlers()
         initNavigation()
 
