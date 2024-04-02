@@ -253,7 +253,7 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
         result: Result
     ) {
         val arguments = call.arguments as? Map<String, Any>
-        val item = arguments?.get("wayPoint") as? HashMap<Int, Any>
+        val item = arguments?.get("wayPoint") as? HashMap<*, *>
 
         if (item == null) return
 
