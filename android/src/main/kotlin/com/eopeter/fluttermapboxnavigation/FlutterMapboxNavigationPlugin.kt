@@ -257,13 +257,12 @@ class FlutterMapboxNavigationPlugin : FlutterPlugin, MethodCallHandler,
 
         if (item == null) return
 
-        val point = item.value as HashMap<*, *>
-        val name = point["Name"] as String
-        val latitude = point["Latitude"] as Double
-        val longitude = point["Longitude"] as Double
-        val isSilent = point["IsSilent"] as Boolean
+        val name = item["Name"] as String
+        val latitude = item["Latitude"] as Double
+        val longitude = item["Longitude"] as Double
+        val isSilent = item["IsSilent"] as Boolean
         val waypoint = Waypoint(name, latitude, longitude, isSilent)
-        val position = item.key as Int
+        val position = 1
 
         NavigationLauncher.addWayPointAt(currentActivity, waypoint, position)
     }

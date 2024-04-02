@@ -153,8 +153,8 @@ class NavigationActivity : AppCompatActivity() {
                 val stop = intent.getSerializableExtra("waypoint") as? Waypoint
                 val position = intent.getSerializableExtra("position") as? Int
                 if(position == null) return
-                if(stops == null) return
-                points.add(position, stops)
+                if(stop == null) return
+                points.add(position, stop)
             }
         }
 
