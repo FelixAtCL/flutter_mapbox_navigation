@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.eopeter.fluttermapboxnavigation.R
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
+import com.eopeter.fluttermapboxnavigation.databinding.MapboxActivityRouteLineBinding
 import com.eopeter.fluttermapboxnavigation.models.views.EmbeddedNavigationMapView
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import io.flutter.plugin.common.BinaryMessenger
@@ -30,7 +31,8 @@ class EmbeddedNavigationViewFactory(
             accessToken
         )
 
-        view.initialize()
+        var viewBinding = MapboxActivityRouteLineBinding.inflate(inflater)
+        view.initialize(viewBinding)
 
         activity.setTheme(R.style.Theme_AppCompat_NoActionBar)
 

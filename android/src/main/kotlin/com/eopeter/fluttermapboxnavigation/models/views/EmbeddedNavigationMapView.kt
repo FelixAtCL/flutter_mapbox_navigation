@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.View
 import com.eopeter.fluttermapboxnavigation.TurnByTurn
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
+import com.eopeter.fluttermapboxnavigation.databinding.MapboxActivityRouteLineBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import com.mapbox.geojson.Point
@@ -37,7 +38,7 @@ class EmbeddedNavigationMapView(
         super.initFlutterChannelHandlers()
     }
 
-    open fun initialize() {
+    open fun initialize(viewBinding: MapboxActivityRouteLineBinding) {
         initFlutterChannelHandlers()
         initNavigation()
 

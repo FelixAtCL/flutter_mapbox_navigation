@@ -152,6 +152,7 @@ class NavigationActivity : AppCompatActivity() {
             override fun onReceive(context: Context, intent: Intent) {
                 val stop = intent.getSerializableExtra("waypoint") as? Waypoint
                 val position = intent.getSerializableExtra("position") as? Int
+                if(position == null) return
                 points.add(position, stops)
             }
         }
