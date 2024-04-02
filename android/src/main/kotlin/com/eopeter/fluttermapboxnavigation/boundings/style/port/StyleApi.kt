@@ -39,15 +39,15 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.util.*
 
-class StyleApi(private val mapboxMap: MapboxMap, private val context: Context, private val viewId: Int) : MethodChannel.MethodCallHandler {
+class StyleApi(private val messenger: , private val mapboxMap: MapboxMap, private val viewId: Int) : MethodChannel.MethodCallHandler {
     open var methodChannel: MethodChannel? = null
 
     fun getStyleURI(methodCall: MethodCall, result: MethodChannel.Result) {
-        result.success(mapboxMap.style?.styleURI ?: "")
+        result.success(this@StyleApi.mapboxMap.style?.styleURI ?: "")
     }
 
     override fun initFlutterChannelHandlers() {
-        methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/style/${viewId}")
+        methodChannel = MethodChannel(this@StyleApi.messenger, "flutter_mapbox_navigation/style/${this@StyleApi.viewId}")
         super.initFlutterChannelHandlers()
     }
 

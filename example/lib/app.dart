@@ -193,22 +193,22 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 var uri =
                                     await _controller?.style.getStyleURI() ??
                                         "";
-                                print(uri);
-                                var state =
-                                    await _controller?.camera.getState();
-                                print(state);
-                                var bounds = await _controller?.camera
-                                    .getCoordinateBounds(CameraOptions(
-                                        zoom: 10,
-                                        center: Point(
-                                            coordinates: Position(
-                                          -122.4194,
-                                          37.7749,
-                                        )).toJson() // San Francisco
-                                        ));
-                                print(bounds);
-                                await _testSettings();
-                                await _loadMarker();
+                                // print(uri);
+                                // var state =
+                                //     await _controller?.camera.getState();
+                                // print(state);
+                                // var bounds = await _controller?.camera
+                                //     .getCoordinateBounds(CameraOptions(
+                                //         zoom: 10,
+                                //         center: Point(
+                                //             coordinates: Position(
+                                //           -122.4194,
+                                //           37.7749,
+                                //         )).toJson() // San Francisco
+                                //         ));
+                                // print(bounds);
+                                // await _testSettings();
+                                // await _loadMarker();
                               },
                         child: const Text("Test Style"),
                       ),
