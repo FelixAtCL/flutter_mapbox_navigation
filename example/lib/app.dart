@@ -210,7 +210,15 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 await _testSettings();
                                 await _loadMarker();
                               },
-                        child: const Text("Testing"),
+                        child: const Text("Test Style"),
+                      ),
+                      ElevatedButton(
+                        onPressed: _inFreeDrive
+                            ? null
+                            : () async {
+                                await _testSettings();
+                              },
+                        child: const Text("Test Settings"),
                       ),
                       ElevatedButton(
                         onPressed: _inFreeDrive
