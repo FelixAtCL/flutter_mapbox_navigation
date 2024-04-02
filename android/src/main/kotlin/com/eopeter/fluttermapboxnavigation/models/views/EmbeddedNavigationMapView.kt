@@ -7,6 +7,7 @@ import com.eopeter.fluttermapboxnavigation.TurnByTurn
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
+import com.eopeter.fluttermapboxnavigation.boundings.style.StyleApi
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
 import com.mapbox.maps.plugin.gestures.OnMapClickListener
@@ -31,6 +32,7 @@ class EmbeddedNavigationMapView(
     private val messenger: BinaryMessenger = binaryMessenger
     private val arguments = args as Map<*, *>
     private var mapView: MapView? = null
+    private var style: StyleApi?: null
 
     override fun initFlutterChannelHandlers() {
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
@@ -70,14 +72,16 @@ class EmbeddedNavigationMapView(
     private val mapViewObserver = object : MapViewObserver(), OnMapClickListener {
 
         override fun onAttached(mapView: MapView) {
-            mapView.gestures.addOnMapClickListener(this)
             super.onAttached(mapView)
+            style = StyleApi(mapView.mapboxMap, context, viewId)
+            mapView.gestures.addOnMapClickListener(this)
             this@EmbeddedNavigationMapView.mapView = mapView
         }
 
         override fun onDetached(mapView: MapView) {
-            mapView.gestures.removeOnMapClickListener(this)
             super.onDetached(mapView)
+            style = null
+            mapView.gestures.removeOnMapClickListener(this)
             this@EmbeddedNavigationMapView.mapView = null
         }
 
