@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.View
 import com.eopeter.fluttermapboxnavigation.TurnByTurn
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
-import com.eopeter.fluttermapboxnavigation.databinding.MapboxActivityRouteLineBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import com.mapbox.geojson.Point
@@ -31,6 +30,7 @@ class EmbeddedNavigationMapView(
     private val viewId: Int = vId
     private val messenger: BinaryMessenger = binaryMessenger
     private val arguments = args as Map<*, *>
+    private val mapView: MapView? = null
 
     override fun initFlutterChannelHandlers() {
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
@@ -49,7 +49,7 @@ class EmbeddedNavigationMapView(
         }
 
         if((this.arguments?.get("enableOnMapTapCallback") as Boolean)) {
-            this.binding.navigationView.registerMapObserver(onMapClick)
+            this.binding.navigationView.registerMapObserver(mapViewObserver)
         }
     }
 
@@ -59,7 +59,7 @@ class EmbeddedNavigationMapView(
 
     override fun dispose() {
         if((this.arguments?.get("enableOnMapTapCallback") as Boolean)) {
-            this.binding.navigationView.unregisterMapObserver(onMapClick)
+            this.binding.navigationView.unregisterMapObserver(mapViewObserver)
         }
         unregisterObservers()
     }
@@ -67,14 +67,18 @@ class EmbeddedNavigationMapView(
     /**
      * Notifies with attach and detach events on [MapView]
      */
-    private val onMapClick = object : MapViewObserver(), OnMapClickListener {
+    private val mapViewObserver = object : MapViewObserver(), OnMapClickListener {
 
         override fun onAttached(mapView: MapView) {
             mapView.gestures.addOnMapClickListener(this)
+            super.onAttached(mapView)
+            this@EmbeddedNavigationMapView.mapView = mapView
         }
 
         override fun onDetached(mapView: MapView) {
             mapView.gestures.removeOnMapClickListener(this)
+            super.onDetached(mapView)
+            this@EmbeddedNavigationMapView.mapView = null
         }
 
         override fun onMapClick(point: Point): Boolean {

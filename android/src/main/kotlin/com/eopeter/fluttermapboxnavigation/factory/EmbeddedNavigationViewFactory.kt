@@ -5,7 +5,6 @@ import android.content.Context
 import android.view.LayoutInflater
 import com.eopeter.fluttermapboxnavigation.R
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
-import com.eopeter.fluttermapboxnavigation.databinding.MapboxActivityRouteLineBinding
 import com.eopeter.fluttermapboxnavigation.models.views.EmbeddedNavigationMapView
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import io.flutter.plugin.common.BinaryMessenger
@@ -30,8 +29,6 @@ class EmbeddedNavigationViewFactory(
             args,
             accessToken
         )
-
-        print(binding.navigationView.mapView == null)
 
         view.initialize()
 
