@@ -6,7 +6,8 @@ import MapboxDirections
 import MapboxCoreNavigation
 import MapboxNavigation
 
-public class LocationAPI: NSObject, LocationConsumer
+public class LocationAPI: NSObject
+// , LocationConsumer
 {
     var _eventSink: FlutterEventSink? = nil
     private var mapView: MapView
