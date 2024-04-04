@@ -82,6 +82,7 @@ class EmbeddedNavigationMapView(
                     this@EmbeddedNavigationMapView.messenger,
                     mapView.getMapboxMap(),
                     this@EmbeddedNavigationMapView.viewId)
+            this@EmbeddedNavigationMapView.style.init()
         }
 
         override fun onDetached(mapView: MapView) {
