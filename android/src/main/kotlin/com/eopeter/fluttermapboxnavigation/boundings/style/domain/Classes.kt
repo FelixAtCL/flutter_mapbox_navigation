@@ -73,3 +73,81 @@ data class TransitionOptions(
         )
     }
 }
+
+/**
+ * Specifies position of a layer that is added via addStyleLayer method.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class LayerPosition(
+    /** Layer should be positioned above specified layer id. */
+    val above: String? = null,
+    /** Layer should be positioned below specified layer id. */
+    val below: String? = null,
+    /** Layer should be positioned at specified index in a layers stack. */
+    val at: Long? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LayerPosition {
+            val above = list[0] as String?
+            val below = list[1] as String?
+            val at = list[2].let { if (it is Int) it.toLong() else it as Long? }
+            return LayerPosition(above, below, at)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            above,
+            below,
+            at,
+        )
+    }
+}
+
+/** Describes the kind of a style property value. */
+enum class StylePropertyValueKind(val raw: Int) {
+    /** The property value is not defined. */
+    UNDEFINED(0),
+    /** The property value is a constant. */
+    CONSTANT(1),
+    /** The property value is a style [expression](https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions). */
+    EXPRESSION(2),
+    /** Property value is a style [transition](https://docs.mapbox.com/mapbox-gl-js/style-spec/#transition). */
+    TRANSITION(3);
+
+    companion object {
+        fun ofRaw(raw: Int): StylePropertyValueKind? {
+            return values().firstOrNull { it.raw == raw }
+        }
+    }
+}
+
+/**
+ * Holds a style property value with meta data.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class StylePropertyValue(
+    /** The property value. */
+    val value: Any? = null,
+    /** The kind of the property value. */
+    val kind: StylePropertyValueKind
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): StylePropertyValue {
+            val value = list[0]
+            val kind = StylePropertyValueKind.ofRaw(list[1] as Int)!!
+            return StylePropertyValue(value, kind)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            value,
+            kind.raw,
+        )
+    }
+}

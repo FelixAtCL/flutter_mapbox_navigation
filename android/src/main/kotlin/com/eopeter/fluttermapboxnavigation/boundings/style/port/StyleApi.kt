@@ -1,29 +1,11 @@
 package com.eopeter.fluttermapboxnavigation.boundings.style
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.Application
 import android.content.Context
-import android.location.Location
-import android.os.Bundle
-import android.util.Log
-import androidx.lifecycle.LifecycleOwner
-import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
-import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
-import com.eopeter.fluttermapboxnavigation.models.MapBoxRouteProgressEvent
-import com.eopeter.fluttermapboxnavigation.models.Waypoint
-import com.eopeter.fluttermapboxnavigation.models.WaypointSet
-import com.eopeter.fluttermapboxnavigation.utilities.CustomInfoPanelEndNavButtonBinder
-import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
-import com.eopeter.fluttermapboxnavigation.boundings.style.domain.TransitionOptions
-import com.google.gson.Gson
+import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.bindgen.DataRef
-import com.mapbox.bindgen.Value
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
-import com.mapbox.maps.extension.style.StyleContract
-import com.mapbox.maps.logE
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -67,6 +49,36 @@ class StyleApi : MethodChannel.MethodCallHandler {
             }
             "getStyleTransition" -> {
                 this.getStyleTransition(methodCall, result)
+            }
+            "setStyleTransition" -> {
+                this.setStyleTransition(methodCall, result)
+            }
+            "addStyleLayer" -> {
+                this.addStyleLayer(methodCall, result)
+            }
+            "addPersistentStyleLayer" -> {
+                this.addPersistentStyleLayer(methodCall, result)
+            }
+            "isStyleLayerPersistent" -> {
+                this.isStyleLayerPersistent(methodCall, result)
+            }
+            "removeStyleLayer" -> {
+                this.removeStyleLayer(methodCall, result)
+            }
+            "moveStyleLayer" -> {
+                this.moveStyleLayer(methodCall, result)
+            }
+            "styleLayerExists" -> {
+                this.styleLayerExists(methodCall, result)
+            }
+            "getStyleLayers" -> {
+                this.getStyleLayers(methodCall, result)
+            }
+            "getStyleLayerProperty" -> {
+                this.getStyleLayerProperty(methodCall, result)
+            }
+            "setStyleLayerProperty" -> {
+                this.setStyleLayerProperty(methodCall, result)
             }
             else -> result.notImplemented()
         }
@@ -122,74 +134,79 @@ class StyleApi : MethodChannel.MethodCallHandler {
         result.success(Unit)
     }
 
-    private fun addStyleLayer(
-        properties: String,
-        layerPosition: LayerPosition?,
-        callback: (Result<Unit>) -> Unit
-    ) {
+    private fun addStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val layerPosition = arguments["layerposition"] as? LayerPosition ?: return
+
         properties.toValue().let { parameters ->
-            val expected = mapboxMap.addStyleLayer(
+            val expected = mapboxMap.getStyle()?.addStyleLayer(
                 parameters,
                 com.mapbox.maps.LayerPosition(
-                    layerPosition?.above,
-                    layerPosition?.below,
-                    layerPosition?.at?.toInt()
+                    layerPosition.above,
+                    layerPosition.below,
+                    layerPosition.at?.toInt()
                 )
             )
-            if (expected.isError) {
-                callback(Result.failure(Throwable(expected.error)))
+            if (expected == null || expected.isError) {
+                result.failure(Throwable(expected?.error ?: "expected is null"))
             } else {
-                callback(Result.success(Unit))
+                result.success(Unit)
             }
+            return Unit
         }
     }
 
-    override fun addPersistentStyleLayer(
-        properties: String,
-        layerPosition: LayerPosition?,
-        callback: (Result<Unit>) -> Unit
-    ) {
+    private fun addPersistentStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val layerPosition = arguments["layerposition"] as? LayerPosition ?: return
+
         properties.toValue().let { parameters ->
-            val expected = mapboxMap.addPersistentStyleLayer(
+            val expected = mapboxMap.getStyle()?.addPersistentStyleLayer(
                 parameters,
                 com.mapbox.maps.LayerPosition(
-                    layerPosition?.above,
-                    layerPosition?.below,
-                    layerPosition?.at?.toInt()
+                    layerPosition.above,
+                    layerPosition.below,
+                    layerPosition.at?.toInt()
                 )
             )
-            if (expected.isError) {
-                callback(Result.failure(Throwable(expected.error)))
+            if (expected == null || expected.isError) {
+                result.failure(Throwable(expected?.error ?: "expected is null"))
             } else {
-                callback(Result.success(Unit))
+                result.success(Unit)
             }
+            return Unit
         }
     }
 
-    override fun isStyleLayerPersistent(layerId: String, callback: (Result<Boolean>) -> Unit) {
-        val expected = mapboxMap.isStyleLayerPersistent(layerId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun isStyleLayerPersistent(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.isStyleLayerPersistent(layerId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(expected.value!!))
+            result.success(expected.value!!)
         }
     }
 
-    override fun removeStyleLayer(layerId: String, callback: (Result<Unit>) -> Unit) {
-        val expected = mapboxMap.removeStyleLayer(layerId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun removeStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.removeStyleLayer(layerId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun moveStyleLayer(
-        layerId: String,
-        layerPosition: LayerPosition?,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.moveStyleLayer(
+    private fun moveStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        var layerPosition = arguments["layerposition"] as? LayerPosition
+        val expected = mapboxMap.getStyle()?.moveStyleLayer(
             layerId,
             if (layerPosition != null) com.mapbox.maps.LayerPosition(
                 layerPosition.above,
@@ -197,51 +214,50 @@ class StyleApi : MethodChannel.MethodCallHandler {
                 layerPosition.at?.toInt()
             ) else null
         )
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun styleLayerExists(layerId: String, callback: (Result<Boolean>) -> Unit) {
-        val expected = mapboxMap.styleLayerExists(layerId)
-        callback(Result.success(expected))
+    private fun styleLayerExists(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.styleLayerExists(layerId)
+        result.success(expected)
     }
 
-    override fun getStyleLayers(callback: (Result<List<StyleObjectInfo?>>) -> Unit) {
-        callback(
-            Result.success(
-                mapboxMap.styleLayers.map { it.toFLTStyleObjectInfo() }.toMutableList()
-            )
-        )
+    private fun getStyleLayers(methodCall: MethodCall, result: MethodChannel.Result) {
+        result.success(mapboxMap.getStyle()?.styleLayers?.map { it.toFLTStyleObjectInfo() }?.toMutableList())
     }
 
-    override fun getStyleLayerProperty(
-        layerId: String,
-        property: String,
-        callback: (Result<StylePropertyValue>) -> Unit
-    ) {
-        val styleLayerProperty = mapboxMap.getStyleLayerProperty(layerId, property)
+    private fun getStyleLayerProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val property = arguments["property"] as? String ?: return
+        val styleLayerProperty = mapboxMap.getStyle()?.getStyleLayerProperty(layerId, property)
+        if(styleLayerProperty == null) {
+            result.failure(null)
+            return
+        }
         val stylePropertyValueKind =
             StylePropertyValueKind.values()[styleLayerProperty.kind.ordinal]
         val stylePropertyValue =
             StylePropertyValue(styleLayerProperty.value.toFLTValue(), stylePropertyValueKind)
-        callback(Result.success(stylePropertyValue))
+        result.success(stylePropertyValue)
     }
 
-    override fun setStyleLayerProperty(
-        layerId: String,
-        property: String,
-        value: Any,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected =
-            mapboxMap.setStyleLayerProperty(layerId, property, value.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleLayerProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val property = arguments["property"] as? String ?: return
+        val value = arguments["value"] as? Any ?: return
+        val expected = mapboxMap.getStyle()?.setStyleLayerProperty(layerId, property, value.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
@@ -593,71 +609,4 @@ class StyleApi : MethodChannel.MethodCallHandler {
             callback(Result.success(Unit))
         }
     }
-}
-
-fun Any.toValue(): Value {
-    return if (this is String) {
-        if (this.startsWith("{") || this.startsWith("[")) {
-            Value.fromJson(this).value!!
-        } else {
-            val number = this.toDoubleOrNull()
-            if (number != null) {
-                Value.valueOf(number)
-            } else {
-                Value.valueOf(this)
-            }
-        }
-    } else if (this is Double) {
-        Value.valueOf(this)
-    } else if (this is Long) {
-        Value.valueOf(this)
-    } else if (this is Int) {
-        Value.valueOf(this.toLong())
-    } else if (this is Boolean) {
-        Value.valueOf(this)
-    } else if (this is IntArray) {
-        val valueArray = this.map { Value(it.toLong()) }
-        Value(valueArray)
-    } else if (this is BooleanArray) {
-        val valueArray = this.map(::Value)
-        Value(valueArray)
-    } else if (this is DoubleArray) {
-        val valueArray = this.map(::Value)
-        Value(valueArray)
-    } else if (this is FloatArray) {
-        val valueArray = this.map { Value(it.toDouble()) }
-        Value(valueArray)
-    } else if (this is LongArray) {
-        val valueArray = this.map(::Value)
-        Value(valueArray)
-    } else if (this is Array<*>) {
-        val valueArray = this.map { it?.toValue() }
-        Value(valueArray)
-    } else if (this is List<*>) {
-        val valueArray = this.map { it?.toValue() }
-        Value(valueArray)
-    } else {
-        logE(
-            "StyleController",
-            "Can not map value, type is not supported: ${this::class.java.canonicalName}"
-        )
-        Value.valueOf("")
-    }
-}
-
-fun Value.toFLTValue(): Any? {
-    return when (contents) {
-        is List<*> -> {
-            (contents as List<*>).map { (it as? Value)?.toFLTValue() ?: it }
-        }
-        is Map<*, *> -> {
-            (contents as Map<*, *>)
-                .mapKeys { (it.key as? Value)?.toFLTValue() ?: it.key }
-                .mapValues { (it.value as? Value)?.toFLTValue() ?: it.value }
-        }
-        else -> {
-            contents
-        }
-    }
-
 }
