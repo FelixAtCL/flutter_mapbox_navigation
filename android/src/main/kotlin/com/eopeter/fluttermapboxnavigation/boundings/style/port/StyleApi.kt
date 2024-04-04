@@ -38,7 +38,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         this@StyleApi.viewId = viewId
     }
 
-    open fun init() {
+    fun init() {
         this.methodChannel = MethodChannel(this.messenger, "flutter_mapbox_navigation/style/${this.viewId}")
         this.methodChannel?.setMethodCallHandler(this)
     }
