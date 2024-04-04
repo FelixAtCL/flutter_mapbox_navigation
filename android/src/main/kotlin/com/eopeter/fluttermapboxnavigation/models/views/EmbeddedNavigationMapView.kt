@@ -80,7 +80,7 @@ class EmbeddedNavigationMapView(
             this@EmbeddedNavigationMapView.mapboxMap = mapView.getMapboxMap()
             this@EmbeddedNavigationMapView.style = StyleApi(
                     this@EmbeddedNavigationMapView.messenger,
-                    this@EmbeddedNavigationMapView.mapboxMap,
+                    mapView.getMapboxMap(),
                     this@EmbeddedNavigationMapView.viewId)
         }
 

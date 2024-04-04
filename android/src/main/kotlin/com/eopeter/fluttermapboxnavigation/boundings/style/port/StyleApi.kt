@@ -21,7 +21,6 @@ import com.mapbox.bindgen.Value
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.logE
-import com.mapbox.maps.mapbox_maps.pigeons.*
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
