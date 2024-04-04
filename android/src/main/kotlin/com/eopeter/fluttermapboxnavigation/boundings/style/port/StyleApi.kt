@@ -20,10 +20,6 @@ import com.mapbox.bindgen.DataRef
 import com.mapbox.bindgen.Value
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.localization.localizeLabels
-import com.mapbox.maps.extension.style.light.setLight
-import com.mapbox.maps.extension.style.projection.generated.getProjection
-import com.mapbox.maps.extension.style.projection.generated.setProjection
 import com.mapbox.maps.logE
 import com.mapbox.maps.mapbox_maps.pigeons.*
 import io.flutter.plugin.common.BinaryMessenger
@@ -34,10 +30,10 @@ import java.util.*
 class StyleApi : MethodChannel.MethodCallHandler {
     open var methodChannel: MethodChannel? = null
     private val messenger: BinaryMessenger
-    private val mapboxMap: MapboxMap?
+    private val mapboxMap: MapboxMap
     private val viewId: Int
 
-    constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap?, viewId: Int) {
+    constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int) {
         this@StyleApi.messenger = messenger
         this@StyleApi.mapboxMap = mapboxMap
         this@StyleApi.viewId = viewId
@@ -45,7 +41,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
     }
 
     fun getStyleURI(methodCall: MethodCall, result: MethodChannel.Result) {
-        result.success(mapboxMap?.style?.styleURI ?: "")
+        result.success(mapboxMap.getStyle()?.styleURI ?: "")
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
