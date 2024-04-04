@@ -350,7 +350,7 @@ open class TurnByTurn(
         FlutterMapboxNavigationPlugin.eventSink = null
     }
 
-    private val context: Context = ctx
+    open val context: Context = ctx
     val activity: Activity = act
     private val token: String = accessToken
     open var methodChannel: MethodChannel? = null

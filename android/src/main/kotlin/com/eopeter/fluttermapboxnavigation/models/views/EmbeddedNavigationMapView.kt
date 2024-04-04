@@ -84,7 +84,9 @@ class EmbeddedNavigationMapView(
             var style =  StyleApi(
                     this@EmbeddedNavigationMapView.messenger,
                     mapView.getMapboxMap(),
-                    this@EmbeddedNavigationMapView.viewId)
+                    this@EmbeddedNavigationMapView.viewId,
+                    this@EmbeddedNavigationMapView.context
+                )
             style.init()
             this@EmbeddedNavigationMapView.style = style
         }
