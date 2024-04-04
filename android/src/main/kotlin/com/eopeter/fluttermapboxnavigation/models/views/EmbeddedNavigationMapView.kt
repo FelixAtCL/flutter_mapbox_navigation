@@ -32,7 +32,7 @@ class EmbeddedNavigationMapView(
     private val messenger: BinaryMessenger = binaryMessenger
     private val arguments = args as Map<*, *>
     private var mapView: MapView? = null
-    private var style: StyleApi?: null
+    private var style: StyleApi? = null
 
     override fun initFlutterChannelHandlers() {
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
