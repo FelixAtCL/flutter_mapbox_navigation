@@ -53,7 +53,7 @@ class EmbeddedNavigationMapView(
             }
         }
 
-        var enableOMTC = this.arguments?.get("enableOnMapTapCallback") as Boolean
+        var enableOMTC = this.arguments?.get("enableOnMapTapCallback") as? Boolean
         if(enableOMTC != null) {
             this.enableOnMapTapCallback = enableOMTC
         }
