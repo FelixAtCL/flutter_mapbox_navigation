@@ -45,7 +45,6 @@ class StyleApi : MethodChannel.MethodCallHandler {
     private val mapboxMap: MapboxMap
     private val viewId: Int
 
-
     constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int) {
         this@StyleApi.messenger = messenger
         this@StyleApi.mapboxMap = mapboxMap
@@ -54,7 +53,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
     }
 
     fun getStyleURI(methodCall: MethodCall, result: MethodChannel.Result) {
-        result.success(this@StyleApi.mapboxMap.style?.styleURI ?: "")
+        result.success(mapboxMap.style?.styleURI ?: "")
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
