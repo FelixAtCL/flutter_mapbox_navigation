@@ -36,7 +36,8 @@ class StyleApi : MethodChannel.MethodCallHandler {
         this@StyleApi.messenger = messenger
         this@StyleApi.mapboxMap = mapboxMap
         this@StyleApi.viewId = viewId
-        methodChannel = MethodChannel(this@StyleApi.messenger, "flutter_mapbox_navigation/style/${this@StyleApi.viewId}")
+        methodChannel = MethodChannel(this@StyleApi.messenger, "flutter_mapbox_navigation/style/${viewId}")
+        methodChannel?.setMethodCallHandler(this)
     }
 
     fun getStyleURI(methodCall: MethodCall, result: MethodChannel.Result) {

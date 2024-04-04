@@ -193,7 +193,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 var uri =
                                     await _controller?.style.getStyleURI() ??
                                         "";
-                                // print(uri);
+                                print(uri);
                                 // var state =
                                 //     await _controller?.camera.getState();
                                 // print(state);
@@ -216,7 +216,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         onPressed: _inFreeDrive
                             ? null
                             : () async {
-                                await _testSettings();
+                                // await _testSettings();
                               },
                         child: const Text("Test Settings"),
                       ),
@@ -255,8 +255,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
                       controller.initialize();
-                      _listenOnTap();
-                      _listenOnCameraChange();
+                      // _listenOnTap();
+                      // _listenOnCameraChange();
                     }),
               ),
             )
