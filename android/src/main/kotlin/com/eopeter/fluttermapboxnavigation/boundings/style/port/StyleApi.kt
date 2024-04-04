@@ -34,12 +34,12 @@ import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.trip.session.*
-import io.flutter.plugin.common.EventChannel
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import java.util.*
 
-class StyleApi(private val messenger: , private val mapboxMap: MapboxMap, private val viewId: Int) : MethodChannel.MethodCallHandler {
+class StyleApi(private val messenger: BinaryMessenger, private val mapboxMap: MapboxMap, private val viewId: Int) : MethodChannel.MethodCallHandler {
     open var methodChannel: MethodChannel? = null
 
     fun getStyleURI(methodCall: MethodCall, result: MethodChannel.Result) {
