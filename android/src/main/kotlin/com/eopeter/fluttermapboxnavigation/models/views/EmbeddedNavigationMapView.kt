@@ -35,6 +35,7 @@ class EmbeddedNavigationMapView(
     private var mapView: MapView? = null
     private var mapboxMap: MapboxMap? = null
     private var style: StyleApi? = null
+    private var enableOnMapTapCallback: Boolean = false
 
     override fun initFlutterChannelHandlers() {
         methodChannel = MethodChannel(messenger, "flutter_mapbox_navigation/${viewId}")
@@ -52,9 +53,8 @@ class EmbeddedNavigationMapView(
             }
         }
 
-        if((this.arguments?.get("enableOnMapTapCallback") as Boolean)) {
-            this.binding.navigationView.registerMapObserver(mapViewObserver)
-        }
+        enableOnMapTapCallback = this.arguments?.get("enableOnMapTapCallback") as Boolean
+        this.binding.navigationView.registerMapObserver(mapViewObserver)
     }
 
     override fun getView(): View {
@@ -62,9 +62,7 @@ class EmbeddedNavigationMapView(
     }
 
     override fun dispose() {
-        if((this.arguments?.get("enableOnMapTapCallback") as Boolean)) {
-            this.binding.navigationView.unregisterMapObserver(mapViewObserver)
-        }
+        this.binding.navigationView.unregisterMapObserver(mapViewObserver)
         unregisterObservers()
     }
 
@@ -75,7 +73,9 @@ class EmbeddedNavigationMapView(
 
         override fun onAttached(mapView: MapView) {
             super.onAttached(mapView)
-            mapView.gestures.addOnMapClickListener(this)
+            if(this@EmbeddedNavigationMapView.enableOnMapTapCallback) {
+                mapView.gestures.addOnMapClickListener(this)
+            }
             this@EmbeddedNavigationMapView.mapView = mapView
             this@EmbeddedNavigationMapView.mapboxMap = mapView.getMapboxMap()
             var style =  StyleApi(
@@ -88,7 +88,9 @@ class EmbeddedNavigationMapView(
 
         override fun onDetached(mapView: MapView) {
             super.onDetached(mapView)
-            mapView.gestures.removeOnMapClickListener(this)
+            if(this@EmbeddedNavigationMapView.enableOnMapTapCallback) {
+                mapView.gestures.removeOnMapClickListener(this)
+            }
             this@EmbeddedNavigationMapView.style = null
             this@EmbeddedNavigationMapView.mapView = null
             this@EmbeddedNavigationMapView.mapboxMap = null
