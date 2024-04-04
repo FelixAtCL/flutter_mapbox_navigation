@@ -10,6 +10,7 @@ import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import com.eopeter.fluttermapboxnavigation.boundings.style.StyleApi
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
+import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.plugin.gestures.OnMapClickListener
 import com.mapbox.maps.plugin.gestures.gestures
 import com.mapbox.navigation.dropin.map.MapViewObserver
@@ -32,6 +33,7 @@ class EmbeddedNavigationMapView(
     private val messenger: BinaryMessenger = binaryMessenger
     private val arguments = args as Map<*, *>
     private var mapView: MapView? = null
+    private var mapboxMap: MapboxMap? = null
     private var style: StyleApi? = null
 
     override fun initFlutterChannelHandlers() {
@@ -76,9 +78,10 @@ class EmbeddedNavigationMapView(
             mapView.gestures.addOnMapClickListener(this)
             if(mapView == null) return
             this@EmbeddedNavigationMapView.mapView = mapView
+            this@EmbeddedNavigationMapView.mapboxMap = mapView.mapboxMap
             this@EmbeddedNavigationMapView.style = StyleApi(
                     this@EmbeddedNavigationMapView.messenger,
-                    this@EmbeddedNavigationMapView.mapView?.mapboxMap,
+                    this@EmbeddedNavigationMapView.mapboxMap,
                     this@EmbeddedNavigationMapView.viewId)
         }
 
@@ -87,6 +90,7 @@ class EmbeddedNavigationMapView(
             mapView.gestures.removeOnMapClickListener(this)
             this@EmbeddedNavigationMapView.style = null
             this@EmbeddedNavigationMapView.mapView = null
+            this@EmbeddedNavigationMapView.mapboxMap = null
         }
 
         override fun onMapClick(point: Point): Boolean {
