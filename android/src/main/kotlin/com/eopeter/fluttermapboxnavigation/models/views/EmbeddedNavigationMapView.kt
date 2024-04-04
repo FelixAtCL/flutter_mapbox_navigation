@@ -78,11 +78,12 @@ class EmbeddedNavigationMapView(
             mapView.gestures.addOnMapClickListener(this)
             this@EmbeddedNavigationMapView.mapView = mapView
             this@EmbeddedNavigationMapView.mapboxMap = mapView.getMapboxMap()
-            this@EmbeddedNavigationMapView.style = StyleApi(
+            var style =  StyleApi(
                     this@EmbeddedNavigationMapView.messenger,
                     mapView.getMapboxMap(),
                     this@EmbeddedNavigationMapView.viewId)
-            this@EmbeddedNavigationMapView.style?.init()
+            style.init()
+            this@EmbeddedNavigationMapView.style = style
         }
 
         override fun onDetached(mapView: MapView) {
