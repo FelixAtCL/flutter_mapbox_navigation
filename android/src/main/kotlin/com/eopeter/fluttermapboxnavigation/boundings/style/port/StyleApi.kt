@@ -14,7 +14,6 @@ import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.localization.localizeLabels
 import com.mapbox.maps.extension.style.projection.generated.getProjection
 import com.mapbox.maps.extension.style.projection.generated.setProjection
-import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.decodeFromString
 import io.flutter.plugin.common.BinaryMessenger
@@ -225,7 +224,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
             .delay(transitionOptions.delay)
             .duration(transitionOptions.duration)
             .enablePlacementTransitions(transitionOptions.enablePlacementTransitions).build()
-        result.success(Unit)
+        result.success(null)
     }
 
     private fun addStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -243,9 +242,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
                 )
             )
             if (expected == null || expected.isError) {
-                result.failure(Throwable(expected?.error ?: "expected is null"))
+                result.success(expected?.error ?: "expected is null")
             } else {
-                result.success(Unit)
+                result.success(null)
             }
             return Unit
         }
@@ -266,9 +265,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
                 )
             )
             if (expected == null || expected.isError) {
-                result.failure(Throwable(expected?.error ?: "expected is null"))
+                result.success(expected?.error ?: "expected is null")
             } else {
-                result.success(Unit)
+                result.success(null)
             }
             return Unit
         }
@@ -279,7 +278,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val layerId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.isStyleLayerPersistent(layerId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(expected.value!!)
         }
@@ -290,9 +289,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val layerId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.removeStyleLayer(layerId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -309,9 +308,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
             ) else null
         )
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -332,7 +331,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val property = arguments["property"] as? String ?: return
         val styleLayerProperty = mapboxMap.getStyle()?.getStyleLayerProperty(layerId, property)
         if(styleLayerProperty == null) {
-            result.failure(null)
+            result.success(null)
             return
         }
         val stylePropertyValueKind =
@@ -349,9 +348,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val value = arguments["value"] as? Any ?: return
         val expected = mapboxMap.getStyle()?.setStyleLayerProperty(layerId, property, value.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -360,7 +359,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val layerId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.getStyleLayerProperties(layerId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(expected.value!!.toJson())
         }
@@ -372,9 +371,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val properties = arguments["properties"] as? String ?: return
         val expected = mapboxMap.getStyle()?.setStyleLayerProperties(layerId, properties.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -384,9 +383,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val properties = arguments["properties"] as? String ?: return
         val expected = mapboxMap.getStyle()?.addStyleSource(sourceId, properties.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -397,7 +396,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val styleLayerProperty = mapboxMap.getStyle()?.getStyleSourceProperty(sourceId, property)
 
         if(styleLayerProperty == null) {
-            result.failure(null)
+            result.success(null)
             return
         }
 
@@ -414,9 +413,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val value = arguments["value"] ?: return
         val expected = mapboxMap.getStyle()?.setStyleSourceProperty(sourceId, property, value.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -425,7 +424,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val sourceId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.getStyleSourceProperties(sourceId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(expected.value!!.toJson())
         }
@@ -437,9 +436,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val properties = arguments["properties"] as? String ?: return
         val expected = mapboxMap.getStyle()?.setStyleSourceProperties(sourceId, properties.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -467,9 +466,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
             )
         )
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -478,9 +477,9 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val sourceId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.removeStyleSource(sourceId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
-            result.success(Unit)
+            result.success(null)
         }
     }
 
@@ -493,7 +492,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
 
     private fun getStyleSources(methodCall: MethodCall, result: MethodChannel.Result) {
         result.success(
-                mapboxMap.getStyle()?.styleSources?.map { it.toFLTStyleObjectInfo() }?.toMutableList() ?: emptyList()
+                mapboxMap.getStyle()?.styleSources?.map { it.toFLTStyleObjectInfo() }?.toMutableList() ?: emptyList<StyleObjectInfo>()
             )
     }
 
@@ -513,7 +512,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         if (styleLightProperty != null) {
             result.success(StylePropertyValue(styleLightProperty.value.toFLTValue(), StylePropertyValueKind.values()[styleLightProperty.kind.ordinal]))
         } else {
-            result.failure(Throwable("No style available"))
+            result.success("No style available")
         }
     }
 
@@ -523,7 +522,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val value = arguments["value"] ?: return
         val expected = mapboxMap.getStyle()?.setStyleLightProperty(property, value.toValue())
         if (expected?.isError == true) {
-            result.failure(Throwable(expected.error))
+            result.success(expected.error)
         } else {
             result.success(null)
         }
@@ -534,7 +533,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val properties = arguments["properties"] as? String ?: return
         val expected = mapboxMap.getStyle()?.setStyleTerrain(properties.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(null)
         }
@@ -563,7 +562,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val value = arguments["value"] ?: return
         val expected = mapboxMap.getStyle()?.setStyleTerrainProperty(property, value.toValue())
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(null)
         }
@@ -629,7 +628,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
             } else null
         )
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(null)
         }
@@ -640,7 +639,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val imageId = arguments["id"] as? String ?: return
         val expected = mapboxMap.getStyle()?.removeStyleImage(imageId)
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(null)
         }
@@ -663,7 +662,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
             )
         )
         if (expected == null || expected.isError) {
-            result.failure(Throwable(expected?.error ?: "expected is null"))
+            result.success(expected?.error ?: "expected is null")
         } else {
             result.success(null)
         }
@@ -693,6 +692,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val projection = arguments["projection"] as? StyleProjection ?: return
         mapboxMap.getStyle()?.setProjection(projection.toProjection())
+        result.success(null)
     }
 
     private fun localizeLabels(methodCall: MethodCall, result: MethodChannel.Result) {

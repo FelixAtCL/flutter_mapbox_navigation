@@ -1645,4 +1645,3 @@ data class CameraState(
         )
     }
 }
-

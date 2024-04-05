@@ -3,26 +3,22 @@ package com.eopeter.fluttermapboxnavigation.boundings.style.application
 import android.content.Context
 import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.bindgen.Value
-import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.EdgeInsets
-import com.mapbox.maps.ScreenCoordinate
-import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
 
-fun CameraOptions.toFLTCameraOptions(context: Context): CameraOptions {
-    var builder = CameraOptions.Builder()
-    builder.anchor(anchor?.toFLTScreenCoordinate(context))
-    builder.center(center)
-    builder.padding(padding?.toFLTEdgeInsets(context))
-    builder.zoom(zoom)
-    builder.bearing(bearing)
-    builder.pitch(pitch)
-    return builder.build()
+fun com.mapbox.maps.CameraOptions.toFLTCameraOptions(context: Context): CameraOptions {
+    return CameraOptions(
+        center = center,
+        anchor = anchor?.toFLTScreenCoordinate(context),
+        padding = padding?.toFLTEdgeInsets(context),
+        zoom = zoom,
+        pitch = pitch,
+        bearing = bearing
+    )
 }
 
-fun EdgeInsets.toFLTEdgeInsets(context: Context): EdgeInsets = EdgeInsets(
+fun com.mapbox.maps.EdgeInsets.toFLTEdgeInsets(context: Context): MbxEdgeInsets = MbxEdgeInsets(
     top.toLogicalPixels(context),
     left.toLogicalPixels(context),
     bottom.toLogicalPixels(context),
