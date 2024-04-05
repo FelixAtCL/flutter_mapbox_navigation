@@ -1,14 +1,27 @@
 package com.eopeter.fluttermapboxnavigation.boundings.style
 
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.provider.ContactsContract
+import androidx.appcompat.view.menu.ListMenuItemView
 import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.bindgen.DataRef
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
+import com.mapbox.maps.StyleObjectInfo
+import com.mapbox.maps.extension.localization.localizeLabels
+import com.mapbox.maps.extension.style.projection.generated.getProjection
+import com.mapbox.maps.extension.style.projection.generated.setProjection
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.decodeFromString
 import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.StandardMethodCodec
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import java.nio.ByteBuffer
 import java.util.*
 
 class StyleApi : MethodChannel.MethodCallHandler {
@@ -26,7 +39,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
     }
 
     fun init() {
-        this.methodChannel = MethodChannel(this.messenger, "flutter_mapbox_navigation/style/${this.viewId}")
+        this.methodChannel = MethodChannel(this.messenger, "flutter_mapbox_navigation/style/${this.viewId}", StandardMethodCodec(StyleApiCodec))
         this.methodChannel?.setMethodCallHandler(this)
     }
 
@@ -79,6 +92,87 @@ class StyleApi : MethodChannel.MethodCallHandler {
             }
             "setStyleLayerProperty" -> {
                 this.setStyleLayerProperty(methodCall, result)
+            }
+            "getStyleLayerProperties" -> {
+                this.getStyleLayerProperties(methodCall, result)
+            }
+            "setStyleLayerProperties" -> {
+                this.setStyleLayerProperties(methodCall, result)
+            }
+            "addStyleSource" -> {
+                this.addStyleSource(methodCall, result)
+            }
+            "getStyleSourceProperty" -> {
+                this.getStyleSourceProperty(methodCall, result)
+            }
+            "setStyleSourceProperty" -> {
+                this.setStyleSourceProperty(methodCall, result)
+            }
+            "getStyleSourceProperties" -> {
+                this.getStyleSourceProperties(methodCall, result)
+            }
+            "setStyleSourceProperties" -> {
+                this.setStyleSourceProperties(methodCall, result)
+            }
+            "updateStyleImageSourceImage" -> {
+                this.updateStyleImageSourceImage(methodCall, result)
+            }
+            "removeStyleSource" -> {
+                this.removeStyleSource(methodCall, result)
+            }
+            "styleSourceExists" -> {
+                this.styleSourceExists(methodCall, result)
+            }
+            "getStyleSources" -> {
+                this.getStyleSources(methodCall, result)
+            }
+            "setStyleLight" -> {
+                this.setStyleLight(methodCall, result)
+            }
+            "getStyleLightProperty" -> {
+                this.getStyleLightProperty(methodCall, result)
+            }
+            "setStyleLightProperty" -> {
+                this.setStyleLightProperty(methodCall, result)
+            }
+            "setStyleTerrain" -> {
+                this.setStyleTerrain(methodCall, result)
+            }
+            "getStyleTerrainProperty" -> {
+                this.getStyleTerrainProperty(methodCall, result)
+            }
+            "setStyleTerrainProperty" -> {
+                this.setStyleTerrainProperty(methodCall, result)
+            }
+            "getStyleImage" -> {
+                this.getStyleImage(methodCall, result)
+            }
+            "addStyleImage" -> {
+                this.addStyleImage(methodCall, result)
+            }
+            "removeStyleImage" -> {
+                this.removeStyleImage(methodCall, result)
+            }
+            "hasStyleImage" -> {
+                this.hasStyleImage(methodCall, result)
+            }
+            "invalidateStyleCustomGeometrySourceTile" -> {
+                this.invalidateStyleCustomGeometrySourceTile(methodCall, result)
+            }
+            "invalidateStyleCustomGeometrySourceRegion" -> {
+                this.invalidateStyleCustomGeometrySourceRegion(methodCall, result)
+            }
+            "isStyleLoaded" -> {
+                this.isStyleLoaded(methodCall, result)
+            }
+            "getProjection" -> {
+                this.getProjection(methodCall, result)
+            }
+            "setProjection" -> {
+                this.setProjection(methodCall, result)
+            }
+            "localizeLabels" -> {
+                this.localizeLabels(methodCall, result)
             }
             else -> result.notImplemented()
         }
@@ -261,97 +355,98 @@ class StyleApi : MethodChannel.MethodCallHandler {
         }
     }
 
-    override fun getStyleLayerProperties(layerId: String, callback: (Result<String>) -> Unit) {
-        val expected = mapboxMap.getStyleLayerProperties(layerId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun getStyleLayerProperties(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.getStyleLayerProperties(layerId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(expected.value!!.toJson()))
+            result.success(expected.value!!.toJson())
         }
     }
 
-    override fun setStyleLayerProperties(
-        layerId: String,
-        properties: String,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.setStyleLayerProperties(layerId, properties.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleLayerProperties(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val layerId = arguments["id"] as? String ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.setStyleLayerProperties(layerId, properties.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun addStyleSource(
-        sourceId: String,
-        properties: String,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.addStyleSource(sourceId, properties.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun addStyleSource(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.addStyleSource(sourceId, properties.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun getStyleSourceProperty(
-        sourceId: String,
-        property: String,
-        callback: (Result<StylePropertyValue>) -> Unit
-    ) {
-        val styleLayerProperty = mapboxMap.getStyleSourceProperty(sourceId, property)
-        val stylePropertyValueKind =
-            StylePropertyValueKind.values()[styleLayerProperty.kind.ordinal]
+    private fun getStyleSourceProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val property = arguments["property"] as? String ?: return
+        val styleLayerProperty = mapboxMap.getStyle()?.getStyleSourceProperty(sourceId, property)
+
+        if(styleLayerProperty == null) {
+            result.failure(null)
+            return
+        }
+
+        val stylePropertyValueKind = StylePropertyValueKind.values()[styleLayerProperty.kind.ordinal]
         val value = styleLayerProperty.value.toFLTValue()
-        val stylePropertyValue =
-            StylePropertyValue(value, stylePropertyValueKind)
-        callback(Result.success(stylePropertyValue))
+        val stylePropertyValue = StylePropertyValue(value, stylePropertyValueKind)
+        result.success(stylePropertyValue)
     }
 
-    override fun setStyleSourceProperty(
-        sourceId: String,
-        property: String,
-        value: Any,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected =
-            mapboxMap.setStyleSourceProperty(sourceId, property, value.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleSourceProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val property = arguments["property"] as? String ?: return
+        val value = arguments["value"] ?: return
+        val expected = mapboxMap.getStyle()?.setStyleSourceProperty(sourceId, property, value.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun getStyleSourceProperties(sourceId: String, callback: (Result<String>) -> Unit) {
-        val expected = mapboxMap.getStyleSourceProperties(sourceId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun getStyleSourceProperties(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.getStyleSourceProperties(sourceId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(expected.value!!.toJson()))
+            result.success(expected.value!!.toJson())
         }
     }
 
-    override fun setStyleSourceProperties(
-        sourceId: String,
-        properties: String,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.setStyleSourceProperties(sourceId, properties.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleSourceProperties(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.setStyleSourceProperties(sourceId, properties.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun updateStyleImageSourceImage(
-        sourceId: String,
-        image: MbxImage,
-        callback: (Result<Unit>) -> Unit
-    ) {
+    private fun updateStyleImageSourceImage(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val image = arguments["image"] as? MbxImage ?: return
         var bitmap = BitmapFactory.decodeByteArray(
             image.data,
             0,
@@ -363,216 +458,142 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val byteBuffer = ByteBuffer.allocateDirect(bitmap.byteCount)
         bitmap.copyPixelsToBuffer(byteBuffer)
 
-        val expected = mapboxMap.updateStyleImageSourceImage(
+        val expected = mapboxMap.getStyle()?.updateStyleImageSourceImage(
             sourceId,
             Image(
                 image.width.toInt(),
                 image.height.toInt(),
-                DataRef(byteBuffer)
+                byteBuffer.array()
             )
         )
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun removeStyleSource(sourceId: String, callback: (Result<Unit>) -> Unit) {
-        val expected = mapboxMap.removeStyleSource(sourceId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun removeStyleSource(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.removeStyleSource(sourceId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(Unit)
         }
     }
 
-    override fun styleSourceExists(sourceId: String, callback: (Result<Boolean>) -> Unit) {
-        val expected = mapboxMap.styleSourceExists(sourceId)
-        callback(Result.success(expected))
+    private fun styleSourceExists(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.styleSourceExists(sourceId)
+        result.success(expected ?: false)
     }
 
-    override fun getStyleSources(callback: (Result<List<StyleObjectInfo?>>) -> Unit) {
-        callback(
-            Result.success(
-                mapboxMap.styleSources.map { it.toFLTStyleObjectInfo() }.toMutableList()
+    private fun getStyleSources(methodCall: MethodCall, result: MethodChannel.Result) {
+        result.success(
+                mapboxMap.getStyle()?.styleSources?.map { it.toFLTStyleObjectInfo() }?.toMutableList() ?: emptyList()
             )
-        )
     }
 
-    override fun getStyleLights(): List<StyleObjectInfo> {
-        return mapboxMap.style?.getStyleLights()?.map { it.toFLTStyleObjectInfo() }
-            ?: listOf()
+    private fun setStyleLight(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val parameters = Json.decodeFromString<ContactsContract.Data>(properties) ?: return
+        mapboxMap.getStyle()?.setStyleLight(parameters)
+        result.success(null)
     }
 
-    override fun setLight(flatLight: FlatLight) {
-        mapboxMap.style?.setLight(flatLight.toFlatLight())
-    }
-
-    override fun setLights(
-        ambientLight: AmbientLight,
-        directionalLight: DirectionalLight
-    ) {
-        mapboxMap.style?.setLight(ambientLight.toAmbientLight(), directionalLight.toDirectionalLight())
-    }
-
-    override fun getStyleLightProperty(
-        id: String,
-        property: String,
-        callback: (Result<StylePropertyValue>) -> Unit
-    ) {
-        val styleLightProperty = mapboxMap.style?.getStyleLightProperty(id, property)
+    private fun getStyleLightProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val property = arguments["property"] as? String ?: return
+        val styleLightProperty = mapboxMap.getStyle()?.getStyleLightProperty(property)
 
         if (styleLightProperty != null) {
-            callback(
-                Result.success(
-                    StylePropertyValue(styleLightProperty.value.toFLTValue(), StylePropertyValueKind.values()[styleLightProperty.kind.ordinal])
-                )
-            )
+            result.success(StylePropertyValue(styleLightProperty.value.toFLTValue(), StylePropertyValueKind.values()[styleLightProperty.kind.ordinal]))
         } else {
-            callback(Result.failure(Throwable("No style available")))
+            result.failure(Throwable("No style available"))
         }
     }
 
-    override fun setStyleLightProperty(
-        id: String,
-        property: String,
-        value: Any,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.style?.setStyleLightProperty(id, property, value.toValue())
+    private fun setStyleLightProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val property = arguments["property"] as? String ?: return
+        val value = arguments["value"] ?: return
+        val expected = mapboxMap.getStyle()?.setStyleLightProperty(property, value.toValue())
         if (expected?.isError == true) {
-            callback(Result.failure(Throwable(expected.error)))
+            result.failure(Throwable(expected.error))
         } else {
-            callback(Result.success(Unit))
+            result.success(null)
         }
     }
 
-    override fun setStyleTerrain(properties: String, callback: (Result<Unit>) -> Unit) {
-        val expected = mapboxMap.setStyleTerrain(properties.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleTerrain(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val properties = arguments["properties"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.setStyleTerrain(properties.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(null)
         }
     }
 
-    override fun getStyleTerrainProperty(
-        property: String,
-        callback: (Result<StylePropertyValue>) -> Unit
-    ) {
-        val styleProperty = mapboxMap.getStyleTerrainProperty(property)
+    private fun getStyleTerrainProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val property = arguments["property"] as? String ?: return
+        val styleProperty = mapboxMap.getStyle()?.getStyleTerrainProperty(property)
+
+        if(styleProperty == null) {
+            result.success(null)
+            return
+        }
+
         val stylePropertyValueKind =
             StylePropertyValueKind.values()[styleProperty.kind.ordinal]
         val stylePropertyValue =
             StylePropertyValue(styleProperty.value.toFLTValue(), stylePropertyValueKind)
-        callback(Result.success(stylePropertyValue))
+        result.success(stylePropertyValue)
     }
 
-    override fun setStyleTerrainProperty(
-        property: String,
-        value: Any,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.setStyleTerrainProperty(property, value.toValue())
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+    private fun setStyleTerrainProperty(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val property = arguments["property"] as? String ?: return
+        val value = arguments["value"] ?: return
+        val expected = mapboxMap.getStyle()?.setStyleTerrainProperty(property, value.toValue())
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(null)
         }
     }
 
-    override fun getStyleImage(imageId: String, callback: (Result<MbxImage?>) -> Unit) {
-        val image = mapboxMap.getStyleImage(imageId)
+    private fun getStyleImage(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val imageId = arguments["id"] as? String ?: return
+        val image = mapboxMap.getStyle()?.getStyleImage(imageId)
 
         if (image == null) {
-            callback(Result.success(null))
+            result.success(null)
             return
         }
 
-        val byteArray = ByteArray(image.data.buffer.capacity())
-        image.data.buffer.get(byteArray)
-        callback(
-            Result.success(
-                MbxImage(width = image.width.toLong(), height = image.height.toLong(), data = byteArray)
-            )
-        )
+        result.success(MbxImage(width = image.width.toLong(), height = image.height.toLong(), data = image.data))
     }
 
-    override fun removeStyleImage(imageId: String, callback: (Result<Unit>) -> Unit) {
-        val expected = mapboxMap.removeStyleImage(imageId)
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
-        } else {
-            callback(Result.success(Unit))
-        }
-    }
+    private fun addStyleImage(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val imageId = arguments["id"] as? String ?: return
+        val scale = arguments["scale"] as? Double ?: return
+        val image = arguments["image"] as? MbxImage ?: return
+        val sdf = arguments["sdf"] as? Boolean ?: return
+        @Suppress("UNCHECKED_CAST")
+        val stretchX = (arguments["stretchX"] as? List<ImageStretches?>) ?: return
+        @Suppress("UNCHECKED_CAST")
+        val stretchY = arguments["stretchY"] as? List<ImageStretches?> ?: return
+        val content = arguments["content"] as? ImageContent
 
-    override fun hasStyleImage(imageId: String, callback: (Result<Boolean>) -> Unit) {
-        callback(Result.success(mapboxMap.hasStyleImage(imageId)))
-    }
-
-    override fun invalidateStyleCustomGeometrySourceTile(
-        sourceId: String,
-        tileId: CanonicalTileID,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        val expected = mapboxMap.invalidateStyleCustomGeometrySourceTile(
-            sourceId,
-            com.mapbox.maps.CanonicalTileID(
-                tileId.z.toByte(), tileId.x.toInt(), tileId.y.toInt()
-            )
-        )
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
-        } else {
-            callback(Result.success(Unit))
-        }
-    }
-
-    override fun invalidateStyleCustomGeometrySourceRegion(
-        sourceId: String,
-        bounds: CoordinateBounds,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        mapboxMap.invalidateStyleCustomGeometrySourceRegion(
-            sourceId,
-            bounds.toCoordinateBounds()
-        )
-        callback(Result.success(Unit))
-    }
-
-    override fun isStyleLoaded(callback: (Result<Boolean>) -> Unit) {
-        callback(Result.success(mapboxMap.isStyleLoaded()))
-    }
-
-    override fun getProjection(): StyleProjection? {
-        return mapboxMap.style?.getProjection()?.toFLTProjection()
-    }
-
-    override fun setProjection(projection: StyleProjection) {
-        mapboxMap.style?.setProjection(projection.toProjection())
-    }
-
-    override fun localizeLabels(
-        locale: String,
-        layerIds: List<String>?,
-        callback: (Result<Unit>) -> Unit
-    ) {
-        mapboxMap.style?.localizeLabels(Locale(locale), layerIds)
-        callback(Result.success(Unit))
-    }
-
-    override fun addStyleImage(
-        imageId: String,
-        scale: Double,
-        image: MbxImage,
-        sdf: Boolean,
-        stretchX: List<ImageStretches?>,
-        stretchY: List<ImageStretches?>,
-        content: ImageContent?,
-        callback: (Result<Unit>) -> Unit
-    ) {
         var bitmap = BitmapFactory.decodeByteArray(
             image.data,
             0,
@@ -583,12 +604,12 @@ class StyleApi : MethodChannel.MethodCallHandler {
         }
         val byteBuffer = ByteBuffer.allocateDirect(bitmap.byteCount)
         bitmap.copyPixelsToBuffer(byteBuffer)
-        val expected = mapboxMap.addStyleImage(
+        val expected = mapboxMap.getStyle()?.addStyleImage(
             imageId, scale.toFloat(),
             Image(
                 image.width.toInt(),
                 image.height.toInt(),
-                DataRef(byteBuffer)
+                byteBuffer.array()
             ),
             sdf,
             stretchX.map {
@@ -597,16 +618,89 @@ class StyleApi : MethodChannel.MethodCallHandler {
                     it!!.second.toFloat()
                 )
             },
-            stretchY.map { com.mapbox.maps.ImageStretches(it!!.first.toFloat(), it!!.second.toFloat()) }.toMutableList(),
-            if (content != null) com.mapbox.maps.ImageContent(
-                content.left.toFloat(),
-                content.top.toFloat(), content.right.toFloat(), content.bottom.toFloat()
-            ) else null
+            stretchY.map { com.mapbox.maps.ImageStretches(it!!.first.toFloat(), it.second.toFloat()) }.toMutableList(),
+            if (content != null) {
+                com.mapbox.maps.ImageContent(
+                    content.left.toFloat(),
+                    content.top.toFloat(),
+                    content.right.toFloat(),
+                    content.bottom.toFloat()
+                )
+            } else null
         )
-        if (expected.isError) {
-            callback(Result.failure(Throwable(expected.error)))
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
         } else {
-            callback(Result.success(Unit))
+            result.success(null)
         }
+    }
+
+    private fun removeStyleImage(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val imageId = arguments["id"] as? String ?: return
+        val expected = mapboxMap.getStyle()?.removeStyleImage(imageId)
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
+        } else {
+            result.success(null)
+        }
+    }
+
+    private fun hasStyleImage(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val imageId = arguments["id"] as? String ?: return
+        result.success(mapboxMap.getStyle()?.hasStyleImage(imageId))
+    }
+
+    private fun invalidateStyleCustomGeometrySourceTile(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val tileId = arguments["tileId"] as? CanonicalTileID ?: return
+        val expected = mapboxMap.getStyle()?.invalidateStyleCustomGeometrySourceTile(
+            sourceId,
+            com.mapbox.maps.CanonicalTileID(
+                tileId.z.toByte(), tileId.x.toInt(), tileId.y.toInt()
+            )
+        )
+        if (expected == null || expected.isError) {
+            result.failure(Throwable(expected?.error ?: "expected is null"))
+        } else {
+            result.success(null)
+        }
+    }
+
+    private fun invalidateStyleCustomGeometrySourceRegion(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val sourceId = arguments["id"] as? String ?: return
+        val bounds = arguments["bounds"] as? CoordinateBounds ?: return
+        mapboxMap.getStyle()?.invalidateStyleCustomGeometrySourceRegion(
+            sourceId,
+            bounds.toCoordinateBounds()
+        )
+        result.success(null)
+    }
+
+    private fun isStyleLoaded(methodCall: MethodCall, result: MethodChannel.Result) {
+        result.success(mapboxMap.getStyle()?.isStyleLoaded)
+    }
+
+    private fun getProjection(methodCall: MethodCall, result: MethodChannel.Result) {
+        val projection = mapboxMap.getStyle()?.getProjection()?.toFLTProjection()
+        result.success(projection)
+    }
+
+    private fun setProjection(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val projection = arguments["projection"] as? StyleProjection ?: return
+        mapboxMap.getStyle()?.setProjection(projection.toProjection())
+    }
+
+    private fun localizeLabels(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val locale = arguments["locale"] as? String ?: return
+        @Suppress("UNCHECKED_CAST")
+        val layerIds = arguments["layerids"] as? List<String>
+        mapboxMap.getStyle()?.localizeLabels(Locale(locale), layerIds)
+        result.success(null)
     }
 }

@@ -1,11 +1,14 @@
 package com.eopeter.fluttermapboxnavigation.boundings.style.application
 
 import android.content.Context
+import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.bindgen.Value
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.ScreenCoordinate
 import com.mapbox.maps.StyleObjectInfo
+import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
+import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
 
 fun CameraOptions.toFLTCameraOptions(context: Context): CameraOptions {
@@ -101,5 +104,30 @@ fun Value.toFLTValue(): Any? {
             contents
         }
     }
+}
 
+fun CoordinateBounds.toCoordinateBounds() =
+    com.mapbox.maps.CoordinateBounds(southwest, northeast, infiniteBounds)
+
+fun Projection.toFLTProjection(): StyleProjection {
+    return StyleProjection(name.toFLTProjectionName())
+}
+
+fun ProjectionName.toFLTProjectionName(): StyleProjectionName {
+    return when (this) {
+        ProjectionName.GLOBE -> StyleProjectionName.GLOBE
+        ProjectionName.MERCATOR -> StyleProjectionName.MERCATOR
+        else -> { throw java.lang.RuntimeException("Projection $this is not supported.") }
+    }
+}
+
+fun StyleProjection.toProjection(): com.mapbox.maps.extension.style.projection.generated.Projection {
+    return com.mapbox.maps.extension.style.projection.generated.Projection(name.toProjectionName())
+}
+
+fun StyleProjectionName.toProjectionName(): ProjectionName {
+    return when (this) {
+        StyleProjectionName.GLOBE -> ProjectionName.GLOBE
+        StyleProjectionName.MERCATOR -> ProjectionName.MERCATOR
+    }
 }
