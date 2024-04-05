@@ -7,16 +7,15 @@ import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
-import com.mapbox.bindgen.Value
 import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.localization.localizeLabels
 import com.mapbox.maps.extension.style.projection.generated.getProjection
 import com.mapbox.maps.extension.style.projection.generated.setProjection
-import kotlinx.serialization.json.Json
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.StandardMethodCodec
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import org.json.JSONObject
 import java.nio.ByteBuffer
 import java.util.*
 
@@ -496,7 +495,7 @@ class StyleApi : MethodChannel.MethodCallHandler {
     private fun setStyleLight(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val properties = arguments["properties"] as? String ?: return
-        val parameters = Json.decodeFromString<Value>(properties)
+        val parameters = JSONObject(properties).toValue()
         mapboxMap.getStyle()?.setStyleLight(parameters)
         result.success(null)
     }
