@@ -25,6 +25,7 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:$android_gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.kotlin:kotlinx-serialization:$kotlin_version"
         classpath "com.mapbox.gradle.plugins:access-token:0.4.0"
     }
 }
