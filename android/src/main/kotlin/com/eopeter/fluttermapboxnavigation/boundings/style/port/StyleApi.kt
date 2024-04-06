@@ -593,7 +593,10 @@ class StyleApi : MethodChannel.MethodCallHandler {
 
         )
 
-        bitmap = bitmap.scale(image.width.toInt(), image.height.toInt(), false)
+        val width = image.width * scale
+        val height = image.height * scale
+
+        bitmap = Bitmap.createScaledBitmap(bitmap, width.toInt(), height.toInt(), false)
 
         if (bitmap.config != Bitmap.Config.ARGB_8888) {
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
