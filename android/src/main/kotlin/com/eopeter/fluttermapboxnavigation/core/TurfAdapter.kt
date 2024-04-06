@@ -1,14 +1,15 @@
 package com.eopeter.fluttermapboxnavigation.core
 
-import com.google.gson.Gson
 import com.mapbox.geojson.Point
 
-fun Point.toList(): Any? {
+fun Point.toList(): Any {
     return mapOf("coordinates" to coordinates())
 }
 
 object PointDecoder {
-    fun fromList(list: List<Any?>): Point {
-        return Point.fromJson(Gson().toJson(list.first()))
+    fun fromList(list: Any?): Point {
+        val map = list as Map<*, *>
+        val coordinates = map["coordinates"] as List<Double>
+        return Point.fromLngLat(coordinates.first(), coordinates.last())
     }
 }
