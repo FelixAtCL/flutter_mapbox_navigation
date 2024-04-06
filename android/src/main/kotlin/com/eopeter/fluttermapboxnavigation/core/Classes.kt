@@ -545,7 +545,7 @@ data class CameraOptions(
     companion object {
         @Suppress("UNCHECKED_CAST")
         fun fromList(list: List<Any?>): CameraOptions {
-            val center = (list[0] as List<Any?>?)?.let {
+            val center = list[0]?.let {
                 PointDecoder.fromList(it)
             }
             val padding = (list[1] as List<Any?>?)?.let {
