@@ -78,7 +78,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             cameraOptions.toCameraOptions(context),
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun flyTo(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -89,7 +89,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             cameraOptions.toCameraOptions(context),
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun pitchBy(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -100,7 +100,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             pitch,
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun scaleBy(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -113,7 +113,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             coordinate?.toScreenCoordinate(context),
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun moveBy(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -124,7 +124,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             coordinate.toScreenCoordinate(context),
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun rotateBy(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -137,7 +137,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
             second.toScreenCoordinate(context),
             animationOptions?.toMapAnimationOptions()
         )
-        result.sucess(null)
+        result.success(null)
     }
 
     private fun getState(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -153,6 +153,6 @@ class CameraApi : MethodChannel.MethodCallHandler {
 
     private fun cancelCameraAnimation(methodCall: MethodCall, result: MethodChannel.Result) {
         cancelable?.cancel()
-        result.sucess(null)
+        result.success(null)
     }
 }
