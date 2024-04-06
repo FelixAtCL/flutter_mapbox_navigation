@@ -226,15 +226,15 @@ class StyleApi : MethodChannel.MethodCallHandler {
     private fun addStyleLayer(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val properties = arguments["properties"] as? String ?: return
-        val layerPosition = arguments["layerposition"] as? LayerPosition ?: return
+        val layerPosition = arguments["layerposition"] as? LayerPosition
         val parameters = properties.toValue()
         val expected = mapboxMap.getStyle()?.addStyleLayer(
             parameters,
-            com.mapbox.maps.LayerPosition(
+            if (layerPosition != null) com.mapbox.maps.LayerPosition(
                 layerPosition.above,
                 layerPosition.below,
                 layerPosition.at?.toInt()
-            )
+            ) else null
         )
         if (expected == null || expected.isError) {
             result.success(expected?.error ?: "expected is null")
