@@ -362,49 +362,49 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     try {
       await _addImage(img: img);
 
-      var data = jsonEncode({
-        "type": "FeatureCollection",
-        "features": [],
-      });
+      // var data = jsonEncode({
+      //   "type": "FeatureCollection",
+      //   "features": [],
+      // });
 
-      await _addSource(id: source, data: data, isCluster: false);
+      // await _addSource(id: source, data: data, isCluster: false);
 
-      dynamic markerProps = {
-        "id": layer,
-        "type": "symbol",
-        "source": source,
-        "filter": [
-          "!",
-          ["has", "point_count"]
-        ],
-        "layout": {
-          "icon-image": img,
-          "icon-size": 0.25,
-          "icon-anchor":
-              IconAnchor.BOTTOM.toString().split('.').last.toLowerCase(),
-        }
-      };
+      // dynamic markerProps = {
+      //   "id": layer,
+      //   "type": "symbol",
+      //   "source": source,
+      //   "filter": [
+      //     "!",
+      //     ["has", "point_count"]
+      //   ],
+      //   "layout": {
+      //     "icon-image": img,
+      //     "icon-size": 0.25,
+      //     "icon-anchor":
+      //         IconAnchor.BOTTOM.toString().split('.').last.toLowerCase(),
+      //   }
+      // };
 
-      await _addStyleLayer(id: layer, props: json.encode(markerProps));
+      // await _addStyleLayer(id: layer, props: json.encode(markerProps));
 
-      var latitudeBuldern = 51.866478;
-      var longitudeBuldern = 7.369059;
-      var content =
-          _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
-      var features = jsonEncode({
-        "type": "FeatureCollection",
-        "features": [content]
-      });
-      var sourceToUpdate =
-          (await _controller?.style.getSource(source)) as GeoJsonSource;
-      await sourceToUpdate.updateGeoJSON(features);
-      var cameraOptions = CameraOptions(
-          center:
-              Point(coordinates: Position(longitudeBuldern, latitudeBuldern))
-                  .toJson(),
-          zoom: 12);
-      await _controller?.camera
-          .flyTo(cameraOptions, MapAnimationOptions(duration: 500));
+      // var latitudeBuldern = 51.866478;
+      // var longitudeBuldern = 7.369059;
+      // var content =
+      //     _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
+      // var features = jsonEncode({
+      //   "type": "FeatureCollection",
+      //   "features": [content]
+      // });
+      // var sourceToUpdate =
+      //     (await _controller?.style.getSource(source)) as GeoJsonSource;
+      // await sourceToUpdate.updateGeoJSON(features);
+      // var cameraOptions = CameraOptions(
+      //     center:
+      //         Point(coordinates: Position(longitudeBuldern, latitudeBuldern))
+      //             .toJson(),
+      //     zoom: 12);
+      // await _controller?.camera
+      //     .flyTo(cameraOptions, MapAnimationOptions(duration: 500));
     } catch (error) {
       print(error.toString());
     }

@@ -1440,6 +1440,39 @@ enum class Type(val raw: Int) {
 }
 
 /**
+ * Resource Options for mapbox map
+ */
+data class ResourceOptions(
+    val accessToken: String,
+    val baseUrl: String?,
+    val dataPath: String?,
+    val assetPath: String?,
+    val tileStoreUsageMode: Int?
+    ) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): ResourceOptions {
+            val accessToken = list[0] as String
+            val baseUrl = list[1] as String?
+            val dataPath = list[1] as String?
+            val assetPath = list[1] as String?
+            val tileStoreUsageMode = list[1] as Int?
+            return ResourceOptions(accessToken, baseUrl, dataPath, assetPath, tileStoreUsageMode)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            accessToken,
+            baseUrl,
+            dataPath,
+            assetPath,
+            tileStoreUsageMode
+        )
+    }
+
+}
+
+/**
  * Options for querying rendered features.
  *
  * Generated class from Pigeon that represents data sent in messages.

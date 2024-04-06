@@ -1,7 +1,6 @@
 package com.eopeter.fluttermapboxnavigation.boundings.style.application
 
 import com.eopeter.fluttermapboxnavigation.core.*
-import com.mapbox.geojson.Point
 import io.flutter.plugin.common.StandardMessageCodec
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
@@ -12,200 +11,160 @@ object StyleApiCodec : StandardMessageCodec() {
         return when (type) {
             128.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    AmbientLight.fromList(it)
+                    CameraBounds.fromList(it)
                 }
             }
             129.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CameraBounds.fromList(it)
+                    CameraBoundsOptions.fromList(it)
                 }
             }
             130.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CameraBoundsOptions.fromList(it)
+                    CameraOptions.fromList(it)
                 }
             }
             131.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CameraOptions.fromList(it)
+                    CameraState.fromList(it)
                 }
             }
             132.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CameraState.fromList(it)
+                    CanonicalTileID.fromList(it)
                 }
             }
             133.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CanonicalTileID.fromList(it)
+                    CoordinateBounds.fromList(it)
                 }
             }
             134.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CoordinateBounds.fromList(it)
+                    CoordinateBoundsZoom.fromList(it)
                 }
             }
             135.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CoordinateBoundsZoom.fromList(it)
+                    FeatureExtensionValue.fromList(it)
                 }
             }
             136.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    DirectionalLight.fromList(it)
+                    GlyphsRasterizationOptions.fromList(it)
                 }
             }
             137.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    FeatureExtensionValue.fromList(it)
+                    ImageContent.fromList(it)
                 }
             }
             138.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    FlatLight.fromList(it)
+                    ImageStretches.fromList(it)
                 }
             }
             139.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    GlyphsRasterizationOptions.fromList(it)
+                    LayerPosition.fromList(it)
                 }
             }
             140.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    ImageContent.fromList(it)
+                    MapAnimationOptions.fromList(it)
                 }
             }
             141.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    ImageStretches.fromList(it)
-                }
-            }
-            142.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    LayerPosition.fromList(it)
-                }
-            }
-            143.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    MapAnimationOptions.fromList(it)
+                    MapDebugOptions.fromList(it)
                 }
             }
             144.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    MapDebugOptions.fromList(it)
+                    MapOptions.fromList(it)
                 }
             }
             145.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    MapOptions.fromList(it)
+                    MbxEdgeInsets.fromList(it)
                 }
             }
             146.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    MbxEdgeInsets.fromList(it)
+                    MbxImage.fromList(it)
                 }
             }
             147.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    MbxImage.fromList(it)
+                    MercatorCoordinate.fromList(it)
                 }
             }
             148.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    MercatorCoordinate.fromList(it)
+                    OfflineRegionGeometryDefinition.fromList(it)
                 }
             }
             149.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    OfflineRegionGeometryDefinition.fromList(it)
+                    OfflineRegionTilePyramidDefinition.fromList(it)
                 }
             }
             150.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    OfflineRegionTilePyramidDefinition.fromList(it)
+                    ProjectedMeters.fromList(it)
                 }
             }
             151.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    PointDecoder.fromList(it)
+                    QueriedFeature.fromList(it)
                 }
             }
             152.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    ProjectedMeters.fromList(it)
+                    RenderedQueryGeometry.fromList(it)
                 }
             }
             153.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    QueriedFeature.fromList(it)
+                    RenderedQueryOptions.fromList(it)
                 }
             }
             154.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    QueriedRenderedFeature.fromList(it)
+                    ResourceOptions.fromList(it)
                 }
             }
             155.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    QueriedSourceFeature.fromList(it)
+                    ScreenBox.fromList(it)
                 }
             }
             156.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    RenderedQueryGeometry.fromList(it)
+                    ScreenCoordinate.fromList(it)
                 }
             }
             157.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    RenderedQueryOptions.fromList(it)
+                    Size.fromList(it)
                 }
             }
             158.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    ScreenBox.fromList(it)
+                    SourceQueryOptions.fromList(it)
                 }
             }
             159.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    ScreenCoordinate.fromList(it)
+                    StyleObjectInfo.fromList(it)
                 }
             }
             160.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    Size.fromList(it)
-                }
-            }
-            161.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    SourceQueryOptions.fromList(it)
-                }
-            }
-            162.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    StyleObjectInfo.fromList(it)
-                }
-            }
-            163.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    StyleProjection.fromList(it)
-                }
-            }
-            164.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
                     StylePropertyValue.fromList(it)
                 }
             }
-            165.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    TileCacheBudgetInMegabytes.fromList(it)
-                }
-            }
-            166.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    TileCacheBudgetInTiles.fromList(it)
-                }
-            }
-            167.toByte() -> {
+            161.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
                     TransitionOptions.fromList(it)
                 }
@@ -216,164 +175,132 @@ object StyleApiCodec : StandardMessageCodec() {
 
     override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
         when (value) {
-            is AmbientLight -> {
+            is CameraBounds -> {
                 stream.write(128)
                 writeValue(stream, value.toList())
             }
-            is CameraBounds -> {
+            is CameraBoundsOptions -> {
                 stream.write(129)
                 writeValue(stream, value.toList())
             }
-            is CameraBoundsOptions -> {
+            is CameraOptions -> {
                 stream.write(130)
                 writeValue(stream, value.toList())
             }
-            is CameraOptions -> {
+            is CameraState -> {
                 stream.write(131)
                 writeValue(stream, value.toList())
             }
-            is CameraState -> {
+            is CanonicalTileID -> {
                 stream.write(132)
                 writeValue(stream, value.toList())
             }
-            is CanonicalTileID -> {
+            is CoordinateBounds -> {
                 stream.write(133)
                 writeValue(stream, value.toList())
             }
-            is CoordinateBounds -> {
+            is CoordinateBoundsZoom -> {
                 stream.write(134)
                 writeValue(stream, value.toList())
             }
-            is CoordinateBoundsZoom -> {
+            is FeatureExtensionValue -> {
                 stream.write(135)
                 writeValue(stream, value.toList())
             }
-            is DirectionalLight -> {
+            is GlyphsRasterizationOptions -> {
                 stream.write(136)
                 writeValue(stream, value.toList())
             }
-            is FeatureExtensionValue -> {
+            is ImageContent -> {
                 stream.write(137)
                 writeValue(stream, value.toList())
             }
-            is FlatLight -> {
+            is ImageStretches -> {
                 stream.write(138)
                 writeValue(stream, value.toList())
             }
-            is GlyphsRasterizationOptions -> {
+            is LayerPosition -> {
                 stream.write(139)
                 writeValue(stream, value.toList())
             }
-            is ImageContent -> {
+            is MapAnimationOptions -> {
                 stream.write(140)
                 writeValue(stream, value.toList())
             }
-            is ImageStretches -> {
+            is MapDebugOptions -> {
                 stream.write(141)
                 writeValue(stream, value.toList())
             }
-            is LayerPosition -> {
-                stream.write(142)
-                writeValue(stream, value.toList())
-            }
-            is MapAnimationOptions -> {
-                stream.write(143)
-                writeValue(stream, value.toList())
-            }
-            is MapDebugOptions -> {
+            is MapOptions -> {
                 stream.write(144)
                 writeValue(stream, value.toList())
             }
-            is MapOptions -> {
+            is MbxEdgeInsets -> {
                 stream.write(145)
                 writeValue(stream, value.toList())
             }
-            is MbxEdgeInsets -> {
+            is MbxImage -> {
                 stream.write(146)
                 writeValue(stream, value.toList())
             }
-            is MbxImage -> {
+            is MercatorCoordinate -> {
                 stream.write(147)
                 writeValue(stream, value.toList())
             }
-            is MercatorCoordinate -> {
+            is OfflineRegionGeometryDefinition -> {
                 stream.write(148)
                 writeValue(stream, value.toList())
             }
-            is OfflineRegionGeometryDefinition -> {
+            is OfflineRegionTilePyramidDefinition -> {
                 stream.write(149)
                 writeValue(stream, value.toList())
             }
-            is OfflineRegionTilePyramidDefinition -> {
+            is ProjectedMeters -> {
                 stream.write(150)
                 writeValue(stream, value.toList())
             }
-            is Point -> {
+            is QueriedFeature -> {
                 stream.write(151)
                 writeValue(stream, value.toList())
             }
-            is ProjectedMeters -> {
+            is RenderedQueryGeometry -> {
                 stream.write(152)
                 writeValue(stream, value.toList())
             }
-            is QueriedFeature -> {
+            is RenderedQueryOptions -> {
                 stream.write(153)
                 writeValue(stream, value.toList())
             }
-            is QueriedRenderedFeature -> {
+            is ResourceOptions -> {
                 stream.write(154)
                 writeValue(stream, value.toList())
             }
-            is QueriedSourceFeature -> {
+            is ScreenBox -> {
                 stream.write(155)
                 writeValue(stream, value.toList())
             }
-            is RenderedQueryGeometry -> {
+            is ScreenCoordinate -> {
                 stream.write(156)
                 writeValue(stream, value.toList())
             }
-            is RenderedQueryOptions -> {
+            is Size -> {
                 stream.write(157)
                 writeValue(stream, value.toList())
             }
-            is ScreenBox -> {
+            is SourceQueryOptions -> {
                 stream.write(158)
                 writeValue(stream, value.toList())
             }
-            is ScreenCoordinate -> {
+            is StyleObjectInfo -> {
                 stream.write(159)
                 writeValue(stream, value.toList())
             }
-            is Size -> {
+            is StylePropertyValue -> {
                 stream.write(160)
                 writeValue(stream, value.toList())
             }
-            is SourceQueryOptions -> {
-                stream.write(161)
-                writeValue(stream, value.toList())
-            }
-            is StyleObjectInfo -> {
-                stream.write(162)
-                writeValue(stream, value.toList())
-            }
-            is StyleProjection -> {
-                stream.write(163)
-                writeValue(stream, value.toList())
-            }
-            is StylePropertyValue -> {
-                stream.write(164)
-                writeValue(stream, value.toList())
-            }
-            is TileCacheBudgetInMegabytes -> {
-                stream.write(165)
-                writeValue(stream, value.toList())
-            }
-            is TileCacheBudgetInTiles -> {
-                stream.write(166)
-                writeValue(stream, value.toList())
-            }
             is TransitionOptions -> {
-                stream.write(167)
+                stream.write(161)
                 writeValue(stream, value.toList())
             }
             else -> super.writeValue(stream, value)
