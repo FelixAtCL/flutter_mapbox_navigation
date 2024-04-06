@@ -4,17 +4,17 @@ import android.content.Context
 import com.eopeter.fluttermapboxnavigation.boundings.camera.application.*
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.plugin.animation.easeTo
 import com.mapbox.maps.plugin.animation.Cancelable
+import com.mapbox.maps.plugin.animation.easeTo
 import com.mapbox.maps.plugin.animation.flyTo
 import com.mapbox.maps.plugin.animation.moveBy
 import com.mapbox.maps.plugin.animation.pitchBy
 import com.mapbox.maps.plugin.animation.rotateBy
 import com.mapbox.maps.plugin.animation.scaleBy
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.StandardMethodCodec
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.StandardMethodCodec
 import java.util.*
 
 class CameraApi : MethodChannel.MethodCallHandler {
@@ -33,7 +33,12 @@ class CameraApi : MethodChannel.MethodCallHandler {
     }
 
     fun init() {
-        this.methodChannel = MethodChannel(this.messenger, "flutter_mapbox_navigation/camera/${this.viewId}", StandardMethodCodec(CameraApiCodec))
+        this.methodChannel =
+                MethodChannel(
+                        this.messenger,
+                        "flutter_mapbox_navigation/camera/${this.viewId}",
+                        StandardMethodCodec(CameraApiCodec)
+                )
         this.methodChannel?.setMethodCallHandler(this)
     }
 
@@ -74,10 +79,11 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val cameraOptions = arguments["cameraoptions"] as? CameraOptions ?: return
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.easeTo(
-            cameraOptions.toCameraOptions(context),
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable =
+                mapboxMap.easeTo(
+                        cameraOptions.toCameraOptions(context),
+                        animationOptions?.toMapAnimationOptions()
+                )
         result.success(null)
     }
 
@@ -85,10 +91,11 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val cameraOptions = arguments["cameraoptions"] as? CameraOptions ?: return
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.flyTo(
-            cameraOptions.toCameraOptions(context),
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable =
+                mapboxMap.flyTo(
+                        cameraOptions.toCameraOptions(context),
+                        animationOptions?.toMapAnimationOptions()
+                )
         result.success(null)
     }
 
@@ -96,10 +103,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val pitch = arguments["pitch"] as? Double ?: return
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.pitchBy(
-            pitch,
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable = mapboxMap.pitchBy(pitch, animationOptions?.toMapAnimationOptions())
         result.success(null)
     }
 
@@ -108,11 +112,12 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val amount = arguments["amount"] as? Double ?: return
         val coordinate = arguments["coordinate"] as? ScreenCoordinate
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.scaleBy(
-            amount,
-            coordinate?.toScreenCoordinate(context),
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable =
+                mapboxMap.scaleBy(
+                        amount,
+                        coordinate?.toScreenCoordinate(context),
+                        animationOptions?.toMapAnimationOptions()
+                )
         result.success(null)
     }
 
@@ -120,10 +125,11 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val coordinate = arguments["coordinate"] as? ScreenCoordinate ?: return
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.moveBy(
-            coordinate.toScreenCoordinate(context),
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable =
+                mapboxMap.moveBy(
+                        coordinate.toScreenCoordinate(context),
+                        animationOptions?.toMapAnimationOptions()
+                )
         result.success(null)
     }
 
@@ -132,11 +138,12 @@ class CameraApi : MethodChannel.MethodCallHandler {
         val first = arguments["first"] as? ScreenCoordinate ?: return
         val second = arguments["second"] as? ScreenCoordinate ?: return
         val animationOptions = arguments["animationoptions"] as? MapAnimationOptions
-        cancelable = mapboxMap.rotateBy(
-            first.toScreenCoordinate(context),
-            second.toScreenCoordinate(context),
-            animationOptions?.toMapAnimationOptions()
-        )
+        cancelable =
+                mapboxMap.rotateBy(
+                        first.toScreenCoordinate(context),
+                        second.toScreenCoordinate(context),
+                        animationOptions?.toMapAnimationOptions()
+                )
         result.success(null)
     }
 

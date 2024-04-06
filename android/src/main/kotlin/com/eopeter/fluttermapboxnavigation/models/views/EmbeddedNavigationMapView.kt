@@ -106,7 +106,7 @@ class EmbeddedNavigationMapView(
         }
 
         fun enableApis(mapView: MapView) {
-            var camera = CameraApi(
+            val camera = CameraApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView.getMapboxMap(),
                 this@EmbeddedNavigationMapView.viewId,
@@ -115,7 +115,7 @@ class EmbeddedNavigationMapView(
             camera.init()
             this@EmbeddedNavigationMapView.camera = camera
 
-            var style =  StyleApi(
+            val style =  StyleApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView.getMapboxMap(),
                 this@EmbeddedNavigationMapView.viewId,
