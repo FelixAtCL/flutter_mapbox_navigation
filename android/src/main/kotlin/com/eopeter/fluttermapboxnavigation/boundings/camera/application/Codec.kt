@@ -1,9 +1,9 @@
 package com.eopeter.fluttermapboxnavigation.boundings.camera.application
 
 import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
-import com.eopeter.fluttermapboxnavigation.core.PointDecoder
-import com.eopeter.fluttermapboxnavigation.core.toList
+import com.eopeter.fluttermapboxnavigation.core.*
 import com.mapbox.geojson.Point
+import io.flutter.plugin.common.StandardMessageCodec
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
