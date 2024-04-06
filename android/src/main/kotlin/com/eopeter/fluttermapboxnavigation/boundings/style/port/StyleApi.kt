@@ -227,22 +227,19 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val properties = arguments["properties"] as? String ?: return
         val layerPosition = arguments["layerposition"] as? LayerPosition ?: return
-
-        properties.toValue().let { parameters ->
-            val expected = mapboxMap.getStyle()?.addStyleLayer(
-                parameters,
-                com.mapbox.maps.LayerPosition(
-                    layerPosition.above,
-                    layerPosition.below,
-                    layerPosition.at?.toInt()
-                )
+        val parameters = properties.toValue()
+        val expected = mapboxMap.getStyle()?.addStyleLayer(
+            parameters,
+            com.mapbox.maps.LayerPosition(
+                layerPosition.above,
+                layerPosition.below,
+                layerPosition.at?.toInt()
             )
-            if (expected == null || expected.isError) {
-                result.success(expected?.error ?: "expected is null")
-            } else {
-                result.success(null)
-            }
-            return Unit
+        )
+        if (expected == null || expected.isError) {
+            result.success(expected?.error ?: "expected is null")
+        } else {
+            result.success(null)
         }
     }
 
@@ -250,22 +247,19 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val properties = arguments["properties"] as? String ?: return
         val layerPosition = arguments["layerposition"] as? LayerPosition ?: return
-
-        properties.toValue().let { parameters ->
-            val expected = mapboxMap.getStyle()?.addPersistentStyleLayer(
-                parameters,
-                com.mapbox.maps.LayerPosition(
-                    layerPosition.above,
-                    layerPosition.below,
-                    layerPosition.at?.toInt()
-                )
+        val parameters = properties.toValue()
+        val expected = mapboxMap.getStyle()?.addPersistentStyleLayer(
+            parameters,
+            com.mapbox.maps.LayerPosition(
+                layerPosition.above,
+                layerPosition.below,
+                layerPosition.at?.toInt()
             )
-            if (expected == null || expected.isError) {
-                result.success(expected?.error ?: "expected is null")
-            } else {
-                result.success(null)
-            }
-            return Unit
+        )
+        if (expected == null || expected.isError) {
+            result.success(expected?.error ?: "expected is null")
+        } else {
+            result.success(null)
         }
     }
 
