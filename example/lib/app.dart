@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
@@ -197,15 +196,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 var state =
                                     await _controller?.camera.getState();
                                 print(state?.encode());
-                                print(CameraOptions(
-                                        zoom: 10,
-                                        center: Point(
-                                            coordinates: Position(
-                                          -122.4194,
-                                          37.7749,
-                                        )).toJson() // San Francisco
-                                        )
-                                    .encode());
                                 var bounds = await _controller?.camera
                                     .getCoordinateBounds(CameraOptions(
                                         zoom: 10,
@@ -453,7 +443,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
 
     await _controller?.style.addStyleImage(
         id,
-        0.75,
+        0.5,
         MbxImage(
             width: decodedImage.width,
             height: decodedImage.height,

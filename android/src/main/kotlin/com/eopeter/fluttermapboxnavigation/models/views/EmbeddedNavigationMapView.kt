@@ -75,7 +75,6 @@ class EmbeddedNavigationMapView(
      * Notifies with attach and detach events on [MapView]
      */
     private val mapViewObserver = object : MapViewObserver(), OnMapClickListener {
-
         override fun onAttached(mapView: MapView) {
             super.onAttached(mapView)
             if(this@EmbeddedNavigationMapView.enableOnMapTapCallback) {
