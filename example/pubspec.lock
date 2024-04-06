@@ -107,7 +107,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "3aac8e1b3b7b5a17e802a63a6384e74893e1225d"
+      resolved-ref: "47e27ccacb63cba23b834abbf2fe76207ea3c044"
       url: "https://github.com/FelixAtCL/flutter_mapbox_navigation"
     source: git
     version: "0.2.2"
