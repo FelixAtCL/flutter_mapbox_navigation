@@ -1,6 +1,5 @@
 package com.eopeter.fluttermapboxnavigation.boundings.style.application
 
-import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.mapbox.geojson.Point
 import io.flutter.plugin.common.StandardMessageCodec

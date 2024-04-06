@@ -3,9 +3,9 @@ package com.eopeter.fluttermapboxnavigation.boundings.style.port
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
+import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
 import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.localization.localizeLabels
