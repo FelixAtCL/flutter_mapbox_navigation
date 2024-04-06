@@ -2,6 +2,7 @@ package com.eopeter.fluttermapboxnavigation.core
 
 import android.content.Context
 import com.mapbox.bindgen.Value
+import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
@@ -16,6 +17,46 @@ fun com.mapbox.maps.CameraOptions.toFLTCameraOptions(context: Context): CameraOp
         bearing = bearing
     )
 }
+
+fun MapAnimationOptions.toMapAnimationOptions(): com.mapbox.maps.plugin.animation.MapAnimationOptions {
+    val builder = com.mapbox.maps.plugin.animation.MapAnimationOptions.Builder()
+    duration?.let {
+        builder.duration(it)
+    }
+    startDelay?.let {
+        builder.startDelay(it)
+    }
+    return builder.build()
+}
+
+fun Number.toDevicePixels(context: Context): Float {
+    return this.toFloat() * context.resources.displayMetrics.density
+}
+fun MbxEdgeInsets.toEdgeInsets(context: Context): EdgeInsets {
+    return EdgeInsets(
+        top.toDevicePixels(context).toDouble(),
+        left.toDevicePixels(context).toDouble(),
+        bottom.toDevicePixels(context).toDouble(),
+        right.toDevicePixels(context).toDouble()
+    )
+}
+
+fun ScreenCoordinate.toScreenCoordinate(context: Context): com.mapbox.maps.ScreenCoordinate {
+    return com.mapbox.maps.ScreenCoordinate(x.toDevicePixels(context).toDouble(), y.toDevicePixels(context).toDouble())
+}
+
+fun com.mapbox.maps.CoordinateBounds.toFLTCoordinateBounds(): CoordinateBounds =
+    CoordinateBounds(southwest, northeast, infiniteBounds)
+
+fun CameraOptions.toCameraOptions(context: Context): com.mapbox.maps.CameraOptions = com.mapbox.maps.CameraOptions.Builder()
+    .anchor(anchor?.toScreenCoordinate(context))
+    .bearing(bearing)
+    .center(center)
+    .padding(padding?.toEdgeInsets(context))
+    .zoom(zoom)
+    .pitch(pitch)
+    .build()
+
 
 fun com.mapbox.maps.EdgeInsets.toFLTEdgeInsets(context: Context): MbxEdgeInsets = MbxEdgeInsets(
     top.toLogicalPixels(context),
