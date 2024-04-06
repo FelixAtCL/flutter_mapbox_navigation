@@ -1,7 +1,6 @@
-package com.eopeter.fluttermapboxnavigation.boundings.style.application
+package com.eopeter.fluttermapboxnavigation.core
 
 import android.content.Context
-import com.eopeter.fluttermapboxnavigation.boundings.style.domain.*
 import com.mapbox.bindgen.Value
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
@@ -127,3 +126,11 @@ fun StyleProjectionName.toProjectionName(): ProjectionName {
         StyleProjectionName.MERCATOR -> ProjectionName.MERCATOR
     }
 }
+
+fun com.mapbox.maps.CameraState.toCameraState(context: Context): CameraState = CameraState(
+    bearing = bearing,
+    padding = padding.toFLTEdgeInsets(context),
+    pitch = pitch,
+    zoom = zoom,
+    center = center
+)

@@ -1,7 +1,5 @@
-package com.eopeter.fluttermapboxnavigation.boundings.style.domain
+package com.eopeter.fluttermapboxnavigation.core
 
-import com.eopeter.fluttermapboxnavigation.core.PointDecoder
-import com.eopeter.fluttermapboxnavigation.core.toList
 import com.mapbox.geojson.Point
 
 /**
