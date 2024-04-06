@@ -3,6 +3,8 @@ package com.eopeter.fluttermapboxnavigation.boundings.style.port
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.BitmapFactory.Options
+import androidx.core.graphics.scale
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.core.*
@@ -587,8 +589,12 @@ class StyleApi : MethodChannel.MethodCallHandler {
         var bitmap = BitmapFactory.decodeByteArray(
             image.data,
             0,
-            image.data.size
+            image.data.size,
+
         )
+
+        bitmap = bitmap.scale(image.width.toInt(), image.height.toInt(), false)
+
         if (bitmap.config != Bitmap.Config.ARGB_8888) {
             bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, false)
         }
@@ -599,6 +605,33 @@ class StyleApi : MethodChannel.MethodCallHandler {
             bitmap,
             sdf
         )
+
+        /**
+         *val expected = mapboxMap.getStyle()?.addStyleImage(
+         *             imageId, scale.toFloat(),
+         *             Image(
+         *                 image.width.toInt(),
+         *                 image.height.toInt(),
+         *                 byteBuffer.array()
+         *             ),
+         *             sdf,
+         *             stretchX.map {
+         *                 com.mapbox.maps.ImageStretches(
+         *                     it!!.first.toFloat(),
+         *                     it!!.second.toFloat()
+         *                 )
+         *             },
+         *             stretchY.map { com.mapbox.maps.ImageStretches(it!!.first.toFloat(), it.second.toFloat()) }.toMutableList(),
+         *             if (content != null) {
+         *                 com.mapbox.maps.ImageContent(
+         *                     content.left.toFloat(),
+         *                     content.top.toFloat(),
+         *                     content.right.toFloat(),
+         *                     content.bottom.toFloat()
+         *                 )
+         *             } else null
+         *         )
+         */
 
         if (expected == null || expected.isError) {
             result.success(expected?.error ?: "expected is null")
