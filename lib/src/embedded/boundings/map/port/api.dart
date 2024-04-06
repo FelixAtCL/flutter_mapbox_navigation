@@ -56,7 +56,7 @@ class MapAPI {
     if (result is! ScreenCoordinate) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -79,7 +79,7 @@ class MapAPI {
     if (result is! List) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result.cast<QueriedFeature?>();

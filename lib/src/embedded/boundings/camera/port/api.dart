@@ -30,7 +30,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -52,7 +52,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -74,7 +74,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -106,7 +106,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -130,7 +130,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -157,7 +157,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -167,7 +167,7 @@ class CameraAPI {
   /// This method invokes the native platform method 'cancelCameraAnimation'
   /// through the method channel. If the method call returns a non-null result,
   /// it throws a [PlatformException] with the code 'channel-error' and the
-  /// message 'Unable to establish connection on channel.'
+  /// message 'Unable to establish connection on channel. $result'
   ///
   /// Throws:
   ///   - [PlatformException] if the method call returns a non-null result.
@@ -177,7 +177,7 @@ class CameraAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -191,7 +191,7 @@ class CameraAPI {
     if (result is! CameraState) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -222,7 +222,7 @@ class CameraAPI {
     if (result is! CoordinateBounds) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;

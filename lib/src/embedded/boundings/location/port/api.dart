@@ -23,7 +23,7 @@ class LocationAPI {
     if (result is! LocationComponentSettings) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -42,7 +42,7 @@ class LocationAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }

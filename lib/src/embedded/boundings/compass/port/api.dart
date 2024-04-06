@@ -22,7 +22,7 @@ class CompassAPI {
     if (result is! CompassSettings) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -41,7 +41,7 @@ class CompassAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }

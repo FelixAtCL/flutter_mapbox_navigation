@@ -21,7 +21,7 @@ class StyleAPI {
     if (result is! String) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -40,7 +40,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -53,7 +53,7 @@ class StyleAPI {
     if (result is! String) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -69,7 +69,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -90,7 +90,7 @@ class StyleAPI {
     if (result is! CameraOptions) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -110,7 +110,7 @@ class StyleAPI {
     if (result is! TransitionOptions) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -131,7 +131,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -155,7 +155,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -187,7 +187,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -204,7 +204,7 @@ class StyleAPI {
     if (result is! bool) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -222,7 +222,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -245,7 +245,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -262,7 +262,7 @@ class StyleAPI {
     if (result is! bool) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -276,7 +276,7 @@ class StyleAPI {
     if (result == null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return (result as List<Object?>).cast<StyleObjectInfo?>();
@@ -299,7 +299,7 @@ class StyleAPI {
     if (result is! StylePropertyValue) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -326,7 +326,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -342,7 +342,7 @@ class StyleAPI {
     if (result is! String) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -369,7 +369,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -388,7 +388,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -410,7 +410,7 @@ class StyleAPI {
     if (result is! StylePropertyValue) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -440,7 +440,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -458,7 +458,7 @@ class StyleAPI {
     if (result is! String) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -486,7 +486,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -509,7 +509,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -524,7 +524,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -541,7 +541,7 @@ class StyleAPI {
     if (result is! bool) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -555,7 +555,7 @@ class StyleAPI {
     if (result is! List) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return (result as List<Object?>).cast<StyleObjectInfo?>();
@@ -573,7 +573,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -590,7 +590,7 @@ class StyleAPI {
     if (result is! StylePropertyValue) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -614,7 +614,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -631,7 +631,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -648,7 +648,7 @@ class StyleAPI {
     if (result is! StylePropertyValue) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -672,7 +672,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -690,7 +690,7 @@ class StyleAPI {
     if (result is! MbxImage) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -738,7 +738,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -755,7 +755,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -772,7 +772,7 @@ class StyleAPI {
     if (result is! bool) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -803,7 +803,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -828,7 +828,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -845,7 +845,7 @@ class StyleAPI {
     if (result is! bool) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -859,7 +859,7 @@ class StyleAPI {
     if (result is! String) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
     return result;
@@ -875,7 +875,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
@@ -895,7 +895,7 @@ class StyleAPI {
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
+        message: 'Unable to establish connection on channel. $result',
       );
     }
   }
