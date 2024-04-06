@@ -438,12 +438,19 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
 
     if (_loadedImgs.contains(id)) _loadedImgs.remove(id);
 
+    print(bundle.buffer.lengthInBytes);
+
     print(decodedImage.width);
     print(decodedImage.height);
+    print(image.length);
+    print(4 * decodedImage.width * decodedImage.height);
+    print((4 * decodedImage.width * decodedImage.height) / image.length);
+
+    var ratio = (4 * decodedImage.width * decodedImage.height) / image.length;
 
     await _controller?.style.addStyleImage(
         id,
-        0.5,
+        1.0 / ratio,
         MbxImage(
             width: decodedImage.width,
             height: decodedImage.height,

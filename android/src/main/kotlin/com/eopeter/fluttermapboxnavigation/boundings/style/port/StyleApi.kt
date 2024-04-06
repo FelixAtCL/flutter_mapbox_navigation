@@ -596,8 +596,8 @@ class StyleApi : MethodChannel.MethodCallHandler {
         val expected = mapboxMap.getStyle()?.addStyleImage(
             imageId, scale.toFloat(),
             Image(
-                image.width.toInt(),
-                image.height.toInt(),
+                bitmap.width,
+                bitmap.height,
                 byteBuffer.array()
             ),
             sdf,
