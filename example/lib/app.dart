@@ -194,9 +194,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     await _controller?.style.getStyleURI() ??
                                         "";
                                 print(uri);
-                                // var state =
-                                //     await _controller?.camera.getState();
-                                // print(state);
+                                var state =
+                                    await _controller?.camera.getState();
+                                print(state);
                                 // var bounds = await _controller?.camera
                                 //     .getCoordinateBounds(CameraOptions(
                                 //         zoom: 10,

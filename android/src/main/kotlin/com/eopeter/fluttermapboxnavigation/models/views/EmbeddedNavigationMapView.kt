@@ -7,7 +7,8 @@ import com.eopeter.fluttermapboxnavigation.TurnByTurn
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
-import com.eopeter.fluttermapboxnavigation.boundings.style.StyleApi
+import com.eopeter.fluttermapboxnavigation.boundings.style.port.StyleApi
+import com.eopeter.fluttermapboxnavigation.boundings.camera.port.CameraApi
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -35,6 +36,7 @@ class EmbeddedNavigationMapView(
     private var mapView: MapView? = null
     private var mapboxMap: MapboxMap? = null
     private var style: StyleApi? = null
+    private var camera: CameraApi? = null
     private var enableOnMapTapCallback: Boolean = false
 
     override fun initFlutterChannelHandlers() {
@@ -81,14 +83,7 @@ class EmbeddedNavigationMapView(
             }
             this@EmbeddedNavigationMapView.mapView = mapView
             this@EmbeddedNavigationMapView.mapboxMap = mapView.getMapboxMap()
-            var style =  StyleApi(
-                    this@EmbeddedNavigationMapView.messenger,
-                    mapView.getMapboxMap(),
-                    this@EmbeddedNavigationMapView.viewId,
-                    this@EmbeddedNavigationMapView.context
-                )
-            style.init()
-            this@EmbeddedNavigationMapView.style = style
+            enableApis(mapView)
         }
 
         override fun onDetached(mapView: MapView) {
@@ -96,9 +91,9 @@ class EmbeddedNavigationMapView(
             if(this@EmbeddedNavigationMapView.enableOnMapTapCallback) {
                 mapView.gestures.removeOnMapClickListener(this)
             }
-            this@EmbeddedNavigationMapView.style = null
             this@EmbeddedNavigationMapView.mapView = null
             this@EmbeddedNavigationMapView.mapboxMap = null
+            disableApis()
         }
 
         override fun onMapClick(point: Point): Boolean {
@@ -108,6 +103,31 @@ class EmbeddedNavigationMapView(
             )
             PluginUtilities.sendEvent(MapBoxEvents.ON_MAP_TAP, JSONObject(waypoint).toString())
             return false
+        }
+
+        fun enableApis(mapView: MapView) {
+            var camera = CameraApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView.getMapboxMap(),
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            camera.init()
+            this@EmbeddedNavigationMapView.camera = camera
+
+            var style =  StyleApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView.getMapboxMap(),
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            style.init()
+            this@EmbeddedNavigationMapView.style = style
+        }
+
+        fun disableApis() {
+            this@EmbeddedNavigationMapView.camera = null
+            this@EmbeddedNavigationMapView.style = null
         }
     }
 
