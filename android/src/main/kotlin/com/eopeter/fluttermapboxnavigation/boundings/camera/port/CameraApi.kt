@@ -23,7 +23,7 @@ class CameraApi : MethodChannel.MethodCallHandler {
     private val mapboxMap: MapboxMap
     private val context: Context
     private val viewId: Int
-    var cancelable: Cancelable? = null
+    private var cancelable: Cancelable? = null
 
     constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int, context: Context) {
         this@CameraApi.messenger = messenger
