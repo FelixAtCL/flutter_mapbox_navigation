@@ -450,7 +450,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
 
     await _controller?.style.addStyleImage(
         id,
-        1.0 / ratio,
+        1.0,
         MbxImage(
             width: decodedImage.width,
             height: decodedImage.height,

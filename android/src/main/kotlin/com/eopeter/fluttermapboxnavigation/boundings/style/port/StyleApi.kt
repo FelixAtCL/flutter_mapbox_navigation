@@ -7,6 +7,7 @@ import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
+import com.mapbox.bindgen.DataRef
 import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.localization.localizeLabels
 import com.mapbox.maps.extension.style.projection.generated.getProjection
@@ -593,30 +594,12 @@ class StyleApi : MethodChannel.MethodCallHandler {
         }
         val byteBuffer = ByteBuffer.allocateDirect(bitmap.byteCount)
         bitmap.copyPixelsToBuffer(byteBuffer)
-        val expected = mapboxMap.getStyle()?.addStyleImage(
-            imageId, scale.toFloat(),
-            Image(
-                bitmap.width,
-                bitmap.height,
-                byteBuffer.array()
-            ),
-            sdf,
-            stretchX.map {
-                com.mapbox.maps.ImageStretches(
-                    it!!.first.toFloat(),
-                    it!!.second.toFloat()
-                )
-            },
-            stretchY.map { com.mapbox.maps.ImageStretches(it!!.first.toFloat(), it.second.toFloat()) }.toMutableList(),
-            if (content != null) {
-                com.mapbox.maps.ImageContent(
-                    content.left.toFloat(),
-                    content.top.toFloat(),
-                    content.right.toFloat(),
-                    content.bottom.toFloat()
-                )
-            } else null
+        val expected = mapboxMap.getStyle()?.addImage(
+            imageId,
+            bitmap,
+            sdf
         )
+
         if (expected == null || expected.isError) {
             result.success(expected?.error ?: "expected is null")
         } else {
