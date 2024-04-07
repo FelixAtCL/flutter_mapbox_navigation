@@ -2,6 +2,7 @@ package com.eopeter.fluttermapboxnavigation.core
 
 import android.content.Context
 import com.mapbox.bindgen.Value
+import com.mapbox.geojson.Point
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
@@ -175,3 +176,7 @@ fun com.mapbox.maps.CameraState.toCameraState(context: Context): CameraState = C
     zoom = zoom,
     center = center
 )
+
+fun Point.toFLTScreenCoordinate(): ScreenCoordinate {
+    return ScreenCoordinate(x = latitude(), y = longitude())
+}

@@ -392,28 +392,34 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
         }
       };
 
-      await _addStyleLayer(id: layer, props: json.encode(markerProps));
+      await _addStyleLayer(
+          id: layer,
+          props: json.encode(markerProps),
+          position: LayerPosition(at: 128));
     } catch (error) {
       print(error.toString());
     }
 
     try {
-      var latitudeBuldern = 51.866478;
-      var longitudeBuldern = 7.369059;
-      var content =
-          _createContentFromCoordinate(latitudeBuldern, longitudeBuldern);
-      var features = jsonEncode({
-        "type": "FeatureCollection",
-        "features": [content]
-      });
+      var latitudes = [51.866478, 51.566478, 51.2866478, 50.966478, 50.666478];
+      var longitudes = [7.369059, 7.669059, 7.969059, 8.269059, 8.569059];
+
+      var content = _createContentFromCoordinates(latitudes, longitudes);
+
+      var features =
+          jsonEncode({"type": "FeatureCollection", "features": content});
+
       var sourceToUpdate =
           (await _controller?.style.getSource(source)) as GeoJsonSource;
+
       await sourceToUpdate.updateGeoJSON(features);
+
       var cameraOptions = CameraOptions(
           center:
-              Point(coordinates: Position(longitudeBuldern, latitudeBuldern))
+              Point(coordinates: Position(longitudes.first, latitudes.first))
                   .toJson(),
           zoom: 12);
+
       await _controller?.camera
           .flyTo(cameraOptions, MapAnimationOptions(duration: 500));
     } catch (error) {
@@ -437,16 +443,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var id = img;
 
     if (_loadedImgs.contains(id)) _loadedImgs.remove(id);
-
-    print(bundle.buffer.lengthInBytes);
-
-    print(decodedImage.width);
-    print(decodedImage.height);
-    print(image.length);
-    print(4 * decodedImage.width * decodedImage.height);
-    print((4 * decodedImage.width * decodedImage.height) / image.length);
-
-    var ratio = (4 * decodedImage.width * decodedImage.height) / image.length;
 
     await _controller?.style.addStyleImage(
         id,
@@ -473,6 +469,21 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("layer exists: $exists");
     if (exists == true) return;
     await _controller?.style.addStyleLayer(props, position);
+  }
+
+  List<Map<String, dynamic>> _createContentFromCoordinates(
+      List<double> latitudes, List<double> longitudes) {
+    var content = <Map<String, dynamic>>[];
+
+    if (latitudes.length != longitudes.length) throw Exception();
+
+    for (var index = 0; index < latitudes.length; index++) {
+      var lat = latitudes[index];
+      var long = longitudes[index];
+      content.add(_createContentFromCoordinate(lat, long));
+    }
+
+    return content;
   }
 
   Map<String, dynamic> _createContentFromCoordinate(double lat, double long) =>
