@@ -48,7 +48,7 @@ class MapApi : MethodChannel.MethodCallHandler {
             "subscribe" -> {
                 this.subscribe(methodCall, result)
             }
-            else -> result.success()
+            else -> result.success("Something went wrong")
         }
     }
 
