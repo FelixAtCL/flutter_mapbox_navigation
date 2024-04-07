@@ -94,7 +94,7 @@ class MapApi : MethodChannel.MethodCallHandler {
             MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
                 methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
             }
-            MapEvent.CAMERA_CHANGED -> mapboxMap.addOnCameraChangeListener {
+            MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
                 methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
             }
             MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
@@ -112,7 +112,7 @@ class MapApi : MethodChannel.MethodCallHandler {
             MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
                 methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
             }
-            MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.addOnStyleImageUnusedListener {
+            MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
                 methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
             }
             MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {

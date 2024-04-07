@@ -254,7 +254,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                       _controller = controller;
                       controller.initialize();
                       _listenOnTap();
-                      // _listenOnCameraChange();
+                      _listenOnCameraChange();
                     }),
               ),
             )
