@@ -39,8 +39,8 @@ class MapApi : MethodChannel.MethodCallHandler {
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "subscribe" -> {
-                this.subscribe(methodCall, result)
+            "addEventListener" -> {
+                this.addEventListener(methodCall, result)
             }
             "pixelForCoordinate" -> {
                 this.pixelForCoordinate(methodCall, result)
@@ -77,7 +77,7 @@ class MapApi : MethodChannel.MethodCallHandler {
         result.success(screenCoordinate.toFLTScreenCoordinate(context))
     }
 
-    private fun subscribe(methodCall: MethodCall, result: MethodChannel.Result) {
+    private fun addEventListener(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["event"] as? String ?: return
         val mapEvent = MapEvent.ofName(event) ?: return
