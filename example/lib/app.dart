@@ -279,6 +279,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     });
   }
 
+  // TODO: Android error on this part -> Maybe in the decoder parts?!
   _listenOnCameraChange() {
     _controller?.map.addEventListener((event) {
       print("camera changed: ${event.data}");
