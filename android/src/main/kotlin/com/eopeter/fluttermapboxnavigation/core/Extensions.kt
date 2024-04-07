@@ -235,11 +235,6 @@ fun RenderedQueryOptions.toRenderedQueryOptions(): com.mapbox.maps.RenderedQuery
     return com.mapbox.maps.RenderedQueryOptions(layerIds, filter?.toValue())
 }
 
-fun com.mapbox.maps.QueriedFeature.toFLTQueriedRenderedFeature(): QueriedRenderedFeature {
-    val feature = this.toFLTQueriedFeature()
-    return QueriedRenderedFeature(feature, listOf(feature.sourceLayer))
-}
-
 fun com.mapbox.maps.QueriedFeature.toFLTQueriedFeature(): QueriedFeature {
     return QueriedFeature(JSONObject(this.feature.toJson()).toMap(), source, sourceLayer, state.toJson())
 }

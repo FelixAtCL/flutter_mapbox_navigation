@@ -63,7 +63,7 @@ class MapApi : MethodChannel.MethodCallHandler {
             if (it.isError) {
                 result.success(it.error)
             } else {
-                result.success(it.value!!.map { feature -> feature.toFLTQueriedRenderedFeature() }.toMutableList())
+                result.success(it.value!!.map { feature -> feature.toFLTQueriedFeature() }.toMutableList())
             }
         }
     }
