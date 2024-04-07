@@ -8,6 +8,7 @@ import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.boundings.style.port.StyleApi
 import com.eopeter.fluttermapboxnavigation.boundings.camera.port.CameraApi
 import com.eopeter.fluttermapboxnavigation.boundings.gesture.port.GestureApi
+import com.eopeter.fluttermapboxnavigation.boundings.map.port.MapApi
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.navigation.dropin.map.MapViewObserver
@@ -32,6 +33,7 @@ class EmbeddedNavigationMapView(
     private var mapboxMap: MapboxMap? = null
     private var camera: CameraApi? = null
     private var gesture: GestureApi? = null
+    private var map: MapApi? = null
     private var style: StyleApi? = null
     private var enableOnMapTapCallback: Boolean = false
 
@@ -104,6 +106,15 @@ class EmbeddedNavigationMapView(
             gesture.init()
             this@EmbeddedNavigationMapView.gesture = gesture
 
+            val map = MapApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView.getMapboxMap(),
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            map.init()
+            this@EmbeddedNavigationMapView.map = map
+
             val style =  StyleApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView.getMapboxMap(),
@@ -119,6 +130,7 @@ class EmbeddedNavigationMapView(
 
             this@EmbeddedNavigationMapView.camera = null
             this@EmbeddedNavigationMapView.gesture = null
+            this@EmbeddedNavigationMapView.map = null
             this@EmbeddedNavigationMapView.style = null
         }
     }

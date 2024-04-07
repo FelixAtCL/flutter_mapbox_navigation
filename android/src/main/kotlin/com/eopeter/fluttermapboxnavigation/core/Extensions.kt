@@ -1,12 +1,15 @@
 package com.eopeter.fluttermapboxnavigation.core
 
 import android.content.Context
+import com.google.gson.Gson
 import com.mapbox.bindgen.Value
 import com.mapbox.geojson.Point
 import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
+import org.json.JSONArray
+import org.json.JSONObject
 
 fun com.mapbox.maps.CameraOptions.toFLTCameraOptions(context: Context): CameraOptions {
     return CameraOptions(
@@ -180,3 +183,76 @@ fun com.mapbox.maps.CameraState.toCameraState(context: Context): CameraState = C
 fun Point.toFLTScreenCoordinate(): ScreenCoordinate {
     return ScreenCoordinate(x = latitude(), y = longitude())
 }
+
+fun RenderedQueryGeometry.toRenderedQueryGeometry(context: Context): com.mapbox.maps.RenderedQueryGeometry {
+    return when (type) {
+        Type.SCREEN_BOX -> {
+            val screenBoxArray = Gson().fromJson(
+                value,
+                Array<Array<Double>>::class.java
+            )
+            val minCoord = screenBoxArray[0]
+            val maxCoord = screenBoxArray[1]
+            com.mapbox.maps.RenderedQueryGeometry.valueOf(
+                com.mapbox.maps.ScreenBox(
+                    com.mapbox.maps.ScreenCoordinate(
+                        minCoord[0].toDevicePixels(context).toDouble(),
+                        minCoord[1].toDevicePixels(context).toDouble()
+                    ),
+                    com.mapbox.maps.ScreenCoordinate(
+                        maxCoord[0].toDevicePixels(context).toDouble(),
+                        maxCoord[1].toDevicePixels(context).toDouble()
+                    )
+                )
+            )
+        }
+        Type.LIST -> {
+            val array: Array<Array<Double>> =
+                Gson().fromJson(value, Array<Array<Double>>::class.java)
+            com.mapbox.maps.RenderedQueryGeometry.valueOf(
+                array.map {
+                    com.mapbox.maps.ScreenCoordinate(it[0].toDevicePixels(context).toDouble(), it[1].toDevicePixels(context).toDouble())
+                }.toList()
+            )
+        }
+        Type.SCREEN_COORDINATE -> {
+            val pointArray = Gson().fromJson(
+                value,
+                Array<Double>::class.java
+            )
+
+            com.mapbox.maps.RenderedQueryGeometry.valueOf(
+                com.mapbox.maps.ScreenCoordinate(
+                    pointArray[0].toDevicePixels(context).toDouble(),
+                    pointArray[1].toDevicePixels(context).toDouble()
+                )
+            )
+        }
+    }
+}
+
+fun RenderedQueryOptions.toRenderedQueryOptions(): com.mapbox.maps.RenderedQueryOptions {
+    return com.mapbox.maps.RenderedQueryOptions(layerIds, filter?.toValue())
+}
+
+fun com.mapbox.maps.QueriedFeature.toFLTQueriedRenderedFeature(): QueriedRenderedFeature {
+    val feature = this.toFLTQueriedFeature()
+    return QueriedRenderedFeature(feature, listOf(feature.sourceLayer))
+}
+
+fun com.mapbox.maps.QueriedFeature.toFLTQueriedFeature(): QueriedFeature {
+    return QueriedFeature(JSONObject(this.feature.toJson()).toMap(), source, sourceLayer, state.toJson())
+}
+
+fun JSONObject.toMap(): Map<String?, Any?> = keys().asSequence().associateWith {
+    when (val value = this[it]) {
+        is JSONArray -> {
+            val map = (0 until value.length()).associate { Pair(it.toString(), value[it]) }
+            JSONObject(map).toMap().values.toList()
+        }
+        is JSONObject -> value.toMap()
+        JSONObject.NULL -> null
+        else -> value
+    }
+}
+
