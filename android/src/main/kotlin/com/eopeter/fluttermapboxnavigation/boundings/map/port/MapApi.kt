@@ -3,7 +3,6 @@ package com.eopeter.fluttermapboxnavigation.boundings.map.port
 import android.content.Context
 import com.eopeter.fluttermapboxnavigation.boundings.map.application.MapApiCodec
 import com.eopeter.fluttermapboxnavigation.core.*
-import com.google.gson.GsonBuilder
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.extension.observable.*
