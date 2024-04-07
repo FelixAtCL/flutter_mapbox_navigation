@@ -39,14 +39,14 @@ class MapApi : MethodChannel.MethodCallHandler {
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
+            "subscribe" -> {
+                this.subscribe(methodCall, result)
+            }
             "pixelForCoordinate" -> {
                 this.pixelForCoordinate(methodCall, result)
             }
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
-            }
-            "subscribe" -> {
-                this.subscribe(methodCall, result)
             }
             else -> result.notImplemented()
         }
