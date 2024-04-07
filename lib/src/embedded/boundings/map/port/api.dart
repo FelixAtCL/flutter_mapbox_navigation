@@ -101,9 +101,9 @@ class MapAPI {
     List<MapEvent> events,
   ) async {
     for (final element in events) {
-      await _methodChannel.invokeMethod('addEventListener', <String, dynamic>{
-        'event': element.name,
-      });
+      final args = <String, dynamic>{};
+      args['event'] = element.name;
+      await _methodChannel.invokeMethod('addEventListener', args);
       if (_observers[element.name] == null) {
         // Haven't subscribed this event
         _observers[element.name] = [observer];

@@ -18,7 +18,6 @@ class MapApi : MethodChannel.MethodCallHandler {
     private val mapboxMap: MapboxMap
     private val context: Context
     private val viewId: Int
-    private val gson = GsonBuilder().create()
 
     constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int, context: Context) {
         this@MapApi.messenger = messenger
@@ -83,46 +82,46 @@ class MapApi : MethodChannel.MethodCallHandler {
         val mapEvent = MapEvent.ofName(event) ?: return
         when (mapEvent) {
             MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.MAP_LOADING_ERROR -> mapboxMap.subscribeMapLoadingError {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.STYLE_LOADED -> mapboxMap.subscribeStyleLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.SOURCE_ADDED -> mapboxMap.subscribeSourceAdded {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.SOURCE_REMOVED -> mapboxMap.subscribeSourceRemoved {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.SOURCE_DATA_LOADED -> mapboxMap.subscribeSourceDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.RENDER_FRAME_FINISHED -> mapboxMap.subscribeRenderFrameFinished {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
             MapEvent.RESOURCE_REQUEST -> mapboxMap.subscribeResourceRequest {
-                methodChannel?.invokeMethod(mapEvent.methodName, gson.toJson(it))
+                methodChannel?.invokeMethod(mapEvent.methodName, it.toJson())
             }
         }
         result.success(null)
