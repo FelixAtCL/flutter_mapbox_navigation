@@ -81,6 +81,7 @@ class MapApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["event"] as? String ?: return
         val mapEvent = MapEvent.ofName(event) ?: return
+        if(methodChannel == null) return
         when (mapEvent) {
             MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
                 methodChannel.invokeMethod(mapEvent.methodName, gson.toJson(it))
