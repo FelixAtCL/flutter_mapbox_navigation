@@ -251,7 +251,3 @@ fun JSONObject.toMap(): Map<String?, Any?> = keys().asSequence().associateWith {
     }
 }
 
-fun com.mapbox.maps.Event.toJson(): String {
-    return this.data.toJson()
-}
-
