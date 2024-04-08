@@ -393,24 +393,6 @@ fun LocationComponentSettingsInterface.applyFromFLT(settings: LocationComponentS
     settings.pulsingMaxRadius?.let { pulsingMaxRadius = it.toFloat() }
     settings.layerAbove?.let { layerAbove = it }
     settings.layerBelow?.let { layerBelow = it }
-    settings.locationPuck?.let {
-        val puck3D = it.locationPuck3D
-        locationPuck = if (puck3D != null) {
-            com.mapbox.maps.plugin.LocationPuck3D(
-                puck3D.modelUri!!
-            ).apply {
-                puck3D.modelUri?.let { modelUri = it }
-                puck3D.position?.let { position = it.mapNotNull { it?.toFloat() } }
-                puck3D.modelOpacity?.let { modelOpacity = it.toFloat() }
-                puck3D.modelScale?.let { modelScale = it.mapNotNull { it?.toFloat() } }
-                puck3D.modelScaleExpression?.let { modelScaleExpression = it }
-                puck3D.modelTranslation?.let { modelTranslation = it.mapNotNull { it?.toFloat() } }
-                puck3D.modelRotation?.let { modelRotation = it.mapNotNull { it?.toFloat() } }
-            }
-        } else {
-            createDefault2DPuck(withBearing = true)
-        }
-    }
 }
 
 fun LocationComponentSettingsInterface.toFLT(context: Context) = LocationComponentSettings(
