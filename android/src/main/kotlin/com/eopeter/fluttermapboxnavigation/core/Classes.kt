@@ -1740,6 +1740,76 @@ enum class OrnamentPosition(val raw: Int) {
     }
 }
 
+/**
+ * Shows the compass on the map.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class CompassSettings(
+    /** Whether the compass is visible on the map. */
+    val enabled: Boolean? = null,
+    /** Defines where the compass is positioned on the map */
+    val position: OrnamentPosition? = null,
+    /** Defines the margin to the left that the compass icon honors. This property is specified in pixels. */
+    val marginLeft: Double? = null,
+    /** Defines the margin to the top that the compass icon honors. This property is specified in pixels. */
+    val marginTop: Double? = null,
+    /** Defines the margin to the right that the compass icon honors. This property is specified in pixels. */
+    val marginRight: Double? = null,
+    /** Defines the margin to the bottom that the compass icon honors. This property is specified in pixels. */
+    val marginBottom: Double? = null,
+    /** The alpha channel value of the compass image */
+    val opacity: Double? = null,
+    /** The clockwise rotation value in degrees of the compass. */
+    val rotation: Double? = null,
+    /** Whether the compass is displayed. */
+    val visibility: Boolean? = null,
+    /** Whether the compass fades out to invisible when facing north direction. */
+    val fadeWhenFacingNorth: Boolean? = null,
+    /** Whether the compass can be clicked and click events can be registered. */
+    val clickable: Boolean? = null,
+    /** The compass image, the visual representation of the compass. */
+    val image: ByteArray? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): CompassSettings {
+            val enabled = list[0] as Boolean?
+            val position = (list[1] as Int?)?.let {
+                OrnamentPosition.ofRaw(it)
+            }
+            val marginLeft = list[2] as Double?
+            val marginTop = list[3] as Double?
+            val marginRight = list[4] as Double?
+            val marginBottom = list[5] as Double?
+            val opacity = list[6] as Double?
+            val rotation = list[7] as Double?
+            val visibility = list[8] as Boolean?
+            val fadeWhenFacingNorth = list[9] as Boolean?
+            val clickable = list[10] as Boolean?
+            val image = list[11] as ByteArray?
+            return CompassSettings(enabled, position, marginLeft, marginTop, marginRight, marginBottom, opacity, rotation, visibility, fadeWhenFacingNorth, clickable, image)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            enabled,
+            position?.raw,
+            marginLeft,
+            marginTop,
+            marginRight,
+            marginBottom,
+            opacity,
+            rotation,
+            visibility,
+            fadeWhenFacingNorth,
+            clickable,
+            image,
+        )
+    }
+}
+
 /*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
