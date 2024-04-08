@@ -1852,6 +1852,105 @@ data class LogoSettings(
     }
 }
 
+
+/**
+ * Shows the scale bar on the map.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class ScaleBarSettings(
+    /** Whether the scale is visible on the map. */
+    val enabled: Boolean? = null,
+    /** Defines where the scale bar is positioned on the map */
+    val position: OrnamentPosition? = null,
+    /** Defines the margin to the left that the scale bar honors. This property is specified in pixels. */
+    val marginLeft: Double? = null,
+    /** Defines the margin to the top that the scale bar honors. This property is specified in pixels. */
+    val marginTop: Double? = null,
+    /** Defines the margin to the right that the scale bar honors. This property is specified in pixels. */
+    val marginRight: Double? = null,
+    /** Defines the margin to the bottom that the scale bar honors. This property is specified in pixels. */
+    val marginBottom: Double? = null,
+    /** Defines text color of the scale bar. */
+    val textColor: Long? = null,
+    /** Defines primary color of the scale bar. */
+    val primaryColor: Long? = null,
+    /** Defines secondary color of the scale bar. */
+    val secondaryColor: Long? = null,
+    /** Defines width of the border for the scale bar. This property is specified in pixels. */
+    val borderWidth: Double? = null,
+    /** Defines height of the scale bar. This property is specified in pixels. */
+    val height: Double? = null,
+    /** Defines margin of the text bar of the scale bar. This property is specified in pixels. */
+    val textBarMargin: Double? = null,
+    /** Defines text border width of the scale bar. This property is specified in pixels. */
+    val textBorderWidth: Double? = null,
+    /** Defines text size of the scale bar. This property is specified in pixels. */
+    val textSize: Double? = null,
+    /** Whether the scale bar is using metric unit. True if the scale bar is using metric system, false if the scale bar is using imperial units. */
+    val isMetricUnits: Boolean? = null,
+    /** Configures minimum refresh interval, in millisecond, default is 15. */
+    val refreshInterval: Long? = null,
+    /** Configures whether to show the text border or not, default is true. */
+    val showTextBorder: Boolean? = null,
+    /** configures ratio of scale bar max width compared with MapView width, default is 0.5. */
+    val ratio: Double? = null,
+    /** If set to True scale bar will be triggering onDraw depending on [ScaleBarSettings.refreshInterval] even if actual data did not change. If set to False scale bar will redraw only on demand. Defaults to False and should not be changed explicitly in most cases. Could be set to True to produce correct GPU frame metrics when running gfxinfo command. */
+    val useContinuousRendering: Boolean? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): ScaleBarSettings {
+            val enabled = list[0] as Boolean?
+            val position = (list[1] as Int?)?.let {
+                OrnamentPosition.ofRaw(it)
+            }
+            val marginLeft = list[2] as Double?
+            val marginTop = list[3] as Double?
+            val marginRight = list[4] as Double?
+            val marginBottom = list[5] as Double?
+            val textColor = list[6].let { if (it is Int) it.toLong() else it as Long? }
+            val primaryColor = list[7].let { if (it is Int) it.toLong() else it as Long? }
+            val secondaryColor = list[8].let { if (it is Int) it.toLong() else it as Long? }
+            val borderWidth = list[9] as Double?
+            val height = list[10] as Double?
+            val textBarMargin = list[11] as Double?
+            val textBorderWidth = list[12] as Double?
+            val textSize = list[13] as Double?
+            val isMetricUnits = list[14] as Boolean?
+            val refreshInterval = list[15].let { if (it is Int) it.toLong() else it as Long? }
+            val showTextBorder = list[16] as Boolean?
+            val ratio = list[17] as Double?
+            val useContinuousRendering = list[18] as Boolean?
+            return ScaleBarSettings(enabled, position, marginLeft, marginTop, marginRight, marginBottom, textColor, primaryColor, secondaryColor, borderWidth, height, textBarMargin, textBorderWidth, textSize, isMetricUnits, refreshInterval, showTextBorder, ratio, useContinuousRendering)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            enabled,
+            position?.raw,
+            marginLeft,
+            marginTop,
+            marginRight,
+            marginBottom,
+            textColor,
+            primaryColor,
+            secondaryColor,
+            borderWidth,
+            height,
+            textBarMargin,
+            textBorderWidth,
+            textSize,
+            isMetricUnits,
+            refreshInterval,
+            showTextBorder,
+            ratio,
+            useContinuousRendering,
+        )
+    }
+}
+
 /*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),

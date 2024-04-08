@@ -298,10 +298,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     var logoSettings = await _controller?.logo.getSettings();
     print("logo settings: $logoSettings");
     await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    // var scaleBarSettings = await _controller?.scaleBar.getSettings();
-    // print("scaleBar settings: $scaleBarSettings");
-    // await _controller?.scaleBar
-    //     .updateSettings(ScaleBarSettings(marginLeft: 150));
+    var scaleBarSettings = await _controller?.scaleBar.getSettings();
+    print("scaleBar settings: $scaleBarSettings");
+    await _controller?.scaleBar
+        .updateSettings(ScaleBarSettings(marginLeft: 150));
     // var locationSettings = await _controller?.location.getSettings();
     // print("location settings: $locationSettings");
     // await _controller?.location

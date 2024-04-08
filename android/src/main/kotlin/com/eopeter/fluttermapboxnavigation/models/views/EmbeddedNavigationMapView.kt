@@ -12,6 +12,7 @@ import com.eopeter.fluttermapboxnavigation.boundings.compass.port.CompassApi
 import com.eopeter.fluttermapboxnavigation.boundings.gesture.port.GestureApi
 import com.eopeter.fluttermapboxnavigation.boundings.logo.port.LogoApi
 import com.eopeter.fluttermapboxnavigation.boundings.map.port.MapApi
+import com.eopeter.fluttermapboxnavigation.boundings.scaleBar.port.ScaleBarApi
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.navigation.dropin.map.MapViewObserver
@@ -40,6 +41,7 @@ class EmbeddedNavigationMapView(
     private var gesture: GestureApi? = null
     private var map: MapApi? = null
     private var logo: LogoApi? = null
+    private var scalebar: ScaleBarApi? = null
     private var style: StyleApi? = null
     private var enableOnMapTapCallback: Boolean = false
 
@@ -147,6 +149,15 @@ class EmbeddedNavigationMapView(
             )
             logo.init()
             this@EmbeddedNavigationMapView.logo = logo
+
+            val scalebar = ScaleBarApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView,
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            scalebar.init()
+            this@EmbeddedNavigationMapView.scalebar = scalebar
 
             val style =  StyleApi(
                 this@EmbeddedNavigationMapView.messenger,
