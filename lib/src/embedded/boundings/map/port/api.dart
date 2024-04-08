@@ -98,18 +98,18 @@ class MapAPI {
   /// Throws an exception if the event subscription fails.
   Future<void> addEventListener(
     Observer observer,
-    List<String> events,
+    List<MapEvent> events,
   ) async {
     for (final element in events) {
       final args = <String, dynamic>{};
-      args['event'] = element;
+      args['event'] = element.name;
       await _methodChannel.invokeMethod('listenOnEvent', args);
-      if (_observers[element] == null) {
+      if (_observers[element.name] == null) {
         // Haven't subscribed this event
-        _observers[element] = [observer];
+        _observers[element.name] = [observer];
       } else {
         // Have subscribed this event, just add observer to ths list
-        _observers[element]!.add(observer);
+        _observers[element.name]!.add(observer);
       }
     }
     _listeners.add(_notify);

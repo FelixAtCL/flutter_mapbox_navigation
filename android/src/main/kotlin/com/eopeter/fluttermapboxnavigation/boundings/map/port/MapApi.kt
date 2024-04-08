@@ -80,50 +80,6 @@ class MapApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["event"] as? String ?: return
         val mapEvent = MapEvent.ofName(event) ?: return
-        when (mapEvent) {
-            MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.MAP_LOADING_ERROR -> mapboxMap.subscribeMapLoadingError {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.STYLE_LOADED -> mapboxMap.subscribeStyleLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.SOURCE_ADDED -> mapboxMap.subscribeSourceAdded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.SOURCE_REMOVED -> mapboxMap.subscribeSourceRemoved {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.SOURCE_DATA_LOADED -> mapboxMap.subscribeSourceDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.RENDER_FRAME_FINISHED -> mapboxMap.subscribeRenderFrameFinished {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-            MapEvent.RESOURCE_REQUEST -> mapboxMap.subscribeResourceRequest {
-                methodChannel?.invokeMethod(mapEvent.methodName, it)
-            }
-        }
         result.success(null)
     }
 }
