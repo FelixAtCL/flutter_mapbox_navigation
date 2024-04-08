@@ -9,15 +9,9 @@ class MapAPI {
       const StandardMethodCodec(MapAPICodec()),
     );
     _methodChannel.setMethodCallHandler(_handleMethod);
-
-    _eventChannel = EventChannel('flutter_mapbox_navigation/map/$id/events');
-    _eventChannel
-        .receiveBroadcastStream()
-        .map((message) => print('event: $message'));
   }
 
   late MethodChannel _methodChannel;
-  late EventChannel _eventChannel;
   final _observers = <String, List<Observer>>{};
   final _listeners = ArgumentCallbacks<Event>();
   final onStyleLoadedPlatform = ArgumentCallbacks<StyleLoadedEventData>();
@@ -109,7 +103,7 @@ class MapAPI {
     for (final element in events) {
       final args = <String, dynamic>{};
       args['event'] = element.name;
-      await _methodChannel.invokeMethod('addEventListener', args);
+      await _methodChannel.invokeMethod('listenOnEvent', args);
       if (_observers[element.name] == null) {
         // Haven't subscribed this event
         _observers[element.name] = [observer];

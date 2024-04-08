@@ -12,14 +12,12 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.StandardMethodCodec
 
-class MapApi : MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
+class MapApi : MethodChannel.MethodCallHandler {
     private var methodChannel: MethodChannel? = null
     private val messenger: BinaryMessenger
     private val mapboxMap: MapboxMap
     private val context: Context
     private val viewId: Int
-    private var eventChannel: EventChannel? = null
-    private var eventSink: EventChannel.EventSink? = null
 
     constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int, context: Context) {
         this@MapApi.messenger = messenger
@@ -36,28 +34,12 @@ class MapApi : MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
                 StandardMethodCodec(MapApiCodec)
             )
         this.methodChannel?.setMethodCallHandler(this)
-
-        this.eventChannel =
-            EventChannel(
-                this.messenger,
-                "flutter_mapbox_navigation/map/${viewId}/events"
-            )
-        this.eventChannel?.setStreamHandler(this)
-    }
-
-    override fun onListen(arguments: Any?, eventSink: EventChannel.EventSink?) {
-        this.eventSink = eventSink
-    }
-
-    override fun onCancel(arguments: Any?) {
-        eventSink = null
-        eventChannel = null
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "addEventListener" -> {
-                this.addEventListener(methodCall, result)
+            "listenOnEvent" -> {
+                this.listenOnEvent(methodCall, result)
             }
             "pixelForCoordinate" -> {
                 this.pixelForCoordinate(methodCall, result)
@@ -94,52 +76,52 @@ class MapApi : MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
         result.success(screenCoordinate.toFLTScreenCoordinate(context))
     }
 
-    private fun addEventListener(methodCall: MethodCall, result: MethodChannel.Result) {
+    private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["event"] as? String ?: return
         val mapEvent = MapEvent.ofName(event) ?: return
         when (mapEvent) {
             MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.MAP_LOADING_ERROR -> mapboxMap.subscribeMapLoadingError {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.STYLE_LOADED -> mapboxMap.subscribeStyleLoaded {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.SOURCE_ADDED -> mapboxMap.subscribeSourceAdded {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.SOURCE_REMOVED -> mapboxMap.subscribeSourceRemoved {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.SOURCE_DATA_LOADED -> mapboxMap.subscribeSourceDataLoaded {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.RENDER_FRAME_FINISHED -> mapboxMap.subscribeRenderFrameFinished {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
             MapEvent.RESOURCE_REQUEST -> mapboxMap.subscribeResourceRequest {
-                eventSink?.success(Event(mapEvent.methodName, it.toJson()))
+                methodChannel?.invokeMethod(mapEvent.methodName, it)
             }
         }
         result.success(null)

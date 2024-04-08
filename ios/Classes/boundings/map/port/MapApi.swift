@@ -40,9 +40,9 @@ public class MapAPI: NSObject, FlutterStreamHandler
             {
                 strongSelf.queryRenderedFeatures(arguments: arguments, result: result)
             }
-            else if (call.method == "addEventListener") 
+            else if (call.method == "listenOnEvent") 
             {
-                strongSelf.addEventListener(arguments: arguments, result: result)
+                strongSelf.listenOnEvent(arguments: arguments, result: result)
             }
             else
             {
@@ -113,7 +113,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
         }
     }
 
-    func addEventListener(arguments: NSDictionary?, result: @escaping FlutterResult) {
+    func listenOnEvent(arguments: NSDictionary?, result: @escaping FlutterResult) {
             guard let eventType = arguments?["event"] as? String else { return }
             self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
                 guard let data = event.data as? [String: Any] else {return}

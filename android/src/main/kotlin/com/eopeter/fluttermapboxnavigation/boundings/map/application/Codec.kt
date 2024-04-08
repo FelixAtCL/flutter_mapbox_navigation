@@ -169,11 +169,6 @@ object MapApiCodec : StandardMessageCodec() {
                     TransitionOptions.fromList(it)
                 }
             }
-            162.toByte() -> {
-                return (readValue(buffer) as? List<Any?>)?.let {
-                    Event.fromList(it)
-                }
-            }
             else -> super.readValueOfType(type, buffer)
         }
     }
@@ -305,10 +300,6 @@ object MapApiCodec : StandardMessageCodec() {
             }
             is TransitionOptions -> {
                 stream.write(161)
-                writeValue(stream, value.toList())
-            }
-            is Event -> {
-                stream.write(162)
                 writeValue(stream, value.toList())
             }
             else -> super.writeValue(stream, value)
