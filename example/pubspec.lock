@@ -105,11 +105,9 @@ packages:
   flutter_mapbox_navigation:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "078b10fe44ba6abf5132c7d6b6a597b53538373d"
-      url: "https://github.com/FelixAtCL/flutter_mapbox_navigation"
-    source: git
+      path: ".."
+      relative: true
+    source: path
     version: "0.2.2"
   flutter_test:
     dependency: "direct dev"

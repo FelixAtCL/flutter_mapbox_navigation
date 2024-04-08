@@ -3,13 +3,10 @@ package com.eopeter.fluttermapboxnavigation.boundings.style.port
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.BitmapFactory.Options
-import androidx.core.graphics.scale
 import com.mapbox.maps.Image
 import com.mapbox.maps.MapboxMap
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.boundings.style.application.*
-import com.mapbox.bindgen.DataRef
 import com.mapbox.maps.StyleObjectInfo
 import com.mapbox.maps.extension.localization.localizeLabels
 import com.mapbox.maps.extension.style.projection.generated.getProjection
@@ -37,7 +34,12 @@ class StyleApi : MethodChannel.MethodCallHandler {
     }
 
     fun init() {
-        this.methodChannel = MethodChannel(this.messenger, "flutter_mapbox_navigation/style/${this.viewId}", StandardMethodCodec(StyleApiCodec))
+        this.methodChannel =
+            MethodChannel(
+                this.messenger,
+                "flutter_mapbox_navigation/style/${this.viewId}",
+                StandardMethodCodec(StyleApiCodec)
+            )
         this.methodChannel?.setMethodCallHandler(this)
     }
 
