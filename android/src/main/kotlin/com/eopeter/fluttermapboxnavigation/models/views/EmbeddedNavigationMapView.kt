@@ -8,6 +8,7 @@ import com.eopeter.fluttermapboxnavigation.boundings.attribution.port.Attributio
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.boundings.style.port.StyleApi
 import com.eopeter.fluttermapboxnavigation.boundings.camera.port.CameraApi
+import com.eopeter.fluttermapboxnavigation.boundings.compass.port.CompassApi
 import com.eopeter.fluttermapboxnavigation.boundings.gesture.port.GestureApi
 import com.eopeter.fluttermapboxnavigation.boundings.map.port.MapApi
 import com.mapbox.maps.MapView
@@ -34,6 +35,7 @@ class EmbeddedNavigationMapView(
     private var mapboxMap: MapboxMap? = null
     private var attribution: AttributionApi? = null
     private var camera: CameraApi? = null
+    private var compass: CompassApi? = null
     private var gesture: GestureApi? = null
     private var map: MapApi? = null
     private var style: StyleApi? = null
@@ -108,6 +110,15 @@ class EmbeddedNavigationMapView(
             camera.init()
             this@EmbeddedNavigationMapView.camera = camera
 
+            val compass = CompassApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView,
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            compass.init()
+            this@EmbeddedNavigationMapView.compass = compass
+
             val gesture = GestureApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView,
@@ -141,6 +152,7 @@ class EmbeddedNavigationMapView(
 
             this@EmbeddedNavigationMapView.attribution = null
             this@EmbeddedNavigationMapView.camera = null
+            this@EmbeddedNavigationMapView.compass = null
             this@EmbeddedNavigationMapView.gesture = null
             this@EmbeddedNavigationMapView.map = null
             this@EmbeddedNavigationMapView.style = null
