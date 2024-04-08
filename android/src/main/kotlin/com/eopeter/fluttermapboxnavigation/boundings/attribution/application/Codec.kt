@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
 @Suppress("UNCHECKED_CAST")
-object ApplicationApiCodec : StandardMessageCodec() {
+object AttributionApiCodec : StandardMessageCodec() {
     override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
         return when (type) {
             128.toByte() -> {

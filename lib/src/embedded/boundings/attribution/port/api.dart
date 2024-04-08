@@ -37,7 +37,7 @@ class AttributionAPI {
   Future<void> updateSettings(AttributionSettings argSettings) async {
     final args = <String, dynamic>{};
     args['settings'] = argSettings;
-    final result = await _methodChannel.invokeMethod('updateSettings', args);
+    final result = await _methodChannel.invokeMethod('updateSettings', null);
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
