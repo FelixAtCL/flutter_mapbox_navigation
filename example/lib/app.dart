@@ -302,10 +302,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("scaleBar settings: $scaleBarSettings");
     await _controller?.scaleBar
         .updateSettings(ScaleBarSettings(marginLeft: 150));
-    // var locationSettings = await _controller?.location.getSettings();
-    // print("location settings: $locationSettings");
-    // await _controller?.location
-    //     .updateSettings(LocationComponentSettings(enabled: false));
+    var locationSettings = await _controller?.location.getSettings();
+    print("location settings: $locationSettings");
+    await _controller?.location
+        .updateSettings(LocationComponentSettings(enabled: false));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {

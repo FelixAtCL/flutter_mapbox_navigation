@@ -11,7 +11,7 @@ object LocationApiCodec: StandardMessageCodec() {
         return when (type) {
             128.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CompassSettings.fromList(it)
+                    LocationComponentSettings.fromList(it)
                 }
             }
             else -> super.readValueOfType(type, buffer)
@@ -19,7 +19,7 @@ object LocationApiCodec: StandardMessageCodec() {
     }
     override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
         when (value) {
-            is CompassSettings -> {
+            is LocationComponentSettings -> {
                 stream.write(128)
                 writeValue(stream, value.toList())
             }
