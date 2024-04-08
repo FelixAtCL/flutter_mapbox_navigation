@@ -11,7 +11,7 @@ object LogoApiCodec: StandardMessageCodec() {
         return when (type) {
             128.toByte() -> {
                 return (readValue(buffer) as? List<Any?>)?.let {
-                    CompassSettings.fromList(it)
+                    LogoSettings.fromList(it)
                 }
             }
             else -> super.readValueOfType(type, buffer)
@@ -19,7 +19,7 @@ object LogoApiCodec: StandardMessageCodec() {
     }
     override fun writeValue(stream: ByteArrayOutputStream, value: Any?) {
         when (value) {
-            is CompassSettings -> {
+            is LogoSettings -> {
                 stream.write(128)
                 writeValue(stream, value.toList())
             }
