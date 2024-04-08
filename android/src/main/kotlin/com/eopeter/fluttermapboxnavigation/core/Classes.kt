@@ -1677,6 +1677,7 @@ data class CameraState(
     }
 }
 
+/*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
     MAP_LOADING_ERROR(1),
@@ -1748,5 +1749,9 @@ enum class MapEvent(val raw: Int) {
     }
 }
 
+
 val MapEvent.methodName: String
     get() = "event#$ordinal"
+
+*
+*/
