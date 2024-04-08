@@ -54,6 +54,6 @@ class AttributionApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val settings = arguments["settings"] as? AttributionSettings ?: return
         mapView.attribution.applyFromFLT(settings, context)
-        result.success(null)
+        result.success(true)
     }
 }
