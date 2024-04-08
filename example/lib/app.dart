@@ -283,7 +283,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
   _listenOnCameraChange() {
     _controller?.map.addEventListener((event) {
       print("camera changed: ${event.data}");
-    }, [MapEvent.cameraChanged.name]);
+    }, [MapEvent.cameraChanged]);
   }
 
   Future _testSettings() async {

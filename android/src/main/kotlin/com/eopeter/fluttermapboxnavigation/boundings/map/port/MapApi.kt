@@ -78,8 +78,6 @@ class MapApi : MethodChannel.MethodCallHandler {
 
     private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
-        val event = arguments["event"] as? String ?: return
-        val mapEvent = MapEvent.ofName(event) ?: return
         result.success(null)
     }
 }
