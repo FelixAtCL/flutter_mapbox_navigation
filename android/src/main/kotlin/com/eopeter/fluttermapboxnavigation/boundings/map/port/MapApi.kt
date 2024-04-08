@@ -123,6 +123,6 @@ class MapApi : MethodChannel.MethodCallHandler {
                 methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
             }
         }
-        result.success(null)
+        result.success(Unit)
     }
 }
