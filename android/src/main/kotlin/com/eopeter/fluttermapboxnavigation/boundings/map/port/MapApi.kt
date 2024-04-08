@@ -5,7 +5,6 @@ import com.eopeter.fluttermapboxnavigation.boundings.map.application.MapApiCodec
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapboxMap
-import com.mapbox.maps.extension.observable.*
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -79,6 +78,7 @@ class MapApi : MethodChannel.MethodCallHandler {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["event"] as? String ?: return
         val mapEvent = MapEvent.ofName(event) ?: return
+        /*
         when (mapEvent) {
             MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
                 methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
@@ -123,6 +123,7 @@ class MapApi : MethodChannel.MethodCallHandler {
                 methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
             }
         }
+                 */
         result.success("Success")
     }
 }
