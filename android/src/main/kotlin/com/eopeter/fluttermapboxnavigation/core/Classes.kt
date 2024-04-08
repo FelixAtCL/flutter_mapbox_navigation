@@ -1951,6 +1951,239 @@ data class ScaleBarSettings(
     }
 }
 
+
+/**
+ * Shows a location puck on the map.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class LocationComponentSettings(
+    /** Whether the user location is visible on the map. */
+    val enabled: Boolean? = null,
+    /** Whether the location puck is pulsing on the map. Works for 2D location puck only. */
+    val pulsingEnabled: Boolean? = null,
+    /** The color of the pulsing circle. Works for 2D location puck only. */
+    val pulsingColor: Long? = null,
+    /** The maximum radius of the pulsing circle. Works for 2D location puck only. Note: Setting [pulsingMaxRadius] to LocationComponentConstants.PULSING_MAX_RADIUS_FOLLOW_ACCURACY will set the pulsing circle's maximum radius to follow location accuracy circle. This property is specified in pixels. */
+    val pulsingMaxRadius: Double? = null,
+    /** Whether show accuracy ring with location puck. Works for 2D location puck only. */
+    val showAccuracyRing: Boolean? = null,
+    /** The color of the accuracy ring. Works for 2D location puck only. */
+    val accuracyRingColor: Long? = null,
+    /** The color of the accuracy ring border. Works for 2D location puck only. */
+    val accuracyRingBorderColor: Long? = null,
+    /** Sets the id of the layer that's added above to when placing the component on the map. */
+    val layerAbove: String? = null,
+    /** Sets the id of the layer that's added below to when placing the component on the map. */
+    val layerBelow: String? = null,
+    /** Whether the puck rotates to track the bearing source. */
+    val puckBearingEnabled: Boolean? = null,
+    /** The enum controls how the puck is oriented */
+    val puckBearing: PuckBearing? = null,
+    /** Defines what the customised look of the location puck. Note that direct changes to the puck variables won't have any effect, a new puck needs to be set every time. */
+    val locationPuck: LocationPuck? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LocationComponentSettings {
+            val enabled = list[0] as Boolean?
+            val pulsingEnabled = list[1] as Boolean?
+            val pulsingColor = list[2].let { if (it is Int) it.toLong() else it as Long? }
+            val pulsingMaxRadius = list[3] as Double?
+            val showAccuracyRing = list[4] as Boolean?
+            val accuracyRingColor = list[5].let { if (it is Int) it.toLong() else it as Long? }
+            val accuracyRingBorderColor = list[6].let { if (it is Int) it.toLong() else it as Long? }
+            val layerAbove = list[7] as String?
+            val layerBelow = list[8] as String?
+            val puckBearingEnabled = list[9] as Boolean?
+            val puckBearing = (list[10] as Int?)?.let {
+                PuckBearing.ofRaw(it)
+            }
+            val locationPuck = (list[11] as List<Any?>?)?.let {
+                LocationPuck.fromList(it)
+            }
+            return LocationComponentSettings(enabled, pulsingEnabled, pulsingColor, pulsingMaxRadius, showAccuracyRing, accuracyRingColor, accuracyRingBorderColor, layerAbove, layerBelow, puckBearingEnabled, puckBearing, locationPuck)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            enabled,
+            pulsingEnabled,
+            pulsingColor,
+            pulsingMaxRadius,
+            showAccuracyRing,
+            accuracyRingColor,
+            accuracyRingBorderColor,
+            layerAbove,
+            layerBelow,
+            puckBearingEnabled,
+            puckBearing?.raw,
+            locationPuck?.toList(),
+        )
+    }
+}
+
+/** The enum controls how the puck is oriented */
+enum class PuckBearing(val raw: Int) {
+    /** Orients the puck to match the direction in which the device is facing. */
+    HEADING(0),
+    /** Orients the puck to match the direction in which the device is moving. */
+    COURSE(1);
+
+    companion object {
+        fun ofRaw(raw: Int): PuckBearing? {
+            return values().firstOrNull { it.raw == raw }
+        }
+    }
+}
+
+/**
+ * Defines what the customised look of the location puck. Note that direct changes to the puck variables won't have any effect, a new puck needs to be set every time.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class LocationPuck(
+    val locationPuck2D: LocationPuck2D? = null,
+    val locationPuck3D: LocationPuck3D? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LocationPuck {
+            val locationPuck2D = (list[0] as List<Any?>?)?.let {
+                LocationPuck2D.fromList(it)
+            }
+            val locationPuck3D = (list[1] as List<Any?>?)?.let {
+                LocationPuck3D.fromList(it)
+            }
+            return LocationPuck(locationPuck2D, locationPuck3D)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            locationPuck2D?.toList(),
+            locationPuck3D?.toList(),
+        )
+    }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class LocationPuck2D(
+    /** Name of image in sprite to use as the top of the location indicator. */
+    val topImage: ByteArray? = null,
+    /** Name of image in sprite to use as the middle of the location indicator. */
+    val bearingImage: ByteArray? = null,
+    /** Name of image in sprite to use as the background of the location indicator. */
+    val shadowImage: ByteArray? = null,
+    /** The scale expression of the images. If defined, it will be applied to all the three images. */
+    val scaleExpression: String? = null,
+    /** The opacity of the entire location puck */
+    val opacity: Double? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LocationPuck2D {
+            val topImage = list[0] as ByteArray?
+            val bearingImage = list[1] as ByteArray?
+            val shadowImage = list[2] as ByteArray?
+            val scaleExpression = list[3] as String?
+            val opacity = list[4] as Double?
+            return LocationPuck2D(topImage, bearingImage, shadowImage, scaleExpression, opacity)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            topImage,
+            bearingImage,
+            shadowImage,
+            scaleExpression,
+            opacity,
+        )
+    }
+}
+
+/** Generated class from Pigeon that represents data sent in messages. */
+data class LocationPuck3D(
+    /** An URL for the model file in gltf format. */
+    val modelUri: String? = null,
+    /** The position of the model. */
+    val position: List<Double?>? = null,
+    /** The opacity of the model. */
+    val modelOpacity: Double? = null,
+    /** The scale of the model. */
+    val modelScale: List<Double?>? = null,
+    /** The scale expression of the model, which will overwrite the default scale expression that keeps the model size constant during zoom. */
+    val modelScaleExpression: String? = null,
+    /** The translation of the model [lon, lat, z] */
+    val modelTranslation: List<Double?>? = null,
+    /** The rotation of the model. */
+    val modelRotation: List<Double?>? = null,
+    /** Enable/Disable shadow casting for the 3D location puck. */
+    val modelCastShadows: Boolean? = null,
+    /** Enable/Disable shadow receiving for the 3D location puck. */
+    val modelReceiveShadows: Boolean? = null,
+    /** Defines scaling mode. Only applies to location-indicator type layers. */
+    val modelScaleMode: ModelScaleMode? = null,
+    /** Strength of the emission. There is no emission for value 0. For value 1.0, only emissive component (no shading) is displayed and values above 1.0 produce light contribution to surrounding area, for some of the parts (e.g. doors). */
+    val modelEmissiveStrength: Double? = null,
+    /** Strength of the emission as Expression string, note that when [modelEmissiveStrengthExpression] is specified, it will overwrite the [modelEmissiveStrength] property. There is no emission for value 0. For value 1.0, only emissive component (no shading) is displayed and values above 1.0 produce light contribution to surrounding area, for some of the parts (e.g. doors). */
+    val modelEmissiveStrengthExpression: String? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LocationPuck3D {
+            val modelUri = list[0] as String?
+            val position = list[1] as List<Double?>?
+            val modelOpacity = list[2] as Double?
+            val modelScale = list[3] as List<Double?>?
+            val modelScaleExpression = list[4] as String?
+            val modelTranslation = list[5] as List<Double?>?
+            val modelRotation = list[6] as List<Double?>?
+            val modelCastShadows = list[7] as Boolean?
+            val modelReceiveShadows = list[8] as Boolean?
+            val modelScaleMode = (list[9] as Int?)?.let {
+                ModelScaleMode.ofRaw(it)
+            }
+            val modelEmissiveStrength = list[10] as Double?
+            val modelEmissiveStrengthExpression = list[11] as String?
+            return LocationPuck3D(modelUri, position, modelOpacity, modelScale, modelScaleExpression, modelTranslation, modelRotation, modelCastShadows, modelReceiveShadows, modelScaleMode, modelEmissiveStrength, modelEmissiveStrengthExpression)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            modelUri,
+            position,
+            modelOpacity,
+            modelScale,
+            modelScaleExpression,
+            modelTranslation,
+            modelRotation,
+            modelCastShadows,
+            modelReceiveShadows,
+            modelScaleMode?.raw,
+            modelEmissiveStrength,
+            modelEmissiveStrengthExpression,
+        )
+    }
+}
+
+/** Defines scaling mode. Only applies to location-indicator type layers. */
+enum class ModelScaleMode(val raw: Int) {
+    /** Model is scaled so that it's always the same size relative to other map features. The property model-scale specifies how many meters each unit in the model file should cover. */
+    MAP(0),
+    /** Model is scaled so that it's always the same size on the screen. The property model-scale specifies how many pixels each unit in model file should cover. */
+    VIEWPORT(1);
+
+    companion object {
+        fun ofRaw(raw: Int): ModelScaleMode? {
+            return values().firstOrNull { it.raw == raw }
+        }
+    }
+}
+
 /*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
