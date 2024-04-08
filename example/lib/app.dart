@@ -295,9 +295,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("compass settings: $compassSettings");
     await _controller?.compass
         .updateSettings(CompassSettings(marginRight: 150));
-    // var logoSettings = await _controller?.logo.getSettings();
-    // print("logo settings: $logoSettings");
-    // await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    var logoSettings = await _controller?.logo.getSettings();
+    print("logo settings: $logoSettings");
+    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
     // var scaleBarSettings = await _controller?.scaleBar.getSettings();
     // print("scaleBar settings: $scaleBarSettings");
     // await _controller?.scaleBar

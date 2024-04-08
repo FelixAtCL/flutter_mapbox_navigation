@@ -11,6 +11,7 @@ import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
 import com.mapbox.maps.plugin.attribution.generated.AttributionSettingsInterface
 import com.mapbox.maps.plugin.compass.generated.CompassSettingsInterface
+import com.mapbox.maps.plugin.logo.generated.LogoSettingsInterface
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -320,5 +321,21 @@ fun CompassSettingsInterface.toFLT(context: Context) = CompassSettings(
     visibility = visibility,
     fadeWhenFacingNorth = fadeWhenFacingNorth,
     clickable = clickable,
+)
+
+fun LogoSettingsInterface.applyFromFLT(settings: LogoSettings, context: Context) {
+    settings.position?.let { position = it.toPosition() }
+    settings.marginLeft?.let { marginLeft = it.toDevicePixels(context) }
+    settings.marginTop?.let { marginTop = it.toDevicePixels(context) }
+    settings.marginRight?.let { marginRight = it.toDevicePixels(context) }
+    settings.marginBottom?.let { marginBottom = it.toDevicePixels(context) }
+}
+
+fun LogoSettingsInterface.toFLT(context: Context) = LogoSettings(
+    position = position.toOrnamentPosition(),
+    marginLeft = marginLeft.toLogicalPixels(context),
+    marginTop = marginTop.toLogicalPixels(context),
+    marginRight = marginRight.toLogicalPixels(context),
+    marginBottom = marginBottom.toLogicalPixels(context),
 )
 

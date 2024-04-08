@@ -1,4 +1,4 @@
-package com.eopeter.fluttermapboxnavigation.boundings.compass.application
+package com.eopeter.fluttermapboxnavigation.boundings.logo.application
 
 import com.eopeter.fluttermapboxnavigation.core.*
 import io.flutter.plugin.common.StandardMessageCodec
@@ -6,7 +6,7 @@ import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 
 @Suppress("UNCHECKED_CAST")
-object CompassApiCodec : StandardMessageCodec() {
+object LogoApiCodec: StandardMessageCodec() {
     override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
         return when (type) {
             128.toByte() -> {

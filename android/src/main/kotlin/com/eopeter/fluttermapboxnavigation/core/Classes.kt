@@ -1810,6 +1810,48 @@ data class CompassSettings(
     }
 }
 
+/**
+ * Shows the Mapbox logo on the map.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class LogoSettings(
+    /** Defines where the logo is positioned on the map */
+    val position: OrnamentPosition? = null,
+    /** Defines the margin to the left that the attribution icon honors. This property is specified in pixels. */
+    val marginLeft: Double? = null,
+    /** Defines the margin to the top that the attribution icon honors. This property is specified in pixels. */
+    val marginTop: Double? = null,
+    /** Defines the margin to the right that the attribution icon honors. This property is specified in pixels. */
+    val marginRight: Double? = null,
+    /** Defines the margin to the bottom that the attribution icon honors. This property is specified in pixels. */
+    val marginBottom: Double? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): LogoSettings {
+            val position = (list[0] as Int?)?.let {
+                OrnamentPosition.ofRaw(it)
+            }
+            val marginLeft = list[1] as Double?
+            val marginTop = list[2] as Double?
+            val marginRight = list[3] as Double?
+            val marginBottom = list[4] as Double?
+            return LogoSettings(position, marginLeft, marginTop, marginRight, marginBottom)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            position?.raw,
+            marginLeft,
+            marginTop,
+            marginRight,
+            marginBottom,
+        )
+    }
+}
+
 /*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
