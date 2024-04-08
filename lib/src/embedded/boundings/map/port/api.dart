@@ -115,6 +115,11 @@ class MapAPI {
     _listeners.add(_notify);
   }
 
+  Future trySomething() async {
+    var result = await _methodChannel.invokeMethod('queryListener', null);
+    print("trying something: $result");
+  }
+
   /// Removes the specified [observer] from listening to the given [events].
   ///
   /// The [observer] is removed from the list of observers for each event in the [events] list.
