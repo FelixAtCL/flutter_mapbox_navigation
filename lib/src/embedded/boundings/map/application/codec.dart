@@ -46,12 +46,6 @@ class MapAPICodec extends StandardMessageCodec {
     } else if (value is MapDebugOptions) {
       buffer.putUint8(141);
       writeValue(buffer, value.encode());
-    } else if (value is MapMemoryBudgetInMegabytes) {
-      buffer.putUint8(142);
-      writeValue(buffer, value.encode());
-    } else if (value is MapMemoryBudgetInTiles) {
-      buffer.putUint8(143);
-      writeValue(buffer, value.encode());
     } else if (value is MapOptions) {
       buffer.putUint8(144);
       writeValue(buffer, value.encode());
@@ -142,10 +136,6 @@ class MapAPICodec extends StandardMessageCodec {
         return MapAnimationOptions.decode(readValue(buffer)!);
       case 141:
         return MapDebugOptions.decode(readValue(buffer)!);
-      case 142:
-        return MapMemoryBudgetInMegabytes.decode(readValue(buffer)!);
-      case 143:
-        return MapMemoryBudgetInTiles.decode(readValue(buffer)!);
       case 144:
         return MapOptions.decode(readValue(buffer)!);
       case 145:
