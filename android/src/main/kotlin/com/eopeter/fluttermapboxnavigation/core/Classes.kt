@@ -1677,6 +1677,25 @@ data class CameraState(
     }
 }
 
+data class Event(val type: String, val data: String)
+{
+
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): Event {
+            val type = list[0] as String
+            val data = list[1] as String
+            return Event(type, data)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            type,
+            data
+        )
+    }
+}
+
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
     MAP_LOADING_ERROR(1),
