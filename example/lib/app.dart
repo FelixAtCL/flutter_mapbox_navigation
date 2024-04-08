@@ -291,21 +291,21 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("attribution settings: $attributionSettings");
     await _controller?.attribution
         .updateSettings(AttributionSettings(marginRight: 150));
-    var compassSettings = await _controller?.compass.getSettings();
-    print("compass settings: $compassSettings");
-    await _controller?.compass
-        .updateSettings(CompassSettings(marginRight: 150));
-    var logoSettings = await _controller?.logo.getSettings();
-    print("logo settings: $logoSettings");
-    await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
-    var scaleBarSettings = await _controller?.scaleBar.getSettings();
-    print("scaleBar settings: $scaleBarSettings");
-    await _controller?.scaleBar
-        .updateSettings(ScaleBarSettings(marginLeft: 150));
-    var locationSettings = await _controller?.location.getSettings();
-    print("location settings: $locationSettings");
-    await _controller?.location
-        .updateSettings(LocationComponentSettings(enabled: false));
+    // var compassSettings = await _controller?.compass.getSettings();
+    // print("compass settings: $compassSettings");
+    // await _controller?.compass
+    //     .updateSettings(CompassSettings(marginRight: 150));
+    // var logoSettings = await _controller?.logo.getSettings();
+    // print("logo settings: $logoSettings");
+    // await _controller?.logo.updateSettings(LogoSettings(marginLeft: 150));
+    // var scaleBarSettings = await _controller?.scaleBar.getSettings();
+    // print("scaleBar settings: $scaleBarSettings");
+    // await _controller?.scaleBar
+    //     .updateSettings(ScaleBarSettings(marginLeft: 150));
+    // var locationSettings = await _controller?.location.getSettings();
+    // print("location settings: $locationSettings");
+    // await _controller?.location
+    //     .updateSettings(LocationComponentSettings(enabled: false));
   }
 
   Future<void> _onEmbeddedRouteEvent(e) async {

@@ -1,6 +1,7 @@
 package com.eopeter.fluttermapboxnavigation.core
 
 import android.content.Context
+import android.view.Gravity
 import com.google.gson.Gson
 import com.mapbox.bindgen.Value
 import com.mapbox.geojson.Point
@@ -8,6 +9,7 @@ import com.mapbox.maps.EdgeInsets
 import com.mapbox.maps.extension.style.layers.properties.generated.ProjectionName
 import com.mapbox.maps.extension.style.projection.generated.Projection
 import com.mapbox.maps.logE
+import com.mapbox.maps.plugin.attribution.generated.AttributionSettingsInterface
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -248,6 +250,46 @@ fun JSONObject.toMap(): Map<String?, Any?> = keys().asSequence().associateWith {
         is JSONObject -> value.toMap()
         JSONObject.NULL -> null
         else -> value
+    }
+}
+
+fun AttributionSettingsInterface.applyFromFLT(settings: AttributionSettings, context: Context) {
+    settings.iconColor?.let { iconColor = it.toInt() }
+    settings.position?.let { position = it.toPosition() }
+    settings.marginLeft?.let { marginLeft = it.toDevicePixels(context) }
+    settings.marginTop?.let { marginTop = it.toDevicePixels(context) }
+    settings.marginRight?.let { marginRight = it.toDevicePixels(context) }
+    settings.marginBottom?.let { marginBottom = it.toDevicePixels(context) }
+    settings.clickable?.let { clickable = it }
+}
+
+fun AttributionSettingsInterface.toFLT(context: Context) = AttributionSettings(
+    iconColor = iconColor.toUInt().toLong(),
+    position = position.toOrnamentPosition(),
+    marginLeft = marginLeft.toLogicalPixels(context),
+    marginTop = marginTop.toLogicalPixels(context),
+    marginRight = marginRight.toLogicalPixels(context),
+    marginBottom = marginBottom.toLogicalPixels(context),
+    clickable = clickable,
+)
+
+fun OrnamentPosition.toPosition(): Int {
+    return when (this) {
+        OrnamentPosition.BOTTOM_LEFT -> Gravity.BOTTOM or Gravity.START
+        OrnamentPosition.BOTTOM_RIGHT -> Gravity.BOTTOM or Gravity.END
+        OrnamentPosition.TOP_LEFT -> Gravity.TOP or Gravity.START
+        OrnamentPosition.TOP_RIGHT -> Gravity.TOP or Gravity.END
+    }
+}
+
+fun Int.toOrnamentPosition(): OrnamentPosition {
+    return when (this) {
+        Gravity.BOTTOM or Gravity.START -> OrnamentPosition.BOTTOM_LEFT
+        Gravity.BOTTOM or Gravity.END -> OrnamentPosition.BOTTOM_RIGHT
+        Gravity.TOP or Gravity.START -> OrnamentPosition.TOP_LEFT
+        else -> {
+            OrnamentPosition.TOP_RIGHT
+        }
     }
 }
 

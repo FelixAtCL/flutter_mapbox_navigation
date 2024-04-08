@@ -1677,6 +1677,69 @@ data class CameraState(
     }
 }
 
+/**
+ * Shows the attribution icon on the map.
+ *
+ * Generated class from Pigeon that represents data sent in messages.
+ */
+data class AttributionSettings(
+    /** Defines text color of the attribution icon. */
+    val iconColor: Long? = null,
+    /** Defines where the attribution icon is positioned on the map */
+    val position: OrnamentPosition? = null,
+    /** Defines the margin to the left that the attribution icon honors. This property is specified in pixels. */
+    val marginLeft: Double? = null,
+    /** Defines the margin to the top that the attribution icon honors. This property is specified in pixels. */
+    val marginTop: Double? = null,
+    /** Defines the margin to the right that the attribution icon honors. This property is specified in pixels. */
+    val marginRight: Double? = null,
+    /** Defines the margin to the bottom that the attribution icon honors. This property is specified in pixels. */
+    val marginBottom: Double? = null,
+    /** Whether the attribution can be clicked and click events can be registered. */
+    val clickable: Boolean? = null
+
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromList(list: List<Any?>): AttributionSettings {
+            val iconColor = list[0].let { if (it is Int) it.toLong() else it as Long? }
+            val position = (list[1] as Int?)?.let {
+                OrnamentPosition.ofRaw(it)
+            }
+            val marginLeft = list[2] as Double?
+            val marginTop = list[3] as Double?
+            val marginRight = list[4] as Double?
+            val marginBottom = list[5] as Double?
+            val clickable = list[6] as Boolean?
+            return AttributionSettings(iconColor, position, marginLeft, marginTop, marginRight, marginBottom, clickable)
+        }
+    }
+    fun toList(): List<Any?> {
+        return listOf<Any?>(
+            iconColor,
+            position?.raw,
+            marginLeft,
+            marginTop,
+            marginRight,
+            marginBottom,
+            clickable,
+        )
+    }
+}
+
+enum class OrnamentPosition(val raw: Int) {
+    TOP_LEFT(0),
+    TOP_RIGHT(1),
+    BOTTOM_RIGHT(2),
+    BOTTOM_LEFT(3);
+
+    companion object {
+        fun ofRaw(raw: Int): OrnamentPosition? {
+            return values().firstOrNull { it.raw == raw }
+        }
+    }
+}
+
 /*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),

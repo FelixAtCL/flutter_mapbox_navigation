@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.View
 import com.eopeter.fluttermapboxnavigation.TurnByTurn
+import com.eopeter.fluttermapboxnavigation.boundings.attribution.port.AttributionApi
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.boundings.style.port.StyleApi
 import com.eopeter.fluttermapboxnavigation.boundings.camera.port.CameraApi
@@ -31,6 +32,7 @@ class EmbeddedNavigationMapView(
     private val arguments = args as Map<*, *>
     private var mapView: MapView? = null
     private var mapboxMap: MapboxMap? = null
+    private var attribution: AttributionApi? = null
     private var camera: CameraApi? = null
     private var gesture: GestureApi? = null
     private var map: MapApi? = null
@@ -88,6 +90,15 @@ class EmbeddedNavigationMapView(
         }
 
         fun enableApis(mapView: MapView) {
+            val attribution = AttributionApi(
+                this@EmbeddedNavigationMapView.messenger,
+                mapView,
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context
+            )
+            attribution.init()
+            this@EmbeddedNavigationMapView.attribution = attribution
+
             val camera = CameraApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView.getMapboxMap(),
@@ -128,6 +139,7 @@ class EmbeddedNavigationMapView(
         fun disableApis() {
             this@EmbeddedNavigationMapView.gesture?.close()
 
+            this@EmbeddedNavigationMapView.attribution = null
             this@EmbeddedNavigationMapView.camera = null
             this@EmbeddedNavigationMapView.gesture = null
             this@EmbeddedNavigationMapView.map = null
