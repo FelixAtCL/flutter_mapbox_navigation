@@ -46,9 +46,6 @@ class MapApi : MethodChannel.MethodCallHandler {
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
             }
-            "queryListener" -> {
-                this.queryListener(methodCall, result)
-            }
             else -> result.notImplemented()
         }
     }
@@ -76,10 +73,6 @@ class MapApi : MethodChannel.MethodCallHandler {
         val point = Point.fromLngLat(longitude, latitude)
         val screenCoordinate = mapboxMap.pixelForCoordinate(point)
         result.success(screenCoordinate.toFLTScreenCoordinate(context))
-    }
-
-    private fun queryListener(methodCall: MethodCall, result: MethodChannel.Result) {
-        result.success("this is working")
     }
 
     private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
