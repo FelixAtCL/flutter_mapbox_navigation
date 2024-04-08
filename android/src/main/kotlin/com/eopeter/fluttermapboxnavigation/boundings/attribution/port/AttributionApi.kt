@@ -39,8 +39,8 @@ class AttributionApi : MethodChannel.MethodCallHandler {
             "getSettings" -> {
                 this.getSettings(methodCall, result)
             }
-            "setSettings" -> {
-                this.setSettings(methodCall, result)
+            "updateSettings" -> {
+                this.updateSettings(methodCall, result)
             }
             else -> result.notImplemented()
         }
@@ -50,7 +50,7 @@ class AttributionApi : MethodChannel.MethodCallHandler {
         result.success(mapView.attribution.toFLT(context))
     }
 
-    private fun setSettings(methodCall: MethodCall, result: MethodChannel.Result) {
+    private fun updateSettings(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val settings = arguments["settings"] as? AttributionSettings ?: return
         mapView.attribution.applyFromFLT(settings, context)
