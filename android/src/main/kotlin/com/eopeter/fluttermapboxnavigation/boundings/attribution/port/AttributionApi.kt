@@ -1,7 +1,7 @@
 package com.eopeter.fluttermapboxnavigation.boundings.attribution.port
 
 import android.content.Context
-import com.eopeter.fluttermapboxnavigation.boundings.map.application.MapApiCodec
+import com.eopeter.fluttermapboxnavigation.boundings.attribution.application.ApplicationApiCodec
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.mapbox.maps.MapView
 import com.mapbox.maps.plugin.attribution.attribution
@@ -29,7 +29,7 @@ class AttributionApi : MethodChannel.MethodCallHandler {
             MethodChannel(
                 this.messenger,
                 "flutter_mapbox_navigation/attribution/${this.viewId}",
-                StandardMethodCodec(MapApiCodec)
+                StandardMethodCodec(ApplicationApiCodec)
             )
         this.methodChannel?.setMethodCallHandler(this)
     }

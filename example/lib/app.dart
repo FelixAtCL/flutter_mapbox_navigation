@@ -214,7 +214,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         onPressed: _inFreeDrive
                             ? null
                             : () async {
-                                // await _testSettings();
+                                await _testSettings();
                               },
                         child: const Text("Test Settings"),
                       ),
@@ -281,9 +281,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
 
   // TODO: Android error on this part -> Maybe in the decoder parts?!
   _listenOnCameraChange() {
-    _controller?.map.addEventListener((event) {
-      print("camera changed: ${event.data}");
-    }, [MapEvent.cameraChanged]);
+    // _controller?.map.addEventListener((event) {
+    //   print("camera changed: ${event.data}");
+    // }, [MapEvent.cameraChanged]);
   }
 
   Future _testSettings() async {
