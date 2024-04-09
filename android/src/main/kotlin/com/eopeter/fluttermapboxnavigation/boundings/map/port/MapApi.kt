@@ -36,14 +36,14 @@ class MapApi : MethodChannel.MethodCallHandler {
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "listenOnEvent" -> {
-                this.listenOnEvent(methodCall, result)
-            }
             "pixelForCoordinate" -> {
                 this.pixelForCoordinate(methodCall, result)
             }
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
+            }
+            "listenOnEvent" -> {
+                this.listenOnEvent(methodCall, result)
             }
             else -> result.notImplemented()
         }
@@ -76,7 +76,7 @@ class MapApi : MethodChannel.MethodCallHandler {
 
     private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
-        val event = arguments["event"] as? String ?: return
+        val event = arguments["mapevent"] as? String ?: return
         /*
         val mapEvent = MapEvent.ofName(event) ?: return
 
