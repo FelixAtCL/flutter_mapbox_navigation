@@ -103,7 +103,13 @@ class MapAPI {
     for (final element in events) {
       final args = <String, dynamic>{};
       args['mapevent'] = element.name;
-      await _methodChannel.invokeMethod('listenOnEvent', args);
+      var result = await _methodChannel.invokeMethod('listenOnEvent', args);
+      if (result != null) {
+        throw PlatformException(
+          code: 'channel-error',
+          message: 'Unable to establish connection on channel. $result',
+        );
+      }
       if (_observers[element.name] == null) {
         // Haven't subscribed this event
         _observers[element.name] = [observer];
