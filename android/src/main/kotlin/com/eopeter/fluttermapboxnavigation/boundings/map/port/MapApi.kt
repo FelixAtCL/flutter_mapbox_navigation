@@ -56,6 +56,9 @@ class MapApi :
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
             }
+            "listenOnEvents" -> {
+                this.listenOnEvents()
+            }
             else -> result.notImplemented()
         }
     }
@@ -63,7 +66,6 @@ class MapApi :
     // Flutter stream listener delegate methods
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         this.eventSink = events
-        this.listenOnEvents()
     }
 
     override fun onCancel(arguments: Any?) {

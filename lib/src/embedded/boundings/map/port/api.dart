@@ -11,7 +11,11 @@ class MapAPI {
     _methodChannel.setMethodCallHandler(_handleMethod);
 
     _eventChannel = EventChannel('flutter_mapbox_navigation/map/$id/events');
-    _eventChannel.receiveBroadcastStream().listen(print);
+    _eventChannel
+        .receiveBroadcastStream()
+        .listen((event) => print("new event: $event"));
+
+    _methodChannel.invokeMethod('listenOnEvents');
   }
 
   late MethodChannel _methodChannel;
