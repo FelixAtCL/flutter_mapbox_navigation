@@ -167,9 +167,7 @@ class MapAPI {
 
     final data = jsonDecode(args) as Map<String, dynamic>;
 
-    if (eventType == MapEvent.styleLoaded.name) {
-      onStyleLoadedPlatform(StyleLoadedEventData.fromJson(data));
-    } else if (eventType == MapEvent.cameraChanged.name) {
+    if (eventType == MapEvent.cameraChanged.name) {
       onCameraChangeListenerPlatform(CameraChangedEventData.fromJson(data));
     } else if (eventType == MapEvent.mapIdle.name) {
       onMapIdlePlatform(MapIdleEventData.fromJson(data));
@@ -182,6 +180,7 @@ class MapAPI {
           RenderFrameFinishedEventData.fromJson(data));
     } else if (eventType == MapEvent.renderFrameStarted.name) {
       onRenderFrameStartedPlatform(RenderFrameStartedEventData.fromJson(data));
+    } else if (eventType == MapEvent.resourceRequest.name) {
     } else if (eventType == MapEvent.sourceAdded.name) {
       onSourceAddedPlatform(SourceAddedEventData.fromJson(data));
     } else if (eventType == MapEvent.sourceDataLoaded.name) {
@@ -194,6 +193,8 @@ class MapAPI {
       onStyleImageMissingPlatform(StyleImageMissingEventData.fromJson(data));
     } else if (eventType == MapEvent.styleImageRemoveUnused.name) {
       onStyleImageUnusedPlatform(StyleImageUnusedEventData.fromJson(data));
+    } else if (eventType == MapEvent.styleLoaded.name) {
+      onStyleLoadedPlatform(StyleLoadedEventData.fromJson(data));
     } else {
       throw MissingPluginException();
     }
