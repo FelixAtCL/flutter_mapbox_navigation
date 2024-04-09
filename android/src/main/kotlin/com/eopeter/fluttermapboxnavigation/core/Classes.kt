@@ -1,5 +1,7 @@
 package com.eopeter.fluttermapboxnavigation.core
 
+import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
+import com.mapbox.maps.Event
 import com.mapbox.geojson.Point
 
 /**
@@ -2184,7 +2186,6 @@ enum class ModelScaleMode(val raw: Int) {
     }
 }
 
-/*
 enum class MapEvent(val raw: Int) {
     MAP_LOADED(0),
     MAP_LOADING_ERROR(1),
@@ -2260,5 +2261,23 @@ enum class MapEvent(val raw: Int) {
 val MapEvent.methodName: String
     get() = "event#$ordinal"
 
-*
-*/
+data class SubscriptionEvent(
+    val method: String,
+    val data: Any?
+) {
+    companion object {
+        @Suppress("UNCHECKED_CAST")
+        fun fromEvent(mapEvent: MapEvent, event: Event): SubscriptionEvent {
+            val method = mapEvent.methodName
+            val data = event.data.toFLTValue()
+            return SubscriptionEvent(method, data)
+        }
+    }
+    fun toJsonString(): String {
+        return "{" +
+                "  \"method\": \"${method}\"," +
+                "  \"data\": $data" +
+                "}"
+    }
+
+}
