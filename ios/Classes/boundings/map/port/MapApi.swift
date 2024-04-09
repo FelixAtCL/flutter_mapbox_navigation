@@ -127,7 +127,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
     }
 
     private func subscribeEvents() {
-        for event in events {
+        for event: String? in events {
             self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: event)!) { (result) in
                 guard let data = result.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: result.rawValue),
