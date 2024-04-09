@@ -15,7 +15,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
-    let events: [MapEvents] = [
+    let events: [String?] = [
         .cameraChanged,
         .mapIdle,
         .mapLoaded,
@@ -128,7 +128,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
 
     private func subscribeEvents() {
         for event in events {
-            self.mapboxMap.onEvery(event) { (result) in
+            self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: event)!) { (result) in
                 guard let data = result.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: result.rawValue),
                                           arguments: self.convertDictionaryToString(dict: data))
