@@ -15,21 +15,6 @@ public class MapAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
-    let allMapEvents: [String?] = [
-        EventKind.cameraChanged,
-        EventKind.mapIdle,
-        EventKind.mapLoaded,
-        EventKind.renderFrameFinished,
-        EventKind.renderFrameStarted,
-        EventKind.sourceAdded,
-        EventKind.sourceDataLoaded,
-        EventKind.sourceRemoved,
-        EventKind.styleDataLoaded,
-        EventKind.styleImageMissing,
-        EventKind.styleImageRemoveUnused,
-        EventKind.styleLoaded
-    ]
-
     init(messenger: FlutterBinaryMessenger, withMapboxMap mapboxMap: MapboxMap, viewId: Int64) {
         self.mapboxMap = mapboxMap
         
@@ -127,12 +112,76 @@ public class MapAPI: NSObject, FlutterStreamHandler
     }
 
     private func subscribeEvents() {
-        for eventType in allMapEvents {
-            self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
-                guard let data = event.data as? [String: Any] else {return}
-                self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
-                                          arguments: self.convertDictionaryToString(dict: data))
-            }
+        self.mapboxMap.onEvery(MapEvents.cameraChanged!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.mapIdle!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.mapLoaded!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.renderFrameFinished!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.renderFrameStarted!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.sourceAdded!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.sourceDataLoaded!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.sourceRemoved!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.styleDataLoaded!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.styleImageMissing!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.styleImageRemoveUnused!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
+        }
+
+        self.mapboxMap.onEvery(MapEvents.styleLoaded!) { (event) in
+            guard let data = event.data as? [String: Any] else {return}
+            self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                        arguments: self.convertDictionaryToString(dict: data))
         }
     }
 
