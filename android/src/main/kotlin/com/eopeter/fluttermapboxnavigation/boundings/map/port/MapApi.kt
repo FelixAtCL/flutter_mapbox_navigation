@@ -76,19 +76,17 @@ class MapApi : MethodChannel.MethodCallHandler {
     }
 
     private fun listenOnEvents(methodChannel: MethodChannel) {
-        mapboxMap.subscribeMapLoaded {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeMapLoadingError {methodChannel.invokeMethod(MapEvent.MAP_LOADING_ERROR.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeStyleLoaded {methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeStyleDataLoaded {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeCameraChange {methodChannel.invokeMethod(MapEvent.CAMERA_CHANGED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeMapIdle {methodChannel.invokeMethod(MapEvent.MAP_IDLE.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeSourceAdded {methodChannel.invokeMethod(MapEvent.SOURCE_ADDED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeSourceRemoved {methodChannel.invokeMethod(MapEvent.SOURCE_REMOVED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeSourceDataLoaded {methodChannel.invokeMethod(MapEvent.SOURCE_DATA_LOADED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeStyleImageMissing {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_MISSING.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeStyleImageUnused {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeRenderFrameStarted {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeRenderFrameFinished {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, gson.toJson(it.data))}
-        mapboxMap.subscribeResourceRequest {methodChannel.invokeMethod(MapEvent.RESOURCE_REQUEST.methodName, gson.toJson(it.data))}
+        mapboxMap.addOnMapLoadedListener {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.addOnStyleLoadedListener{methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.addOnStyleDataLoadedListener {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.addOnCameraChangeListener {methodChannel.invokeMethod(MapEvent.CAMERA_CHANGED.methodName, gson.toJson(it))}
+        mapboxMap.addOnMapIdleListener {methodChannel.invokeMethod(MapEvent.MAP_IDLE.methodName, gson.toJson(it))}
+        mapboxMap.addOnSourceAddedListener {methodChannel.invokeMethod(MapEvent.SOURCE_ADDED.methodName, gson.toJson(it))}
+        mapboxMap.addOnSourceRemovedListener {methodChannel.invokeMethod(MapEvent.SOURCE_REMOVED.methodName, gson.toJson(it))}
+        mapboxMap.addOnSourceDataLoadedListener {methodChannel.invokeMethod(MapEvent.SOURCE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.addOnStyleImageMissingListener {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_MISSING.methodName, gson.toJson(it))}
+        mapboxMap.addOnStyleImageUnusedListener {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, gson.toJson(it))}
+        mapboxMap.addOnRenderFrameStartedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, gson.toJson(it))}
+        mapboxMap.addOnRenderFrameFinishedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, gson.toJson(it))}
     }
 }

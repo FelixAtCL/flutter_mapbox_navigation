@@ -103,11 +103,12 @@ class RenderFrameFinishedEventData {
       : begin = json['begin'] as int? ?? 0,
         end = json['end'] as int? ?? 0,
         renderMode = EnumToString.fromString(
-          RenderMode.values,
-          (json['render-mode'] as String? ?? '')
-              .toUpperCase()
-              .replaceAll('-', '_'),
-        )!,
+              RenderMode.values,
+              (json['render-mode'] as String? ?? '')
+                  .toUpperCase()
+                  .replaceAll('-', '_'),
+            ) ??
+            RenderMode.FULL,
         placementChanged = json['placement-changed'] as bool? ?? false,
         needsRepaint = json['needs-repaint'] as bool? ?? false;
 
@@ -308,9 +309,12 @@ class StyleDataLoadedEventData {
       : begin = json['begin'] as int? ?? 0,
         end = json['end'] as int? ?? 0,
         type = EnumToString.fromString(
-          StyleDataType.values,
-          (json['type'] as String? ?? '').toUpperCase().replaceAll('-', '_'),
-        )!;
+              StyleDataType.values,
+              (json['type'] as String? ?? '')
+                  .toUpperCase()
+                  .replaceAll('-', '_'),
+            ) ??
+            StyleDataType.STYLE;
 
   /// Representing timestamp taken at the time of an event creation; in microseconds; since the epoch.
   final int begin;
