@@ -150,6 +150,7 @@ class MapAPI {
 
   /// Generic Handler for Messages sent from the Platform
   Future<dynamic> _handleMethod(MethodCall call) async {
+    print("method call: $call");
     try {
       if (call.method.startsWith('event')) {
         _handleEvents(call);
