@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.eopeter.fluttermapboxnavigation.R
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
@@ -303,9 +304,16 @@ class MyTripProgressViewBinder : InfoPanelBinder() {
         TODO("Not yet implemented")
     }
 
-    override fun onCreateLayout(layoutInflater: LayoutInflater, root: ViewGroup): ViewGroup {
-        TODO("Not yet implemented")
+    override fun onCreateLayout(
+        layoutInflater: LayoutInflater,
+        root: ViewGroup
+    ): ViewGroup {
+        return layoutInflater.inflate(
+            R.layout.empty_info_panel, root,
+            false
+        ) as ViewGroup
     }
+
 }
 
 class EmptyUiBinder : UIBinder {
