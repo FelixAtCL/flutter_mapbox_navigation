@@ -114,7 +114,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
     }
 
     func listenOnEvent(arguments: NSDictionary?, result: @escaping FlutterResult) {
-            guard let eventType = arguments?["event"] as? String else { return }
+            guard let eventType = arguments?["mapevent"] as? String else { return }
             self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: eventType),
