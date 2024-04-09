@@ -177,7 +177,8 @@ class MapAPI {
       onMapLoadErrorPlatform(MapLoadingErrorEventData.fromJson(data));
     } else if (eventType == MapEvent.renderFrameFinished.name) {
       onRenderFrameFinishedPlatform(
-          RenderFrameFinishedEventData.fromJson(data));
+        RenderFrameFinishedEventData.fromJson(data),
+      );
     } else if (eventType == MapEvent.renderFrameStarted.name) {
       onRenderFrameStartedPlatform(RenderFrameStartedEventData.fromJson(data));
     } else if (eventType == MapEvent.resourceRequest.name) {

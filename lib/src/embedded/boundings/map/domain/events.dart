@@ -66,7 +66,7 @@ class MapLoadingErrorEventData {
         type = EnumToString.fromString(
           MapLoadErrorType.values,
           (json['type'] as String? ?? '').toUpperCase().replaceAll('-', '_'),
-        )!,
+        ) ?? MapLoadErrorType.STYLE,
         message = json['message'] as String? ?? '',
         sourceId = json['source-id'] as String? ?? '',
         tileId = json['tile-id'] != null
@@ -249,9 +249,12 @@ class SourceDataLoadedEventData {
         end = json['end'] as int? ?? 0,
         id = json['id'] as String? ?? '',
         type = EnumToString.fromString(
-          SourceDataType.values,
-          (json['type'] as String? ?? '').toUpperCase().replaceAll('-', '_'),
-        )!,
+              SourceDataType.values,
+              (json['type'] as String? ?? '')
+                  .toUpperCase()
+                  .replaceAll('-', '_'),
+            ) ??
+            SourceDataType.METADATA,
         loaded = json['loaded'] as bool? ?? false,
         tileID = json['tile-id'] != null
             ? TileID.fromJson(json['tile-id'] as Map<String, dynamic>? ?? {})
