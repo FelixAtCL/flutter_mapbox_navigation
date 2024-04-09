@@ -80,6 +80,9 @@ part 'src/embedded/boundings/location/domain/location.dart';
 part 'src/embedded/boundings/location/domain/coordinate.dart';
 part 'src/embedded/boundings/location/domain/heading.dart';
 
+// Navigation Bounding
+part 'src/embedded/boundings/navigation/port/api.dart';
+
 // Others
 part 'src/embedded/controller.dart';
 part 'src/callbacks.dart';

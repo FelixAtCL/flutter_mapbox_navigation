@@ -34,6 +34,7 @@ class MapBoxNavigationViewController {
     location = LocationAPI(id);
     logo = LogoAPI(id);
     map = MapAPI(id);
+    navigation = NavigationAPI(id);
     scaleBar = ScaleBarAPI(id);
     style = StyleAPI(id);
 
@@ -111,6 +112,7 @@ class MapBoxNavigationViewController {
   late LocationAPI location;
   late LogoAPI logo;
   late MapAPI map;
+  late NavigationAPI navigation;
   late ScaleBarAPI scaleBar;
   late StyleAPI style;
 
