@@ -27,7 +27,7 @@ import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.plugin.common.StandardMethodCodec
+import io.flutter.plugin.common.EventChannel
 import java.util.HashMap
 
 class NavigationApi:
