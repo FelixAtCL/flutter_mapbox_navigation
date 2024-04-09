@@ -40,8 +40,8 @@ class MapApi : MethodChannel.MethodCallHandler {
     }
 
     fun close() {
-        if(this.methodChannel == null) return
-        unsubscribeEvents(this.methodChannel)
+        val channel = this.methodChannel ?: return
+        unsubscribeEvents(channel)
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
