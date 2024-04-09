@@ -161,6 +161,9 @@ class NavigationApi:
                         this@NavigationApi.simulateRoute
                     )
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
+                    this@NavigationApi.binding.navigationView.customizeViewStyles {
+                        infoPanelPeekHeight = 0
+                    }
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)

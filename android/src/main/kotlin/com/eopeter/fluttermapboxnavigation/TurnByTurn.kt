@@ -263,6 +263,7 @@ open class TurnByTurn(
         this@TurnByTurn.binding.navigationView.customizeViewOptions {
             mapStyleUriDay = this@TurnByTurn.mapStyleUrlDay
             mapStyleUriNight = this@TurnByTurn.mapStyleUrlNight
+
         }           
 
         this.initialLatitude = arguments["initialLatitude"] as? Double
