@@ -15,7 +15,7 @@ public class MapAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
-    let events: [String?] = [
+    let events: [MapEvents] = [
         .cameraChanged,
         .mapIdle,
         .mapLoaded,
