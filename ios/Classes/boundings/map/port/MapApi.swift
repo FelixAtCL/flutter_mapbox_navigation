@@ -112,73 +112,73 @@ public class MapAPI: NSObject, FlutterStreamHandler
     }
 
     private func subscribeEvents() {
-        self.mapboxMap.onEvery(event: MapEvents.Event.cameraChanged) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.cameraChanged) { (event: Event<NoPayload>) in
             let data = try! JSONDecoder().decode(NoPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.mapIdle) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.mapIdle) { (event: Event<NoPayload>) in
             let data = try! JSONDecoder().decode(NoPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.mapLoaded) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.mapLoaded) { (event: Event<NoPayload>) in
             let data = try! JSONDecoder().decode(NoPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.renderFrameFinished) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.renderFrameFinished) { (event: Event<RenderFrameFinishedPayload>) in
             let data = try! JSONDecoder().decode(RenderFrameFinishedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.renderFrameStarted) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.renderFrameStarted) { (event: Event<NoPayload>) in
             let data = try! JSONDecoder().decode(NoPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.sourceAdded) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.sourceAdded) { (event: Event<SourceAddedPayload>) in
             let data = try! JSONDecoder().decode(SourceAddedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.sourceDataLoaded) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.sourceDataLoaded) { (event: Event<SourceDataLoadedPayload>) in
             let data = try! JSONDecoder().decode(SourceDataLoadedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.sourceRemoved) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.sourceRemoved) { (event: Event<SourceRemovedPayload>) in
             let data = try! JSONDecoder().decode(SourceRemovedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.styleDataLoaded) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.styleDataLoaded) { (event: Event<SourceDataLoadedPayload>) in
             let data = try! JSONDecoder().decode(SourceDataLoadedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.styleImageMissing) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.styleImageMissing) { (event: Event<StyleImageMissingPayload>) in
             let data = try! JSONDecoder().decode(StyleImageMissingPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.styleImageRemoveUnused) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.styleImageRemoveUnused) { (event: Event<StyleImageUnusedPayload>) in
             let data = try! JSONDecoder().decode(StyleImageUnusedPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery(event: MapEvents.Event.styleLoaded) { (event) in
+        self.mapboxMap.onEvery(event: MapEvents.Event.styleLoaded) { (event: Event<NoPayload>) in
             let data = try! JSONDecoder().decode(NoPayload.self, from: event.payload)
             self.channel.invokeMethod(self.getEventMethodName(eventType: event.name),
                                         arguments: self.convertDictionaryToString(dict: data))
