@@ -15,19 +15,19 @@ public class MapAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
-    let events: [MapEvents] = [
-        .cameraChanged,
-        .mapIdle,
-        .mapLoaded,
-        .renderFrameFinished,
-        .renderFrameStarted,
-        .sourceAdded,
-        .sourceDataLoaded,
-        .sourceRemoved,
-        .styleDataLoaded,
-        .styleImageMissing,
-        .styleImageRemoveUnused
-        .styleLoaded
+    let events: [String?] = [
+        MapEvents.cameraChanged,
+        MapEvents.mapIdle,
+        MapEvents.mapLoaded,
+        MapEvents.renderFrameFinished,
+        MapEvents.renderFrameStarted,
+        MapEvents.sourceAdded,
+        MapEvents.sourceDataLoaded,
+        MapEvents.sourceRemoved,
+        MapEvents.styleDataLoaded,
+        MapEvents.styleImageMissing,
+        MapEvents.styleImageRemoveUnused,
+        MapEvents.styleLoaded
     ]
 
     init(messenger: FlutterBinaryMessenger, withMapboxMap mapboxMap: MapboxMap, viewId: Int64) {
