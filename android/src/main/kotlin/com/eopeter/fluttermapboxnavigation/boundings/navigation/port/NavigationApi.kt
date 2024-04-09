@@ -292,10 +292,6 @@ class NavigationApi:
 }
 
 class MyTripProgressViewBinder : InfoPanelBinder() {
-    override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
-        return UIComponent()
-    }
-
     override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
         layout.findViewById(R.id.infoPanelHeader)
 
@@ -312,7 +308,6 @@ class MyTripProgressViewBinder : InfoPanelBinder() {
             false
         ) as ViewGroup
     }
-
 }
 
 class EmptyUiBinder : UIBinder {
