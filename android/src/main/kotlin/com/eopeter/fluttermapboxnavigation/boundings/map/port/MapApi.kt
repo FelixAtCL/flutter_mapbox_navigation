@@ -58,6 +58,7 @@ class MapApi :
             }
             "listenOnEvents" -> {
                 this.listenOnEvents()
+                result.success(null)
             }
             else -> result.notImplemented()
         }
