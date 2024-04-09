@@ -35,8 +35,13 @@ class MapApi : MethodChannel.MethodCallHandler {
                 StandardMethodCodec(MapApiCodec)
             )
         methodChannel.setMethodCallHandler(this)
-        this.listenOnEvents(methodChannel)
+        this.subscribeEvents(methodChannel)
         this.methodChannel = methodChannel
+    }
+
+    fun close() {
+        if(this.methodChannel == null) return
+        unsubscribeEvents(this.methodChannel)
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -75,7 +80,7 @@ class MapApi : MethodChannel.MethodCallHandler {
         result.success(screenCoordinate.toFLTScreenCoordinate(context))
     }
 
-    private fun listenOnEvents(methodChannel: MethodChannel) {
+    private fun subscribeEvents(methodChannel: MethodChannel) {
         mapboxMap.addOnMapLoadedListener {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, gson.toJson(it))}
         mapboxMap.addOnStyleLoadedListener{methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, gson.toJson(it))}
         mapboxMap.addOnStyleDataLoadedListener {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, gson.toJson(it))}
@@ -88,5 +93,20 @@ class MapApi : MethodChannel.MethodCallHandler {
         mapboxMap.addOnStyleImageUnusedListener {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, gson.toJson(it))}
         mapboxMap.addOnRenderFrameStartedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, gson.toJson(it))}
         mapboxMap.addOnRenderFrameFinishedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, gson.toJson(it))}
+    }
+
+    private fun unsubscribeEvents(methodChannel: MethodChannel) {
+        mapboxMap.removeOnMapLoadedListener {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnStyleLoadedListener{methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnStyleDataLoadedListener {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnCameraChangeListener {methodChannel.invokeMethod(MapEvent.CAMERA_CHANGED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnMapIdleListener {methodChannel.invokeMethod(MapEvent.MAP_IDLE.methodName, gson.toJson(it))}
+        mapboxMap.removeOnSourceAddedListener {methodChannel.invokeMethod(MapEvent.SOURCE_ADDED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnSourceRemovedListener {methodChannel.invokeMethod(MapEvent.SOURCE_REMOVED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnSourceDataLoadedListener {methodChannel.invokeMethod(MapEvent.SOURCE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnStyleImageMissingListener {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_MISSING.methodName, gson.toJson(it))}
+        mapboxMap.removeOnStyleImageUnusedListener {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnRenderFrameStartedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, gson.toJson(it))}
+        mapboxMap.removeOnRenderFrameFinishedListener {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, gson.toJson(it))}
     }
 }

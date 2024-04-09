@@ -182,6 +182,7 @@ class EmbeddedNavigationMapView(
 
         fun disableApis() {
             this@EmbeddedNavigationMapView.gesture?.close()
+            this@EmbeddedNavigationMapView.map?.close()
 
             this@EmbeddedNavigationMapView.attribution = null
             this@EmbeddedNavigationMapView.camera = null

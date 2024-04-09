@@ -15,6 +15,21 @@ public class MapAPI: NSObject, FlutterStreamHandler
     let channel: FlutterMethodChannel
     let eventChannel: FlutterEventChannel
 
+    let events: [Event] = [
+        .cameraChanged,
+        .mapLoaded,
+        .mapIdle,
+        .styleDataLoaded,
+        .styleLoaded,
+        .styleImageMissing,
+        .styleImageRemoveUnused,
+        .sourceDataLoaded,
+        .sourceAdded,
+        .sourceRemoved,
+        .renderFrameStarted,
+        .renderFrameFinished,
+    ]
+
     init(messenger: FlutterBinaryMessenger, withMapboxMap mapboxMap: MapboxMap, viewId: Int64) {
         self.mapboxMap = mapboxMap
         
@@ -115,12 +130,23 @@ public class MapAPI: NSObject, FlutterStreamHandler
 
     func listenOnEvent(arguments: NSDictionary?, result: @escaping FlutterResult) {
             guard let eventType = arguments?["mapevent"] as? String else { return }
+            
             self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: eventType),
                                           arguments: self.convertDictionaryToString(dict: data))
             }
             result(nil)
+    }
+
+    private func subscribeEvents() {
+        for event in events {
+            self.mapboxMap.onEvery(event) { (event) in
+                guard let data = event.data as? [String: Any] else {return}
+                self.channel.invokeMethod(self.getEventMethodName(eventType: event.rawValue),
+                                          arguments: self.convertDictionaryToString(dict: data))
+            }
+        }
     }
 
     private func getEventMethodName(eventType: String) -> String {
