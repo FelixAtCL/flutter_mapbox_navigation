@@ -24,6 +24,7 @@ import com.mapbox.navigation.base.route.RouterOrigin
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
+import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
@@ -164,6 +165,8 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         infoPanelBinder = MyTripProgressViewBinder()
+                        infoPanelStartNavigationButtonBinder = EmptyUiBinder()
+
                     }
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =
@@ -303,4 +306,11 @@ class MyTripProgressViewBinder : InfoPanelBinder() {
     override fun onCreateLayout(layoutInflater: LayoutInflater, root: ViewGroup): ViewGroup {
         TODO("Not yet implemented")
     }
+}
+
+class EmptyUiBinder : UIBinder {
+    override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
+        return UIComponent()
+    }
+
 }
