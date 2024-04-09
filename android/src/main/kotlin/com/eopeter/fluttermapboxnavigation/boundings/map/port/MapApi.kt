@@ -97,7 +97,6 @@ class MapApi :
     }
 
     private fun listenOnEvents(methodCall: MethodCall, result: MethodChannel.Result) {
-        result.success(null)
         mapboxMap.subscribeMapLoaded {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.MAP_LOADED, it).toJsonString())}
         mapboxMap.subscribeMapLoadingError {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.MAP_LOADED, it).toJsonString())}
         mapboxMap.subscribeStyleLoaded {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.STYLE_LOADED, it).toJsonString())}
@@ -112,5 +111,7 @@ class MapApi :
         mapboxMap.subscribeRenderFrameStarted {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.RENDER_FRAME_STARTED, it).toJsonString())}
         mapboxMap.subscribeRenderFrameFinished {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.RENDER_FRAME_FINISHED, it).toJsonString())}
         mapboxMap.subscribeResourceRequest {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.RESOURCE_REQUEST, it).toJsonString())}
+
+        result.success(null)
     }
 }
