@@ -55,15 +55,13 @@ public class MapAPI: NSObject, FlutterStreamHandler
             {
                 strongSelf.queryRenderedFeatures(arguments: arguments, result: result)
             }
-            else if (call.method == "listenOnEvent") 
-            {
-                strongSelf.listenOnEvent(arguments: arguments, result: result)
-            }
             else
             {
                 result("method is not implemented");
             }
         }
+
+        subscribeEvents()
     }
 
     func pixelForCoordinate(arguments: NSDictionary?, result: @escaping FlutterResult) {
@@ -126,17 +124,6 @@ public class MapAPI: NSObject, FlutterStreamHandler
         } catch {
             result(FlutterError(code: MapAPI.errorCode, message: "\(error)", details: nil))
         }
-    }
-
-    func listenOnEvent(arguments: NSDictionary?, result: @escaping FlutterResult) {
-            guard let eventType = arguments?["mapevent"] as? String else { return }
-            
-            self.mapboxMap.onEvery(MapEvents.EventKind(rawValue: eventType)!) { (event) in
-                guard let data = event.data as? [String: Any] else {return}
-                self.channel.invokeMethod(self.getEventMethodName(eventType: eventType),
-                                          arguments: self.convertDictionaryToString(dict: data))
-            }
-            result(nil)
     }
 
     private func subscribeEvents() {
