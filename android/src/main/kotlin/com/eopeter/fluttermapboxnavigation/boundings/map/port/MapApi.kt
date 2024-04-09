@@ -102,7 +102,9 @@ class MapApi :
         mapboxMap.subscribeMapLoadingError {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.MAP_LOADED, it).toJsonString())}
         mapboxMap.subscribeStyleLoaded {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.STYLE_LOADED, it).toJsonString())}
         mapboxMap.subscribeStyleDataLoaded {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.STYLE_DATA_LOADED, it).toJsonString())}
-        mapboxMap.subscribeCameraChange {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.CAMERA_CHANGED, it).toJsonString())}
+        mapboxMap.subscribeCameraChange {
+            this.methodChannel?.invokeMethod("event", "received event")
+            this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.CAMERA_CHANGED, it).toJsonString())}
         mapboxMap.subscribeMapIdle {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.MAP_IDLE, it).toJsonString())}
         mapboxMap.subscribeSourceAdded {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.SOURCE_ADDED, it).toJsonString())}
         mapboxMap.subscribeSourceRemoved {this.eventSink?.success(SubscriptionEvent.fromEvent(MapEvent.SOURCE_REMOVED, it).toJsonString())}

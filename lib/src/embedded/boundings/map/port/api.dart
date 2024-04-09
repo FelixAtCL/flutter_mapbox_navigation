@@ -14,8 +14,6 @@ class MapAPI {
     _eventChannel
         .receiveBroadcastStream()
         .listen((event) => print("new event: $event"));
-
-    _methodChannel.invokeMethod('listenOnEvents');
   }
 
   late MethodChannel _methodChannel;
@@ -108,16 +106,8 @@ class MapAPI {
     Observer observer,
     List<MapEvent> events,
   ) async {
+    await _methodChannel.invokeMethod('listenOnEvent', null);
     for (final element in events) {
-      // final args = <String, dynamic>{};
-      // args['mapevent'] = element.name;
-      // final result = await _methodChannel.invokeMethod('test', args);
-      // if (result != null) {
-      //   throw PlatformException(
-      //     code: 'channel-error',
-      //     message: 'Unable to establish connection on channel. $result',
-      //   );
-      // }
       if (_observers[element.name] == null) {
         // Haven't subscribed this event
         _observers[element.name] = [observer];
