@@ -112,73 +112,73 @@ public class MapAPI: NSObject, FlutterStreamHandler
     }
 
     private func subscribeEvents() {
-        self.mapboxMap.onEvery<NoPayload>(event: MapEvents.EventKind.cameraChanged) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.cameraChanged) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#camera-changed"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<NoPayload>(event: MapEvents.EventKind.mapIdle) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.mapIdle) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#map-idle"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<NoPayload>(event: MapEvents.EventKind.mapLoaded) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.mapLoaded) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#map-loaded"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<RenderFrameFinishedPayload>(event: MapEvents.EventKind.renderFrameFinished) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.renderFrameFinished) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#render-frame-finished"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<NoPayload>(event: MapEvents.EventKind.renderFrameStarted) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.renderFrameStarted) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#render-frame-started"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<SourceAddedPayload>(event: MapEvents.EventKind.sourceAdded) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.sourceAdded) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#source-added"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<SourceDataLoadedPayload>(event: MapEvents.EventKind.sourceDataLoaded) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.sourceDataLoaded) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#source-data-loaded"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<SourceRemovedPayload>(event: MapEvents.EventKind.sourceRemoved) {(event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.sourceRemoved) {(event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#source-removed"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<SourceDataLoadedPayload>(event: MapEvents.EventKind.styleDataLoaded) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.styleDataLoaded) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#source-data-loaded"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<StyleImageMissingPayload>(event: MapEvents.EventKind.styleImageMissing) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.styleImageMissing) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#style-image-missing"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<StyleImageUnusedPayload>(event: MapEvents.EventKind.styleImageRemoveUnused) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.styleImageRemoveUnused) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#style-image-remove-unused"),
                                           arguments: self.convertDictionaryToString(dict: data))
         }
 
-        self.mapboxMap.onEvery<NoPayload>(event: MapEvents.EventKind.styleLoaded) { (event) in
+        self.mapboxMap.onEvery(MapEvents.EventKind.styleLoaded) { (event) in
                 guard let data = event.data as? [String: Any] else {return}
                 self.channel.invokeMethod(self.getEventMethodName(eventType: "event#style-loaded"),
                                           arguments: self.convertDictionaryToString(dict: data))
