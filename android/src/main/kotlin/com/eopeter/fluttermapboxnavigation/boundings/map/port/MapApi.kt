@@ -4,6 +4,7 @@ import android.content.Context
 import com.mapbox.maps.extension.observable.*
 import com.eopeter.fluttermapboxnavigation.boundings.map.application.MapApiCodec
 import com.eopeter.fluttermapboxnavigation.core.*
+import com.google.gson.GsonBuilder
 import com.mapbox.geojson.Point
 import com.mapbox.maps.MapboxMap
 import io.flutter.plugin.common.BinaryMessenger
@@ -17,6 +18,7 @@ class MapApi : MethodChannel.MethodCallHandler {
     private val mapboxMap: MapboxMap
     private val context: Context
     private val viewId: Int
+    private val gson = GsonBuilder().create()
 
     constructor(messenger: BinaryMessenger, mapboxMap: MapboxMap, viewId: Int, context: Context) {
         this@MapApi.messenger = messenger
@@ -74,19 +76,19 @@ class MapApi : MethodChannel.MethodCallHandler {
     }
 
     private fun listenOnEvents(methodChannel: MethodChannel) {
-        mapboxMap.subscribeMapLoaded {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeMapLoadingError {methodChannel.invokeMethod(MapEvent.MAP_LOADING_ERROR.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeStyleLoaded {methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeStyleDataLoaded {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeCameraChange {methodChannel.invokeMethod(MapEvent.CAMERA_CHANGED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeMapIdle {methodChannel.invokeMethod(MapEvent.MAP_IDLE.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeSourceAdded {methodChannel.invokeMethod(MapEvent.SOURCE_ADDED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeSourceRemoved {methodChannel.invokeMethod(MapEvent.SOURCE_REMOVED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeSourceDataLoaded {methodChannel.invokeMethod(MapEvent.SOURCE_DATA_LOADED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeStyleImageMissing {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_MISSING.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeStyleImageUnused {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeRenderFrameStarted {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeRenderFrameFinished {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, it.data.toFLTValue())}
-        mapboxMap.subscribeResourceRequest {methodChannel.invokeMethod(MapEvent.RESOURCE_REQUEST.methodName, it.data.toFLTValue())}
+        mapboxMap.subscribeMapLoaded {methodChannel.invokeMethod(MapEvent.MAP_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeMapLoadingError {methodChannel.invokeMethod(MapEvent.MAP_LOADING_ERROR.methodName, gson.toJson(it))}
+        mapboxMap.subscribeStyleLoaded {methodChannel.invokeMethod(MapEvent.STYLE_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeStyleDataLoaded {methodChannel.invokeMethod(MapEvent.STYLE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeCameraChange {methodChannel.invokeMethod(MapEvent.CAMERA_CHANGED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeMapIdle {methodChannel.invokeMethod(MapEvent.MAP_IDLE.methodName, gson.toJson(it))}
+        mapboxMap.subscribeSourceAdded {methodChannel.invokeMethod(MapEvent.SOURCE_ADDED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeSourceRemoved {methodChannel.invokeMethod(MapEvent.SOURCE_REMOVED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeSourceDataLoaded {methodChannel.invokeMethod(MapEvent.SOURCE_DATA_LOADED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeStyleImageMissing {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_MISSING.methodName, gson.toJson(it))}
+        mapboxMap.subscribeStyleImageUnused {methodChannel.invokeMethod(MapEvent.STYLE_IMAGE_REMOVE_UNUSED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeRenderFrameStarted {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_STARTED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeRenderFrameFinished {methodChannel.invokeMethod(MapEvent.RENDER_FRAME_FINISHED.methodName, gson.toJson(it))}
+        mapboxMap.subscribeResourceRequest {methodChannel.invokeMethod(MapEvent.RESOURCE_REQUEST.methodName, gson.toJson(it))}
     }
 }

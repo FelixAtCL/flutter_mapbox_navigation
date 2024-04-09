@@ -2186,98 +2186,23 @@ enum class ModelScaleMode(val raw: Int) {
     }
 }
 
-enum class MapEvent(val raw: Int) {
-    MAP_LOADED(0),
-    MAP_LOADING_ERROR(1),
-    STYLE_LOADED(2),
-    STYLE_DATA_LOADED(3),
-    CAMERA_CHANGED(4),
-    MAP_IDLE(5),
-    SOURCE_ADDED(6),
-    SOURCE_REMOVED(7),
-    SOURCE_DATA_LOADED(8),
-    STYLE_IMAGE_MISSING(9),
-    STYLE_IMAGE_REMOVE_UNUSED(10),
-    RENDER_FRAME_STARTED(11),
-    RENDER_FRAME_FINISHED(12),
-    RESOURCE_REQUEST(13);
-
-    companion object {
-        fun ofRaw(raw: Int): MapEvent? {
-            return values().firstOrNull { it.raw == raw }
-        }
-
-        fun ofName(name: String): MapEvent? {
-            when(name) {
-                "map-loaded" -> {
-                    return MAP_LOADED
-                }
-                "map-loading-error" -> {
-                    return MAP_LOADING_ERROR
-                }
-                "map-idle" -> {
-                    return MAP_IDLE
-                }
-                "style-data-loaded" -> {
-                    return STYLE_DATA_LOADED
-                }
-                "style-loaded" -> {
-                    return STYLE_LOADED
-                }
-                "style-image-missing" -> {
-                    return STYLE_IMAGE_MISSING
-                }
-                "style-image-remove-unused" -> {
-                    return STYLE_IMAGE_REMOVE_UNUSED
-                }
-                "source-data-loaded" -> {
-                    return SOURCE_DATA_LOADED
-                }
-                "source-added" -> {
-                    return SOURCE_ADDED
-                }
-                "source-removed" -> {
-                    return SOURCE_REMOVED
-                }
-                "render-frame-started" -> {
-                    return RENDER_FRAME_STARTED
-                }
-                "render-frame-finished" -> {
-                    return RENDER_FRAME_FINISHED
-                }
-                "camera-changed" -> {
-                    return CAMERA_CHANGED
-                }
-                "resource-request" -> {
-                    return RESOURCE_REQUEST
-                }
-                else -> return null
-            }
-        }
-    }
+enum class MapEvent(val event: String) {
+    MAP_LOADED("map-loaded"),
+    MAP_LOADING_ERROR("map-loading-error"),
+    STYLE_LOADED("style-loaded"),
+    STYLE_DATA_LOADED("style-data-loaded"),
+    CAMERA_CHANGED("camera-changed"),
+    MAP_IDLE("map-idle"),
+    SOURCE_ADDED("source-added"),
+    SOURCE_REMOVED("source-removed"),
+    SOURCE_DATA_LOADED("source-data-loaded"),
+    STYLE_IMAGE_MISSING("style-image-missing"),
+    STYLE_IMAGE_REMOVE_UNUSED("style-image-remove-unused"),
+    RENDER_FRAME_STARTED("render-frame-started"),
+    RENDER_FRAME_FINISHED("render-frame-finished"),
+    RESOURCE_REQUEST("resource-request");
 }
 
 
 val MapEvent.methodName: String
-    get() = "event#$ordinal"
-
-data class SubscriptionEvent(
-    val method: String,
-    val data: Any?
-) {
-    companion object {
-        @Suppress("UNCHECKED_CAST")
-        fun fromEvent(mapEvent: MapEvent, event: Event): SubscriptionEvent {
-            val method = mapEvent.methodName
-            val data = event.data.toFLTValue()
-            return SubscriptionEvent(method, data)
-        }
-    }
-    fun toJsonString(): String {
-        return "{" +
-                "  \"method\": \"${method}\"," +
-                "  \"data\": $data" +
-                "}"
-    }
-
-}
+    get() = "event#$event"
