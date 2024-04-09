@@ -2,20 +2,18 @@ package com.eopeter.fluttermapboxnavigation.boundings.navigation.port
 
 import android.app.Activity
 import android.content.Context
-import com.eopeter.fluttermapboxnavigation.FlutterMapboxNavigationPlugin
-import com.eopeter.fluttermapboxnavigation.boundings.scaleBar.application.ScaleBarApiCodec
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.models.Waypoint
 import com.eopeter.fluttermapboxnavigation.models.WaypointSet
 import com.eopeter.fluttermapboxnavigation.utilities.CustomInfoPanelEndNavButtonBinder
-import com.eopeter.fluttermapboxnavigation.utilities.PluginUtilities
 import com.google.gson.Gson
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
-import com.mapbox.maps.MapView
 import com.mapbox.maps.Style
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
@@ -24,6 +22,9 @@ import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
+import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
+import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
+import com.mapbox.navigation.ui.base.lifecycle.UIComponent
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -161,8 +162,8 @@ class NavigationApi:
                         this@NavigationApi.simulateRoute
                     )
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
-                    this@NavigationApi.binding.navigationView.customizeViewStyles {
-                        infoPanelPeekHeight = 0
+                    this@NavigationApi.binding.navigationView.customizeViewBinders {
+                        infoPanelBinder = MyTripProgressViewBinder()
                     }
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =
@@ -283,5 +284,23 @@ class NavigationApi:
                     "  \"data\": \"$data\"" +
                     "}"
         eventSink?.success(jsonString)
+    }
+}
+
+class MyTripProgressViewBinder : InfoPanelBinder() {
+    override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
+        return UIComponent()
+    }
+
+    override fun getContentLayout(layout: ViewGroup): ViewGroup? {
+        TODO("Not yet implemented")
+    }
+
+    override fun getHeaderLayout(layout: ViewGroup): ViewGroup? {
+        TODO("Not yet implemented")
+    }
+
+    override fun onCreateLayout(layoutInflater: LayoutInflater, root: ViewGroup): ViewGroup {
+        TODO("Not yet implemented")
     }
 }
