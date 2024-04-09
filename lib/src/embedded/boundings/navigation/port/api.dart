@@ -28,7 +28,7 @@ class NavigationAPI {
   /// drivingWithTraffic mode if more than 3-waypoints.
   /// [options] options used to generate the route and used while navigating
   ///
-  Future<bool> buildRoute({
+  Future<bool> build({
     required List<WayPoint> wayPoints,
     MapBoxOptions? options,
   }) async {
@@ -69,7 +69,7 @@ class NavigationAPI {
 
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
     return _methodChannel
-        .invokeMethod('buildRoute', args)
+        .invokeMethod('build', args)
         .then((dynamic result) => result as bool);
   }
 
