@@ -56,9 +56,8 @@ class MapApi :
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
             }
-            "listenOnEvents" -> {
-                this.listenOnEvents()
-                result.success(null)
+            "queryListener" -> {
+                result.success("listened")
             }
             else -> result.notImplemented()
         }

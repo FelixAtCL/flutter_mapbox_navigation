@@ -106,7 +106,7 @@ class MapAPI {
     Observer observer,
     List<MapEvent> events,
   ) async {
-    await _methodChannel.invokeMethod('listenOnEvent', null);
+    await _methodChannel.invokeMethod('queryListener');
     for (final element in events) {
       if (_observers[element.name] == null) {
         // Haven't subscribed this event
