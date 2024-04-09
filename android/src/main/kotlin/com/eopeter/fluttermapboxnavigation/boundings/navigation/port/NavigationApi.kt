@@ -296,13 +296,12 @@ class MyTripProgressViewBinder : InfoPanelBinder() {
         return UIComponent()
     }
 
-    override fun getContentLayout(layout: ViewGroup): ViewGroup? {
-        TODO("Not yet implemented")
-    }
+    override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelHeader)
 
-    override fun getHeaderLayout(layout: ViewGroup): ViewGroup? {
-        TODO("Not yet implemented")
-    }
+    override fun getContentLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelContent)
+
 
     override fun onCreateLayout(
         layoutInflater: LayoutInflater,
