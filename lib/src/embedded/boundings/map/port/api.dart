@@ -103,7 +103,7 @@ class MapAPI {
     for (final element in events) {
       final args = <String, dynamic>{};
       args['mapevent'] = "element.name";
-      final result = await _methodChannel.invokeMethod('listenOnEvent', args);
+      final result = await _methodChannel.invokeMethod('test', args);
       if (result != null) {
         throw PlatformException(
           code: 'channel-error',
