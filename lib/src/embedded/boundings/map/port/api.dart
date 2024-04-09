@@ -102,8 +102,8 @@ class MapAPI {
   ) async {
     for (final element in events) {
       final args = <String, dynamic>{};
-      args['mapevent'] = element.name;
-      var result = await _methodChannel.invokeMethod('listenOnEvent', args);
+      args['mapevent'] = "element.name";
+      final result = await _methodChannel.invokeMethod('listenOnEvent', args);
       if (result != null) {
         throw PlatformException(
           code: 'channel-error',

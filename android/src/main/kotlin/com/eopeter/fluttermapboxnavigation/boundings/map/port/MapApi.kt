@@ -42,8 +42,8 @@ class MapApi : MethodChannel.MethodCallHandler {
             "queryRenderedFeatures" -> {
                 this.queryRenderedFeatures(methodCall, result)
             }
-            "listenOnEvent" -> {
-                this.listenOnEvent(methodCall, result)
+            "test" -> {
+                this.pixelForCoordinateTest(methodCall, result)
             }
             else -> result.notImplemented()
         }
@@ -74,57 +74,63 @@ class MapApi : MethodChannel.MethodCallHandler {
         result.success(screenCoordinate.toFLTScreenCoordinate(context))
     }
 
-    private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
+    private fun pixelForCoordinateTest(methodCall: MethodCall, result: MethodChannel.Result) {
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         val event = arguments["mapevent"] as? String ?: return
-        /*
-        val mapEvent = MapEvent.ofName(event) ?: return
+        result.success(event)
+    }
 
-        when (mapEvent) {
-            MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.MAP_LOADING_ERROR -> mapboxMap.subscribeMapLoadingError {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.STYLE_LOADED -> mapboxMap.subscribeStyleLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.SOURCE_ADDED -> mapboxMap.subscribeSourceAdded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.SOURCE_REMOVED -> mapboxMap.subscribeSourceRemoved {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.SOURCE_DATA_LOADED -> mapboxMap.subscribeSourceDataLoaded {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.RENDER_FRAME_FINISHED -> mapboxMap.subscribeRenderFrameFinished {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
-            MapEvent.RESOURCE_REQUEST -> mapboxMap.subscribeResourceRequest {
-                methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
-            }
+    /*
+private fun listenOnEvent(methodCall: MethodCall, result: MethodChannel.Result) {
+    val arguments = methodCall.arguments as? Map<*, *> ?: return
+    val event = arguments["mapevent"] as? String ?: return
+    val mapEvent = MapEvent.ofName(event) ?: return
+
+    when (mapEvent) {
+        MapEvent.MAP_LOADED -> mapboxMap.subscribeMapLoaded {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
         }
-                 */
+        MapEvent.MAP_LOADING_ERROR -> mapboxMap.subscribeMapLoadingError {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.STYLE_LOADED -> mapboxMap.subscribeStyleLoaded {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.STYLE_DATA_LOADED -> mapboxMap.subscribeStyleDataLoaded {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.CAMERA_CHANGED -> mapboxMap.subscribeCameraChange {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.MAP_IDLE -> mapboxMap.subscribeMapIdle {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.SOURCE_ADDED -> mapboxMap.subscribeSourceAdded {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.SOURCE_REMOVED -> mapboxMap.subscribeSourceRemoved {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.SOURCE_DATA_LOADED -> mapboxMap.subscribeSourceDataLoaded {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.STYLE_IMAGE_MISSING -> mapboxMap.subscribeStyleImageMissing {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.STYLE_IMAGE_REMOVE_UNUSED -> mapboxMap.subscribeStyleImageUnused {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.RENDER_FRAME_STARTED -> mapboxMap.subscribeRenderFrameStarted {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.RENDER_FRAME_FINISHED -> mapboxMap.subscribeRenderFrameFinished {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+        MapEvent.RESOURCE_REQUEST -> mapboxMap.subscribeResourceRequest {
+            methodChannel?.invokeMethod(mapEvent.methodName, it.data.toFLTValue())
+        }
+    }
         result.success("Success")
     }
+             */
 }
