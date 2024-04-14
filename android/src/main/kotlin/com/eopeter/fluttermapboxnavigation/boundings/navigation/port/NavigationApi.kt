@@ -4,6 +4,9 @@ import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.transition.Fade
+import androidx.transition.Scene
+import androidx.transition.TransitionManager
 import com.eopeter.fluttermapboxnavigation.R
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
@@ -22,6 +25,7 @@ import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
+import com.mapbox.navigation.core.MapboxNavigation
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
@@ -165,9 +169,8 @@ class NavigationApi:
                     )
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
-                        infoPanelBinder = MyTripProgressViewBinder()
-                        infoPanelStartNavigationButtonBinder = EmptyUiBinder()
-
+                        infoPanelBinder = EmptyInfoPanelBinder()
+                        infoPanelTripProgressBinder = EmptyTripProgressBinder()
                     }
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =
@@ -291,7 +294,7 @@ class NavigationApi:
     }
 }
 
-class MyTripProgressViewBinder : InfoPanelBinder() {
+class EmptyInfoPanelBinder : InfoPanelBinder() {
     override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
         layout.findViewById(R.id.infoPanelHeader)
 
@@ -310,9 +313,16 @@ class MyTripProgressViewBinder : InfoPanelBinder() {
     }
 }
 
-class EmptyUiBinder : UIBinder {
+class EmptyTripProgressBinder : UIBinder {
     override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
+        val scene = Scene.getSceneForLayout(
+            viewGroup,
+            R.layout.empty_trip_progress,
+            viewGroup.context,
+        )
+        TransitionManager.go(scene, Fade())
+
+        val binding = NavigationActivityBinding.bind(viewGroup)
         return UIComponent()
     }
-
 }
