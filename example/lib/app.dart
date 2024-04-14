@@ -151,11 +151,15 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     // wayPoints.add(_stop2);
                                     wayPoints.add(_stop3);
                                     _isMultipleStop = wayPoints.length > 2;
-                                    _controller?.navigation.build(
-                                        wayPoints: wayPoints,
-                                        options: _navigationOption);
-                                    setState(() {
-                                      _routeBuilt = true;
+                                    _controller?.navigation
+                                        .setUp(disableTripProgress: true)
+                                        .then((_) {
+                                      _controller?.navigation.build(
+                                          wayPoints: wayPoints,
+                                          options: _navigationOption);
+                                      setState(() {
+                                        _routeBuilt = true;
+                                      });
                                     });
                                   }
                                 },

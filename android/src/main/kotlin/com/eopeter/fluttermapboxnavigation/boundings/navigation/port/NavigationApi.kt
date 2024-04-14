@@ -125,11 +125,11 @@ class NavigationApi:
         this.eventSink = null
     }
 
-    private fun setUp(methodCall: MethodCall, result: MehtodChannel.Result) {
-        var arguments = methodCall.argumentsm as? Map<*,*> ?: return
+    private fun setUp(methodCall: MethodCall, result: MethodChannel.Result) {
+        var arguments = methodCall.arguments as? Map<*,*> ?: return
         disableInfoPanel = arguments["disableInfoPanel"] as? Boolean ?: false
         disableTripProgress = arguments["disableTripProgress"] as? Boolean ?: false
-        result(null)
+        result.success(null)
     }
 
     private fun build(methodCall: MethodCall, result: MethodChannel.Result) {
