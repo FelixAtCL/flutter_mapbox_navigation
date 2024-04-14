@@ -180,6 +180,7 @@ class NavigationApi:
                         this@NavigationApi.simulateRoute
                     )
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
+                    /*
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
                             infoPanelBinder = EmptyInfoPanelBinder()
@@ -187,11 +188,10 @@ class NavigationApi:
                         if(disableTripProgress) {
                             infoPanelTripProgressBinder = EmptyTripProgressBinder()
                         }
-                    }
-                    this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)
                     }
+                     */
                 }
 
                 override fun onFailure(
