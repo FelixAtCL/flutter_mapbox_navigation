@@ -21,6 +21,31 @@ class NavigationAPI {
     _routeEventNotifier = notifier;
   }
 
+  /// Sets up the navigation API.
+  ///
+  /// This method initializes the navigation API and prepares it for use.
+  /// It should be called before any other navigation-related methods are called.
+  ///
+  /// Example usage:
+  /// ```dart
+  /// await setUp();
+  /// ```
+  Future<void> setUp({
+    bool? disableInfoPanel,
+    bool? disableTripProgress,
+  }) async {
+    final args = <String, dynamic>{};
+    args['disableInfoPanel'] = disableInfoPanel ?? false;
+    args['disableTripProgress'] = disableTripProgress ?? false;
+    final result = await _methodChannel.invokeMethod('setUp', args);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel. $result',
+      );
+    }
+  }
+
   ///Build the Route Used for the Navigation
   ///
   /// [wayPoints] must not be null. A collection of [WayPoint](longitude,

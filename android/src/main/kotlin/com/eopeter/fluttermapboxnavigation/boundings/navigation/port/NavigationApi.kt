@@ -72,6 +72,8 @@ class NavigationApi:
     private var mapStyleUrlNight: String? = null
     private var initialLatitude: Double? = null
     private var initialLongitude: Double? = null
+    private var disableInfoPanel: Boolean = false
+    private var disableTripProgress: Boolean = false
 
     constructor(
         messenger: BinaryMessenger,
@@ -104,6 +106,9 @@ class NavigationApi:
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
+            "setUp" -> {
+                this.setUp(methodCall, result)
+            }
             "build" -> {
                 this.build(methodCall, result)
             }
@@ -118,6 +123,13 @@ class NavigationApi:
 
     override fun onCancel(arguments: Any?) {
         this.eventSink = null
+    }
+
+    private fun setUp(methodCall: MethodCall, result: MehtodChannel.Result) {
+        var arguments = methodCall.argumentsm as? Map<*,*> ?: return
+        disableInfoPanel = arguments["disableInfoPanel"] as? Boolean ?: false
+        disableTripProgress = arguments["disableTripProgress"] as? Boolean ?: false
+        result(null)
     }
 
     private fun build(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -169,8 +181,12 @@ class NavigationApi:
                     )
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
-                        infoPanelBinder = EmptyInfoPanelBinder()
-                        infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                        if(disableInfoPanel) {
+                            infoPanelBinder = EmptyInfoPanelBinder()
+                        }
+                        if(disableTripProgress) {
+                            infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                        }
                     }
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         this.infoPanelEndNavigationButtonBinder =

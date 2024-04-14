@@ -154,6 +154,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     _controller?.navigation.build(
                                         wayPoints: wayPoints,
                                         options: _navigationOption);
+                                    setState(() {
+                                      _routeBuilt = true;
+                                    });
                                   }
                                 },
                           child: Text(_routeBuilt && !_isNavigating
