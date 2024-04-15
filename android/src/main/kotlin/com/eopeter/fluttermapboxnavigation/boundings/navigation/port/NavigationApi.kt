@@ -380,3 +380,36 @@ class NavigationApi:
         Log.d("Embedded", "onActivityDestroyed not implemented")
     }
 }
+
+private class EmptyInfoPanelBinder : InfoPanelBinder() {
+    override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelHeader)
+
+    override fun getContentLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelContent)
+
+
+    override fun onCreateLayout(
+        layoutInflater: LayoutInflater,
+        root: ViewGroup
+    ): ViewGroup {
+        return layoutInflater.inflate(
+            R.layout.empty_info_panel, root,
+            false
+        ) as ViewGroup
+    }
+}
+
+private class EmptyTripProgressBinder : UIBinder {
+    override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
+        val scene = Scene.getSceneForLayout(
+            viewGroup,
+            R.layout.empty_trip_progress,
+            viewGroup.context,
+        )
+        TransitionManager.go(scene, Fade())
+
+        EmptyTripProgressBinding.bind(viewGroup)
+        return UIComponent()
+    }
+}

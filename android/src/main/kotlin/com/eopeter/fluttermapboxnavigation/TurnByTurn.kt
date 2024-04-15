@@ -13,8 +13,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
-import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.EmptyInfoPanelBinder
-import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.EmptyTripProgressBinder
 import com.eopeter.fluttermapboxnavigation.databinding.EmptyTripProgressBinding
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
@@ -45,6 +43,7 @@ import com.mapbox.navigation.core.trip.session.*
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -543,7 +542,7 @@ open class TurnByTurn(
     }
 }
 
-class EmptyInfoPanelBinder : InfoPanelBinder() {
+private class EmptyInfoPanelBinder : InfoPanelBinder() {
     override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
         layout.findViewById(R.id.infoPanelHeader)
 
@@ -562,7 +561,7 @@ class EmptyInfoPanelBinder : InfoPanelBinder() {
     }
 }
 
-class EmptyTripProgressBinder : UIBinder {
+private class EmptyTripProgressBinder : UIBinder {
     override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
         val scene = Scene.getSceneForLayout(
             viewGroup,
