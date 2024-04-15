@@ -189,7 +189,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         ElevatedButton(
                           onPressed: _isNavigating
                               ? () {
-                                  _controller?.finishNavigation();
+                                  _controller?.navigation.finish();
                                 }
                               : null,
                           child: const Text('Cancel '),

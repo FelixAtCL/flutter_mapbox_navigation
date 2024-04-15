@@ -173,6 +173,7 @@ class NavigationApi:
             result.success("No route initialized!")
             return
         }
+        this.isNavigationCanceled = false
         this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         result.success(null)
@@ -180,10 +181,11 @@ class NavigationApi:
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
-        val navigation = MapboxNavigationApp.current()
-        navigation?.stopTripSession()
+        val navigation = MapboxNavigationApp.current()!!
+        navigation.stopTripSession()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
-        result.success(true)
+        this.isNavigationCanceled = true
+        result.success(null)
     }
 
     private fun getRoute(context: Context) {
