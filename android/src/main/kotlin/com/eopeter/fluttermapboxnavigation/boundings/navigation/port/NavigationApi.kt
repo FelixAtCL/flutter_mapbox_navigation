@@ -183,6 +183,7 @@ class NavigationApi:
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
         MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
+        this@NavigationApi.binding.navigationView.api.startArrival()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -191,6 +192,7 @@ class NavigationApi:
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
         MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
+        this@NavigationApi.binding.navigationView.api.startArrival()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
