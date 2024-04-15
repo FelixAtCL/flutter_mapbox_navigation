@@ -56,6 +56,8 @@ class EmbeddedNavigationMapView(
     }
 
     open fun initialize() {
+        initNavigation()
+
         if(!(this.arguments?.get("longPressDestinationEnabled") as Boolean)) {
             this.binding.navigationView.customizeViewOptions {
                 enableMapLongClickIntercept = false;
@@ -160,8 +162,7 @@ class EmbeddedNavigationMapView(
                 this@EmbeddedNavigationMapView.binding,
                 this@EmbeddedNavigationMapView.viewId,
                 this@EmbeddedNavigationMapView.context,
-                this@EmbeddedNavigationMapView.activity,
-                this@EmbeddedNavigationMapView.token
+                this@EmbeddedNavigationMapView.activity
             )
             navigation.init()
             this@EmbeddedNavigationMapView.navigation = navigation

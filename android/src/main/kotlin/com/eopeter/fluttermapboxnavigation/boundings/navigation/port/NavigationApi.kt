@@ -6,8 +6,8 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.lifecycle.LifecycleOwner
 import androidx.transition.Fade
 import androidx.transition.Scene
@@ -27,30 +27,20 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.Style
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
-import com.mapbox.navigation.base.formatter.DistanceFormatterOptions
 import com.mapbox.navigation.base.options.NavigationOptions
 import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
-import com.mapbox.navigation.core.MapboxNavigation
-import com.mapbox.navigation.core.internal.extensions.flowRouteProgress
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
-import com.mapbox.navigation.dropin.ViewStyleCustomization
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
-import com.mapbox.navigation.ui.tripprogress.api.MapboxTripProgressApi
-import com.mapbox.navigation.ui.tripprogress.model.DistanceRemainingFormatter
-import com.mapbox.navigation.ui.tripprogress.model.EstimatedTimeToArrivalFormatter
-import com.mapbox.navigation.ui.tripprogress.model.TimeRemainingFormatter
-import com.mapbox.navigation.ui.tripprogress.model.TripProgressUpdateFormatter
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.EventChannel
-import kotlinx.coroutines.launch
 import java.util.HashMap
 
 class NavigationApi:
@@ -66,7 +56,6 @@ class NavigationApi:
     private val viewId: Int
     private val binding: NavigationActivityBinding
     private val activity: Activity
-    private val token: String
 
     private var currentRoutes: List<NavigationRoute>? = null
     /**
@@ -98,14 +87,12 @@ class NavigationApi:
         binding: NavigationActivityBinding,
         viewId: Int,
         context: Context,
-        activity: Activity,
-        token: String) {
+        activity: Activity) {
         this@NavigationApi.messenger = messenger
         this@NavigationApi.viewId = viewId
         this@NavigationApi.context = context
         this@NavigationApi.binding = binding
         this@NavigationApi.activity = activity
-        this@NavigationApi.token = token
     }
 
     fun init() {
@@ -122,15 +109,6 @@ class NavigationApi:
                 "flutter_mapbox_navigation/navigation/${viewId}/events"
             )
         this.eventChannel?.setStreamHandler(this)
-
-        val options = NavigationOptions
-            .Builder(this.context)
-            .accessToken(this.token)
-            .build()
-
-        MapboxNavigationApp
-            .setup(options)
-            .attach(this.activity as LifecycleOwner)
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -198,11 +176,11 @@ class NavigationApi:
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        this.currentRoutes = null
         val navigation = MapboxNavigationApp.current()!!
         navigation.stopTripSession()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
+        this.currentRoutes = null
         result.success(null)
     }
 
