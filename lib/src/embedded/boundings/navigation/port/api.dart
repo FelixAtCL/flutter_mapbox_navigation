@@ -17,6 +17,11 @@ class NavigationAPI {
   late StreamSubscription<RouteEvent> _routeEventSubscription;
   ValueSetter<RouteEvent>? _routeEventNotifier;
 
+  /// Adds a notifier for route events.
+  ///
+  /// The [notifier] is a callback function that will be called whenever a route event occurs.
+  /// It takes a single parameter of type [RouteEvent].
+  /// Use this method to register a notifier to receive updates about route events.
   void addRouteEventNotifier(ValueSetter<RouteEvent> notifier) {
     _routeEventNotifier = notifier;
   }
@@ -153,6 +158,37 @@ class NavigationAPI {
     }
   }
 
+  /// Mutes the navigation audio.
+  ///
+  /// This method invokes the 'mute' method on the [_methodChannel] to mute the navigation audio.
+  /// If there is an error establishing a connection to the channel, a [PlatformException] is thrown.
+  ///
+  /// Throws a [PlatformException] if there is an error establishing a connection to the channel.
+  Future<void> mute() async {
+    final result = await _methodChannel.invokeMethod('mute', null);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection to channel. $result',
+      );
+    }
+  }
+
+  /// Unmutes the navigation audio.
+  ///
+  /// This method invokes the 'unmute' method on the method channel to unmute the navigation audio.
+  /// If the result is not null, it throws a [PlatformException] with the code 'channel-error'
+  /// and a message indicating the failure to establish a connection to the channel.
+  Future<void> unmute() async {
+    final result = await _methodChannel.invokeMethod('unmute', null);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection to channel. $result',
+      );
+    }
+  }
+
   void _onProgressData(RouteEvent event) {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
   }
@@ -175,6 +211,7 @@ class NavigationAPI {
     } else {
       event = RouteEvent.fromJson(map);
     }
+    _onProgressData(event);
     return event;
   }
 

@@ -158,9 +158,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     _isMultipleStop = wayPoints.length > 2;
                                     _controller?.navigation
                                         .setUp(
-                                      disableTripProgress: true,
-                                      disableInfoPanel: true,
-                                    )
+                                            disableInfoPanel: true,
+                                            disableTripProgressPanel: true,
+                                            disableHeaderPanel: true)
                                         .then((_) {
                                       _controller?.navigation.build(
                                           wayPoints: wayPoints,

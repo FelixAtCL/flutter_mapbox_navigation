@@ -40,6 +40,8 @@ import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
+import com.mapbox.navigation.ui.voice.api.MapboxAudioGuidance
+import com.mapbox.navigation.ui.voice.internal.MapboxAudioGuidanceVoice
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -132,6 +134,12 @@ class NavigationApi:
             "clear" -> {
                 this.clear(methodCall, result)
             }
+            "mute" -> {
+                this.mute(methodCall, result)
+            }
+            "unmute" -> {
+                this.unmute(methodCall, result)
+            }
             else -> result.notImplemented()
         }
     }
@@ -171,21 +179,26 @@ class NavigationApi:
         result.success(null)
     }
 
+    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun start(methodCall: MethodCall, result: MethodChannel.Result) {
         if(this.currentRoutes == null) {
             sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
             result.success("No route initialized!")
             return
         }
-        this@NavigationApi.binding.navigationView.api.startActiveGuidance()
+        MapboxNavigationApp.current()!!.setNavigationRoutes(this.currentRoutes!!)
+        MapboxNavigationApp.current()!!.setRoutesPreview(emptyList())
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
+        MapboxNavigationApp.current()!!.registerRouteProgressObserver(routeProgressObserver =  {
+            var json = Gson().toJson(it)
+            sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
+        })
         result.success(null)
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
         MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
-        this@NavigationApi.binding.navigationView.api.startArrival()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -194,9 +207,18 @@ class NavigationApi:
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
         MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
-        this@NavigationApi.binding.navigationView.api.startArrival()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
+        result.success(null)
+    }
+
+    private fun mute(methodCall: MethodCall, result: MethodChannel.Result) {
+        MapboxAudioGuidance.getRegisteredInstance().mute()
+        result.success(null)
+    }
+
+    private fun unmute(methodCall: MethodCall, result: MethodChannel.Result) {
+        MapboxAudioGuidance.getRegisteredInstance().unmute()
         result.success(null)
     }
 
@@ -230,6 +252,7 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
                         this@NavigationApi.simulateRoute
                     )
+                    MapboxNavigationApp.current()!!.setRoutesPreview(routes)
                     this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
