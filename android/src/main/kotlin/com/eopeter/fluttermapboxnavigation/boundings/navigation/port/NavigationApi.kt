@@ -180,7 +180,6 @@ class NavigationApi:
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        MapboxNavigationApp.current()!!.stopTripSession()
         NavigationLauncher.stopNavigation(this.activity)
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
