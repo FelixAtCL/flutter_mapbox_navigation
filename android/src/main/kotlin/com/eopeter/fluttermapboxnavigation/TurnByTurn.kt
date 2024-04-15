@@ -54,7 +54,9 @@ open class TurnByTurn(
     ctx: Context,
     act: Activity,
     bind: NavigationActivityBinding,
-    accessToken: String
+    accessToken: String,
+    binaryMessenger: BinaryMessenger,
+    vId: Int,
 ) : MethodChannel.MethodCallHandler,
     EventChannel.StreamHandler,
     Application.ActivityLifecycleCallbacks {
@@ -394,6 +396,8 @@ open class TurnByTurn(
     open val context: Context = ctx
     val activity: Activity = act
     val token: String = accessToken
+    private val viewId: Int = vId
+    private val messenger: BinaryMessenger = binaryMessenger
     open var methodChannel: MethodChannel? = null
     open var eventChannel: EventChannel? = null
     private var lastLocation: Location? = null

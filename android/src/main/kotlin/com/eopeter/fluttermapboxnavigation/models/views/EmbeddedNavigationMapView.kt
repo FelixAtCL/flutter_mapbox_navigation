@@ -28,7 +28,7 @@ class EmbeddedNavigationMapView(
     vId: Int,
     args: Any?,
     accessToken: String
-) : PlatformView, TurnByTurn(context, activity, binding, accessToken) {
+) : PlatformView, TurnByTurn(context, activity, binding, accessToken, binaryMessenger, vId) {
     private val viewId: Int = vId
     private val messenger: BinaryMessenger = binaryMessenger
     private val arguments = args as Map<*, *>
