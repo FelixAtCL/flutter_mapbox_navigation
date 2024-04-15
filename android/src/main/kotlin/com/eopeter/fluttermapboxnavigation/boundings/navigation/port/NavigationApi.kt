@@ -6,9 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.LifecycleOwner
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
@@ -28,7 +26,6 @@ import com.mapbox.geojson.Point
 import com.mapbox.maps.Style
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
-import com.mapbox.navigation.base.options.NavigationOptions
 import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
@@ -180,7 +177,7 @@ class NavigationApi:
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        NavigationLauncher.stopNavigation(this.activity)
+        this.binding.navigationView.removeAllViews()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -188,7 +185,7 @@ class NavigationApi:
 
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
-        NavigationLauncher.stopNavigation(this.activity)
+        this.binding.navigationView.removeAllViews()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
