@@ -1,7 +1,10 @@
 package com.eopeter.fluttermapboxnavigation.boundings.navigation.port
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -52,7 +55,8 @@ import java.util.HashMap
 
 class NavigationApi:
     MethodChannel.MethodCallHandler,
-    EventChannel.StreamHandler
+    EventChannel.StreamHandler,
+    Application.ActivityLifecycleCallbacks
 {
     private var methodChannel: MethodChannel? = null
     private var eventChannel: EventChannel? = null
@@ -359,6 +363,34 @@ class NavigationApi:
                     "  \"data\": \"$data\"" +
                     "}"
         eventSink?.success(jsonString)
+    }
+
+    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+        Log.d("Embedded", "onActivityCreated not implemented")
+    }
+
+    override fun onActivityStarted(activity: Activity) {
+        Log.d("Embedded", "onActivityStarted not implemented")
+    }
+
+    override fun onActivityResumed(activity: Activity) {
+        Log.d("Embedded", "onActivityResumed not implemented")
+    }
+
+    override fun onActivityPaused(activity: Activity) {
+        Log.d("Embedded", "onActivityPaused not implemented")
+    }
+
+    override fun onActivityStopped(activity: Activity) {
+        Log.d("Embedded", "onActivityStopped not implemented")
+    }
+
+    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
+        Log.d("Embedded", "onActivitySaveInstanceState not implemented")
+    }
+
+    override fun onActivityDestroyed(activity: Activity) {
+        Log.d("Embedded", "onActivityDestroyed not implemented")
     }
 }
 
