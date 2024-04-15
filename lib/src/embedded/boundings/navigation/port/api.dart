@@ -130,6 +130,23 @@ class NavigationAPI {
     }
   }
 
+  /// Clears the navigation port.
+  ///
+  /// This method clears the navigation port by invoking the 'clear' method on the method channel.
+  /// If the result is not null, it throws a [PlatformException] with the code 'channel-error'
+  /// and a message indicating the failure to establish a connection to the channel.
+  ///
+  /// Throws a [PlatformException] if there is an error establishing a connection to the channel.
+  Future<void> clear() async {
+    final result = await _methodChannel.invokeMethod('clear', null);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection to channel. $result',
+      );
+    }
+  }
+
   void _onProgressData(RouteEvent event) {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
   }

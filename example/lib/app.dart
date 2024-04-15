@@ -190,6 +190,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                           onPressed: _isNavigating
                               ? () {
                                   _controller?.navigation.finish();
+                                  setState(() {
+                                    _isNavigating = false;
+                                  });
                                 }
                               : null,
                           child: const Text('Cancel '),

@@ -125,6 +125,9 @@ class NavigationApi:
             "finish" -> {
                 this.finish(methodCall, result)
             }
+            "clear" -> {
+                this.clear(methodCall, result)
+            }
             else -> result.notImplemented()
         }
     }
@@ -177,13 +180,17 @@ class NavigationApi:
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
         MapboxNavigationApp.current()!!.stopTripSession()
-        /*
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
-        this.currentRoutes = null
-         */
         result.success(null)
+    }
 
+    private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
+        this.currentRoutes = null
+        MapboxNavigationApp.current()!!.stopTripSession()
+        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        this.isNavigationCanceled = true
+        result.success(null)
     }
 
     private fun getRoute(context: Context) {
