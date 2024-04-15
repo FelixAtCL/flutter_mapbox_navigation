@@ -16,6 +16,7 @@ class NavigationAPI {
 
   late StreamSubscription<RouteEvent> _routeEventSubscription;
   ValueSetter<RouteEvent>? _routeEventNotifier;
+  ValueSetter<String>? _stringEventNotifier;
 
   /// Adds a notifier for route events.
   ///
@@ -24,6 +25,15 @@ class NavigationAPI {
   /// Use this method to register a notifier to receive updates about route events.
   void addRouteEventNotifier(ValueSetter<RouteEvent> notifier) {
     _routeEventNotifier = notifier;
+  }
+
+  /// Adds a notifier for route events.
+  ///
+  /// The [notifier] is a callback function that will be called whenever a route event occurs.
+  /// It takes a single parameter of type [RouteEvent].
+  /// Use this method to register a notifier to receive updates about route events.
+  void addStringListener(ValueSetter<String> notifier) {
+    _stringEventNotifier = notifier;
   }
 
   /// Sets up the navigation API.
@@ -193,6 +203,10 @@ class NavigationAPI {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
   }
 
+  void _onProgressStringData(String data) {
+    if (_stringEventNotifier != null) _stringEventNotifier?.call(data);
+  }
+
   Stream<RouteEvent>? get _streamRouteEvent {
     return _eventChannel
         .receiveBroadcastStream()
@@ -200,18 +214,20 @@ class NavigationAPI {
   }
 
   RouteEvent _parseRouteEvent(String jsonString) {
-    RouteEvent event;
-    final map = json.decode(jsonString) as Map<String, dynamic>;
-    final progressEvent = RouteProgressEvent.fromJson(map);
-    if (progressEvent.isProgressEvent!) {
-      event = RouteEvent(
-        eventType: MapBoxEvent.progress_change,
-        data: progressEvent,
-      );
-    } else {
-      event = RouteEvent.fromJson(map);
-    }
-    _onProgressData(event);
+    RouteEvent event =
+        RouteEvent(data: "", eventType: MapBoxEvent.progress_change);
+    _onProgressStringData(jsonString);
+    // final map = json.decode(jsonString) as Map<String, dynamic>;
+    // final progressEvent = RouteProgressEvent.fromJson(map);
+    // if (progressEvent.isProgressEvent!) {
+    //   event = RouteEvent(
+    //     eventType: MapBoxEvent.progress_change,
+    //     data: progressEvent,
+    //   );
+    // } else {
+    //   event = RouteEvent.fromJson(map);
+    // }
+    // _onProgressData(event);
     return event;
   }
 
