@@ -98,6 +98,21 @@ class NavigationAPI {
         .then((dynamic result) => result as bool);
   }
 
+  /// Starts the navigation process.
+  ///
+  /// This method invokes the 'start' method on the method channel to initiate the navigation process.
+  /// It returns a [Future] that completes when the navigation process is started.
+  /// If an error occurs during the process, a [PlatformException] is thrown with the error details.
+  Future<void> start() async {
+    final result = await _methodChannel.invokeMethod('start', null);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel. $result',
+      );
+    }
+  }
+
   void _onProgressData(RouteEvent event) {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
   }

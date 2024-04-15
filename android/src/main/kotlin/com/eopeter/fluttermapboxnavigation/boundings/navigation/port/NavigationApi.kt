@@ -123,6 +123,9 @@ class NavigationApi:
             "build" -> {
                 this.build(methodCall, result)
             }
+            "start" -> {
+                this.start(methodCall, result)
+            }
             else -> result.notImplemented()
         }
     }
@@ -159,6 +162,17 @@ class NavigationApi:
         }
         this.getRoute(this.context)
         result.success(true)
+    }
+
+    private fun start(methodCall: MethodCall, result: MethodChannel.Result) {
+        if(this.currentRoutes == null) {
+            sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+            result.success("No route initialized!")
+            return
+        }
+        this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
+        sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
+        result.success(null)
     }
 
     private fun getRoute(context: Context) {
