@@ -13,6 +13,7 @@ import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
 import com.eopeter.fluttermapboxnavigation.R
+import com.eopeter.fluttermapboxnavigation.activity.NavigationLauncher
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.EmptyTripProgressBinding
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
@@ -180,6 +181,7 @@ class NavigationApi:
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
         MapboxNavigationApp.current()!!.stopTripSession()
+        NavigationLauncher.stopNavigation(this.activity)
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -234,7 +236,6 @@ class NavigationApi:
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)
                     }
-
                 }
 
                 override fun onFailure(
