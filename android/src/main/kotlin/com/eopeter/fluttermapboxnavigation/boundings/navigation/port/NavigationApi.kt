@@ -196,7 +196,8 @@ class NavigationApi:
                             infoPanelBinder = EmptyInfoPanelBinder()
                         }
                         if(disableTripProgress) {
-                            infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                            // infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                            infoPanelContentBinder = EmptyTripProgressBinder()
                         }
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)
