@@ -161,7 +161,7 @@ class NavigationApi:
             this.addedWaypoints.add(Waypoint(Point.fromLngLat(longitude, latitude),isSilent))
         }
         this.getRoute(this.context)
-        result.success(true)
+        result.success(null)
     }
 
     private fun start(methodCall: MethodCall, result: MethodChannel.Result) {
