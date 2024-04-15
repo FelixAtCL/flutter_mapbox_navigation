@@ -33,12 +33,12 @@ class NavigationAPI {
   Future<void> setUp({
     bool? disableInfoPanel,
     bool? disableTripProgress,
-    bool? disableHeader,
+    bool? disableHeaderPanel,
   }) async {
     final args = <String, dynamic>{};
     args['disableInfoPanel'] = disableInfoPanel ?? false;
     args['disableTripProgress'] = disableTripProgress ?? false;
-    args['disableHeader'] = disableHeader ?? false;
+    args['disableHeader'] = disableHeaderPanel ?? false;
     final result = await _methodChannel.invokeMethod('setUp', args);
     if (result != null) {
       throw PlatformException(

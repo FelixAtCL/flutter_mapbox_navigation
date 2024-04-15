@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 
@@ -157,8 +158,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     _isMultipleStop = wayPoints.length > 2;
                                     _controller?.navigation
                                         .setUp(
-                                            disableTripProgress: true,
-                                            disableInfoPanel: true)
+                                      disableTripProgress: true,
+                                      disableInfoPanel: true,
+                                    )
                                         .then((_) {
                                       _controller?.navigation.build(
                                           wayPoints: wayPoints,
