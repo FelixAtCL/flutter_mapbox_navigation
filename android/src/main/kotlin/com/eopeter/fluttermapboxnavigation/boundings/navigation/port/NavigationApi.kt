@@ -196,6 +196,7 @@ class NavigationApi:
         result.success(null)
     }
 
+    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun getRoute(context: Context) {
         MapboxNavigationApp.current()!!.requestRoutes(
             routeOptions = RouteOptions
@@ -225,7 +226,7 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
                         this@NavigationApi.simulateRoute
                     )
-                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
+                    MapboxNavigationApp.current()!!.setRoutesPreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
