@@ -186,14 +186,14 @@ class NavigationApi:
             result.success("No permissions for location!")
             return
         }
-        MapboxNavigationApp.current()!!.startTripSession()
+        MapboxNavigationApp.current()!!.setNavigationRoutes(currentRoutes!!)
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         result.success(null)
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        MapboxNavigationApp.current()!!.stopTripSession()
+        MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -201,13 +201,12 @@ class NavigationApi:
 
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
-        MapboxNavigationApp.current()!!.stopTripSession()
+        MapboxNavigationApp.current()!!.setNavigationRoutes(emptyList())
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
     }
 
-    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun getRoute(context: Context) {
         MapboxNavigationApp.current()!!.requestRoutes(
             routeOptions = RouteOptions
@@ -229,7 +228,7 @@ class NavigationApi:
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
                 ) {
-                    MapboxNavigationApp.current()!!.setRoutesPreview(routes)
+                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
                     this@NavigationApi.currentRoutes = routes
                     sendEvent(
                         MapBoxEvents.ROUTE_BUILT,
