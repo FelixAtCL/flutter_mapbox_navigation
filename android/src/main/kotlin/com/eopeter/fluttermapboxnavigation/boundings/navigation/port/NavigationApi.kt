@@ -175,7 +175,7 @@ class NavigationApi:
             result.success("No route initialized!")
             return
         }
-        MapboxNavigationApp.current()!!.setNavigationRoutes(currentRoutes!!)
+        this@NavigationApi.binding.navigationView.api.startActiveGuidance()
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         result.success(null)
@@ -226,7 +226,7 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
                         this@NavigationApi.simulateRoute
                     )
-                    MapboxNavigationApp.current()!!.setRoutesPreview(routes)
+                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
