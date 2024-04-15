@@ -32,6 +32,7 @@ import com.mapbox.navigation.core.MapboxNavigation
 import com.mapbox.navigation.core.internal.extensions.flowRouteProgress
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
+import com.mapbox.navigation.dropin.ViewStyleCustomization
 import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
@@ -196,8 +197,7 @@ class NavigationApi:
                             infoPanelBinder = EmptyInfoPanelBinder()
                         }
                         if(disableTripProgress) {
-                            // infoPanelTripProgressBinder = EmptyTripProgressBinder()
-                            infoPanelContentBinder = EmptyTripProgressBinder()
+                            infoPanelTripProgressBinder = EmptyTripProgressBinder()
                         }
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)
