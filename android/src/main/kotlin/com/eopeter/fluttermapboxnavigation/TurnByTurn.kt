@@ -7,7 +7,15 @@ import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.lifecycle.LifecycleOwner
+import androidx.transition.Fade
+import androidx.transition.Scene
+import androidx.transition.TransitionManager
+import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.EmptyInfoPanelBinder
+import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.EmptyTripProgressBinder
+import com.eopeter.fluttermapboxnavigation.databinding.EmptyTripProgressBinding
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.models.MapBoxRouteProgressEvent
@@ -32,7 +40,11 @@ import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
+import com.mapbox.navigation.core.lifecycle.MapboxNavigationObserver
 import com.mapbox.navigation.core.trip.session.*
+import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
+import com.mapbox.navigation.ui.base.lifecycle.UIBinder
+import com.mapbox.navigation.ui.base.lifecycle.UIComponent
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -47,8 +59,19 @@ open class TurnByTurn(
     EventChannel.StreamHandler,
     Application.ActivityLifecycleCallbacks {
 
-    open fun initFlutterChannelHandlers() {
+    open fun initChannel() {
+        this.methodChannel =
+            MethodChannel(
+                this.messenger,
+                "flutter_mapbox_navigation/navigation/${this.viewId}"
+            )
         this.methodChannel?.setMethodCallHandler(this)
+
+        eventChannel =
+            EventChannel(
+                this.messenger,
+                "flutter_mapbox_navigation/navigation/${viewId}/events"
+            )
         this.eventChannel?.setStreamHandler(this)
     }
 
@@ -67,27 +90,30 @@ open class TurnByTurn(
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
+            "setUp" -> {
+                this.setUp(methodCall, result)
+            }
             "getPlatformVersion" -> {
                 result.success("Android ${android.os.Build.VERSION.RELEASE}")
             }
             "enableOfflineRouting" -> {
                 // downloadRegionForOfflineRouting(call, result)
             }
-            "buildRoute" -> {
+            "build" -> {
                 this.buildRoute(methodCall, result)
             }
-            "clearRoute" -> {
+            "clear" -> {
                 this.clearRoute(methodCall, result)
             }
             "startFreeDrive" -> {
                 FlutterMapboxNavigationPlugin.enableFreeDriveMode = true
                 this.startFreeDrive()
             }
-            "startNavigation" -> {
+            "start" -> {
                 FlutterMapboxNavigationPlugin.enableFreeDriveMode = false
                 this.startNavigation(methodCall, result)
             }
-            "finishNavigation" -> {
+            "finish" -> {
                 this.finishNavigation(methodCall, result)
             }
             "getDistanceRemaining" -> {
@@ -99,6 +125,14 @@ open class TurnByTurn(
             else -> result.notImplemented()
         }
     }
+
+    private fun setUp(methodCall: MethodCall, result: MethodChannel.Result) {
+        var arguments = methodCall.arguments as? Map<*,*> ?: return
+        disableInfoPanel = arguments["disableInfoPanel"] as? Boolean ?: false
+        disableTripProgress = arguments["disableTripProgress"] as? Boolean ?: false
+        result.success(null)
+    }
+
 
     private fun buildRoute(methodCall: MethodCall, result: MethodChannel.Result) {
         this.isNavigationCanceled = false
@@ -149,6 +183,12 @@ open class TurnByTurn(
                     )
                     this@TurnByTurn.binding.navigationView.api.startRoutePreview(routes)
                     this@TurnByTurn.binding.navigationView.customizeViewBinders {
+                        if(disableInfoPanel) {
+                            infoPanelBinder = EmptyInfoPanelBinder()
+                        }
+                        if(disableTripProgress) {
+                            infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                        }
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)
                     }
@@ -393,6 +433,8 @@ open class TurnByTurn(
 
     private var currentRoutes: List<NavigationRoute>? = null
     private var isNavigationCanceled = false
+    private var disableInfoPanel: Boolean = false
+    private var disableTripProgress: Boolean = false
 
     /**
      * Bindings to the example layout.
@@ -494,5 +536,38 @@ open class TurnByTurn(
 
     override fun onActivityDestroyed(activity: Activity) {
         Log.d("Embedded", "onActivityDestroyed not implemented")
+    }
+}
+
+class EmptyInfoPanelBinder : InfoPanelBinder() {
+    override fun getHeaderLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelHeader)
+
+    override fun getContentLayout(layout: ViewGroup): ViewGroup? =
+        layout.findViewById(R.id.infoPanelContent)
+
+
+    override fun onCreateLayout(
+        layoutInflater: LayoutInflater,
+        root: ViewGroup
+    ): ViewGroup {
+        return layoutInflater.inflate(
+            R.layout.empty_info_panel, root,
+            false
+        ) as ViewGroup
+    }
+}
+
+class EmptyTripProgressBinder : UIBinder {
+    override fun bind(viewGroup: ViewGroup): MapboxNavigationObserver {
+        val scene = Scene.getSceneForLayout(
+            viewGroup,
+            R.layout.empty_trip_progress,
+            viewGroup.context,
+        )
+        TransitionManager.go(scene, Fade())
+
+        EmptyTripProgressBinding.bind(viewGroup)
+        return UIComponent()
     }
 }

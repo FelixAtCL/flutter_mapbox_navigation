@@ -190,6 +190,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                           onPressed: _isNavigating
                               ? () {
                                   _controller?.navigation.finish();
+                                  MapBoxNavigation.instance.finishNavigation();
                                   setState(() {
                                     _isNavigating = false;
                                   });
