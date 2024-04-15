@@ -84,6 +84,7 @@ class NavigationApi:
     private var initialLongitude: Double? = null
     private var disableInfoPanel: Boolean = false
     private var disableTripProgress: Boolean = false
+    private var disableHeader: Boolean = false
 
     constructor(
         messenger: BinaryMessenger,
@@ -148,6 +149,7 @@ class NavigationApi:
         var arguments = methodCall.arguments as? Map<*,*> ?: return
         disableInfoPanel = arguments["disableInfoPanel"] as? Boolean ?: false
         disableTripProgress = arguments["disableTripProgress"] as? Boolean ?: false
+        disableHeader = arguments["disableHeader"] as? Boolean ?: false
         result.success(null)
     }
 
@@ -236,6 +238,9 @@ class NavigationApi:
                         }
                         if(disableTripProgress) {
                             infoPanelTripProgressBinder = EmptyTripProgressBinder()
+                        }
+                        if(disableHeader) {
+                            infoPanelHeaderBinder = EmptyTripProgressBinder()
                         }
                         this.infoPanelEndNavigationButtonBinder =
                             CustomInfoPanelEndNavButtonBinder(activity)

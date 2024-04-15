@@ -144,6 +144,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                               : () {
                                   if (_routeBuilt) {
                                     _controller?.navigation.clear();
+                                    setState(() {
+                                      _routeBuilt = false;
+                                      _isNavigating = false;
+                                    });
                                   } else {
                                     var wayPoints = <WayPoint>[];
                                     wayPoints.add(_origin);
