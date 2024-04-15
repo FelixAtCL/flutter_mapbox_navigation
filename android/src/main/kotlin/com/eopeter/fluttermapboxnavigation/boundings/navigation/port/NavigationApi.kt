@@ -180,7 +180,7 @@ class NavigationApi:
         navigation.stopTripSession()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
-        this.currentRoutes = null
+        // this.currentRoutes = null
         result.success(null)
     }
 
