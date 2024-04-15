@@ -56,18 +56,10 @@ class EmbeddedNavigationMapView(
     }
 
     open fun initialize() {
-        initFlutterChannelHandlers()
-        initNavigation()
-
         if(!(this.arguments?.get("longPressDestinationEnabled") as Boolean)) {
             this.binding.navigationView.customizeViewOptions {
                 enableMapLongClickIntercept = false;
             }
-        }
-
-        var enableOMTC = this.arguments?.get("enableOnMapTapCallback") as? Boolean
-        if(enableOMTC != null) {
-            this.enableOnMapTapCallback = enableOMTC
         }
         this.binding.navigationView.registerMapObserver(mapViewObserver)
     }
@@ -168,7 +160,8 @@ class EmbeddedNavigationMapView(
                 this@EmbeddedNavigationMapView.binding,
                 this@EmbeddedNavigationMapView.viewId,
                 this@EmbeddedNavigationMapView.context,
-                this@EmbeddedNavigationMapView.activity
+                this@EmbeddedNavigationMapView.activity,
+                this@EmbeddedNavigationMapView.token
             )
             navigation.init()
             this@EmbeddedNavigationMapView.navigation = navigation

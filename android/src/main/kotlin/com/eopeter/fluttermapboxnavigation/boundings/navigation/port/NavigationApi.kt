@@ -5,6 +5,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
@@ -24,6 +25,7 @@ import com.mapbox.maps.Style
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
 import com.mapbox.navigation.base.formatter.DistanceFormatterOptions
+import com.mapbox.navigation.base.options.NavigationOptions
 import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
@@ -60,6 +62,7 @@ class NavigationApi:
     private val viewId: Int
     private val binding: NavigationActivityBinding
     private val activity: Activity
+    private val token: String
 
     private var currentRoutes: List<NavigationRoute>? = null
     /**
@@ -91,12 +94,14 @@ class NavigationApi:
         binding: NavigationActivityBinding,
         viewId: Int,
         context: Context,
-        activity: Activity) {
+        activity: Activity,
+        token: String) {
         this@NavigationApi.messenger = messenger
         this@NavigationApi.viewId = viewId
         this@NavigationApi.context = context
         this@NavigationApi.binding = binding
         this@NavigationApi.activity = activity
+        this@NavigationApi.token = token
     }
 
     fun init() {
@@ -113,6 +118,15 @@ class NavigationApi:
                 "flutter_mapbox_navigation/navigation/${viewId}/events"
             )
         this.eventChannel?.setStreamHandler(this)
+
+        val options = NavigationOptions
+            .Builder(this.context)
+            .accessToken(this.token)
+            .build()
+
+        MapboxNavigationApp
+            .setup(options)
+            .attach(this.activity as LifecycleOwner)
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
