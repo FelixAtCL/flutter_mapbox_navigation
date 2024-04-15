@@ -232,7 +232,7 @@ open class TurnByTurn(
         this.startNavigation()
 
         if (this.currentRoutes != null) {
-            result.success(true)
+            result.success(null)
         } else {
             result.success(false)
         }
@@ -242,7 +242,7 @@ open class TurnByTurn(
         this.finishNavigation()
 
         if (this.currentRoutes != null) {
-            result.success(true)
+            result.success(null)
         } else {
             result.success(false)
         }
