@@ -1,12 +1,15 @@
 package com.eopeter.fluttermapboxnavigation.boundings.navigation.port
 
+import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
@@ -19,6 +22,7 @@ import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
 import com.eopeter.fluttermapboxnavigation.models.Waypoint
 import com.eopeter.fluttermapboxnavigation.models.WaypointSet
 import com.eopeter.fluttermapboxnavigation.utilities.CustomInfoPanelEndNavButtonBinder
+import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.RouteOptions
@@ -170,14 +174,25 @@ class NavigationApi:
             result.success("No route initialized!")
             return
         }
+        if (ActivityCompat.checkSelfPermission(
+                this.context,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this.context,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            result.success("No permissions for location!")
+            return
+        }
+        MapboxNavigationApp.current()!!.startTripSession()
         this.isNavigationCanceled = false
-        this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         result.success(null)
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        this.binding.navigationView.removeAllViews()
+        MapboxNavigationApp.current()!!.stopTripSession()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
@@ -185,6 +200,7 @@ class NavigationApi:
 
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
+        MapboxNavigationApp.current()!!.stopTripSession()
         this.binding.navigationView.removeAllViews()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
@@ -212,6 +228,7 @@ class NavigationApi:
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
                 ) {
+                    MapboxNavigationApp.current()!!.setNavigationRoutes(routes)
                     this@NavigationApi.currentRoutes = routes
                     sendEvent(
                         MapBoxEvents.ROUTE_BUILT,
