@@ -175,17 +175,6 @@ class NavigationApi:
             result.success("No route initialized!")
             return
         }
-        if (ActivityCompat.checkSelfPermission(
-                this.context,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this.context,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            result.success("No permissions for location!")
-            return
-        }
         MapboxNavigationApp.current()!!.setNavigationRoutes(currentRoutes!!)
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
@@ -228,7 +217,6 @@ class NavigationApi:
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
                 ) {
-                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
                     this@NavigationApi.currentRoutes = routes
                     sendEvent(
                         MapBoxEvents.ROUTE_BUILT,
@@ -237,6 +225,7 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
                         this@NavigationApi.simulateRoute
                     )
+                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
