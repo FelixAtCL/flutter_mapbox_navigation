@@ -202,7 +202,6 @@ class NavigationApi:
     private fun clear(methodCall: MethodCall, result: MethodChannel.Result) {
         this.currentRoutes = null
         MapboxNavigationApp.current()!!.stopTripSession()
-        this.binding.navigationView.removeAllViews()
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
         result.success(null)
