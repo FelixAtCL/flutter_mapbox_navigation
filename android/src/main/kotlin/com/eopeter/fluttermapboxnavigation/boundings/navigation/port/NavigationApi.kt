@@ -126,6 +126,9 @@ class NavigationApi:
             "start" -> {
                 this.start(methodCall, result)
             }
+            "finish" -> {
+                this.finish(methodCall, result)
+            }
             else -> result.notImplemented()
         }
     }
@@ -173,6 +176,14 @@ class NavigationApi:
         this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         result.success(null)
+    }
+
+    private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
+        this.currentRoutes = null
+        val navigation = MapboxNavigationApp.current()
+        navigation?.stopTripSession()
+        sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
+        result.success(true)
     }
 
     private fun getRoute(context: Context) {

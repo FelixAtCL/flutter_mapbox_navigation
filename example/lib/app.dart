@@ -175,7 +175,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         ElevatedButton(
                           onPressed: _routeBuilt && !_isNavigating
                               ? () {
-                                  _controller?.startNavigation();
+                                  _controller?.navigation.start();
+                                  setState(() {
+                                    _isNavigating = true;
+                                  });
                                 }
                               : null,
                           child: const Text('Start '),

@@ -113,6 +113,23 @@ class NavigationAPI {
     }
   }
 
+  /// Finish the navigation session.
+  ///
+  /// This method is used to finish the navigation session and close the navigation screen.
+  /// It invokes the 'finish' method on the method channel and throws a [PlatformException]
+  /// if there is an error establishing a connection to the channel.
+  ///
+  /// Throws a [PlatformException] if there is an error establishing a connection to the channel.
+  Future<void> finish() async {
+    final result = await _methodChannel.invokeMethod('finish', null);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection to channel. $result',
+      );
+    }
+  }
+
   void _onProgressData(RouteEvent event) {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
   }
