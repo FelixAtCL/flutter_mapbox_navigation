@@ -176,12 +176,14 @@ class NavigationApi:
     }
 
     private fun finish(methodCall: MethodCall, result: MethodChannel.Result) {
-        val navigation = MapboxNavigationApp.current()!!
-        navigation.stopTripSession()
+        MapboxNavigationApp.current()!!.stopTripSession()
+        /*
         sendEvent(MapBoxEvents.NAVIGATION_CANCELLED)
         this.isNavigationCanceled = true
-        // this.currentRoutes = null
+        this.currentRoutes = null
+         */
         result.success(null)
+
     }
 
     private fun getRoute(context: Context) {
