@@ -253,7 +253,6 @@ class NavigationApi:
                         this@NavigationApi.simulateRoute
                     )
                     MapboxNavigationApp.current()!!.setRoutesPreview(routes)
-                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
