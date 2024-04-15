@@ -28,6 +28,7 @@ import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.RouteOptions
 import com.mapbox.geojson.Point
 import com.mapbox.maps.Style
+import com.mapbox.navigation.base.ExperimentalPreviewMapboxNavigationAPI
 import com.mapbox.navigation.base.extensions.applyDefaultNavigationOptions
 import com.mapbox.navigation.base.extensions.applyLanguageAndVoiceUnitOptions
 import com.mapbox.navigation.base.route.NavigationRoute
@@ -207,6 +208,7 @@ class NavigationApi:
         result.success(null)
     }
 
+    @OptIn(ExperimentalPreviewMapboxNavigationAPI::class)
     private fun getRoute(context: Context) {
         MapboxNavigationApp.current()!!.requestRoutes(
             routeOptions = RouteOptions
@@ -228,7 +230,7 @@ class NavigationApi:
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
                 ) {
-                    MapboxNavigationApp.current()!!.setNavigationRoutes(routes)
+                    MapboxNavigationApp.current()!!.setRoutesPreview(routes)
                     this@NavigationApi.currentRoutes = routes
                     sendEvent(
                         MapBoxEvents.ROUTE_BUILT,
@@ -237,7 +239,6 @@ class NavigationApi:
                     this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
                         this@NavigationApi.simulateRoute
                     )
-                    this@NavigationApi.binding.navigationView.api.startRoutePreview(routes)
 
                     this@NavigationApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
