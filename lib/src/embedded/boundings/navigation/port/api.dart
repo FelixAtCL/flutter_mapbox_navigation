@@ -53,7 +53,7 @@ class NavigationAPI {
   /// drivingWithTraffic mode if more than 3-waypoints.
   /// [options] options used to generate the route and used while navigating
   ///
-  Future<bool> build({
+  Future<void> build({
     required List<WayPoint> wayPoints,
     MapBoxOptions? options,
   }) async {
@@ -93,9 +93,13 @@ class NavigationAPI {
     args['wayPoints'] = wayPointMap;
 
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
-    return _methodChannel
-        .invokeMethod('build', args)
-        .then((dynamic result) => result as bool);
+    final result = await _methodChannel.invokeMethod('build', args);
+    if (result != null) {
+      throw PlatformException(
+        code: 'channel-error',
+        message: 'Unable to establish connection on channel. $result',
+      );
+    }
   }
 
   /// Starts the navigation process.

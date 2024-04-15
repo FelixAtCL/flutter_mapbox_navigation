@@ -150,7 +150,7 @@ open class TurnByTurn(
             this.addedWaypoints.add(Waypoint(Point.fromLngLat(longitude, latitude),isSilent))
         }
         this.getRoute(this.context)
-        result.success(true)
+        result.success(null)
     }
 
     private fun getRoute(context: Context) {
@@ -231,21 +231,12 @@ open class TurnByTurn(
 
         this.startNavigation()
 
-        if (this.currentRoutes != null) {
-            result.success(null)
-        } else {
-            result.success(false)
-        }
+        result.success(null)
     }
 
     private fun finishNavigation(methodCall: MethodCall, result: MethodChannel.Result) {
         this.finishNavigation()
-
-        if (this.currentRoutes != null) {
-            result.success(null)
-        } else {
-            result.success(false)
-        }
+        result.success(null)
     }
 
     @SuppressLint("MissingPermission")
