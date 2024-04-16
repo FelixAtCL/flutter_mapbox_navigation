@@ -157,8 +157,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     wayPoints.add(_stop3);
                                     _isMultipleStop = wayPoints.length > 2;
                                     _controller?.navigation
-                                        .addRouteEventNotifier((value) {
-                                      print("event: ${value.data}");
+                                        .addStringListener((value) {
+                                      print("event: ${value}");
                                     });
                                     _controller?.navigation.build(
                                         wayPoints: wayPoints,
