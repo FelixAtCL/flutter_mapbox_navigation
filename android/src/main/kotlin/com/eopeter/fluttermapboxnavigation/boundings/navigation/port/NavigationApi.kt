@@ -19,6 +19,7 @@ import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.EmptyTripProgressBinding
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
 import com.eopeter.fluttermapboxnavigation.models.MapBoxEvents
+import com.eopeter.fluttermapboxnavigation.models.MapBoxRouteProgress
 import com.eopeter.fluttermapboxnavigation.models.Waypoint
 import com.eopeter.fluttermapboxnavigation.models.WaypointSet
 import com.eopeter.fluttermapboxnavigation.utilities.CustomInfoPanelEndNavButtonBinder
@@ -191,7 +192,7 @@ class NavigationApi:
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         MapboxNavigationApp.current()!!.registerRouteProgressObserver(routeProgressObserver =  {
-            var json = Gson().toJson(it)
+            val json = Gson().toJson(MapBoxRouteProgress(it).toJsonObject())
             sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
         })
         result.success(null)

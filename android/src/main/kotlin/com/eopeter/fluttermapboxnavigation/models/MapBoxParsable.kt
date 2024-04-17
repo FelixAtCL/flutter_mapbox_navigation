@@ -1,6 +1,7 @@
 package com.eopeter.fluttermapboxnavigation.models
 
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 
 abstract class MapBoxParsable {
@@ -42,6 +43,28 @@ abstract class MapBoxParsable {
         value.run {
             forEach {
                 map.addProperty(it.key, it.value)
+            }
+        }
+
+        json.add(prop, map)
+    }
+
+    protected fun addProperty(json: JsonObject, prop: String, value: Map<String,JsonElement>) {
+        val map = JsonObject()
+        value.run {
+            forEach {
+                map.add(it.key, it.value)
+            }
+        }
+
+        json.add(prop, map)
+    }
+
+    protected fun addProperty(json: JsonObject, prop: String, value: Map<String,MapBoxParsable>) {
+        val map = JsonObject()
+        value.run {
+            forEach {
+                map.add(it.key, it.value.toJsonObject())
             }
         }
 

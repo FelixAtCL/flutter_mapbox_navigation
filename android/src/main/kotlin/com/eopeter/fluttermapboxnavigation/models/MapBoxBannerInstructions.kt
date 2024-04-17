@@ -10,12 +10,12 @@ class MapBoxBannerInstructions: MapBoxParsable {
     private val sub: MapBoxBannerText
     private val view: MapBoxBannerView
 
-    constructor(instructions: BannerInstructions) {
-        this@MapBoxBannerInstructions.distanceAlongGeometry = instructions.distanceAlongGeometry()
-        this@MapBoxBannerInstructions.primary = MapBoxBannerText(instructions.primary())
-        this@MapBoxBannerInstructions.secondary = MapBoxBannerText(instructions.secondary())
-        this@MapBoxBannerInstructions.sub = MapBoxBannerText(instructions.sub())
-        this@MapBoxBannerInstructions.view = MapBoxBannerView(instructions.view())
+    constructor(instructions: BannerInstructions?) {
+        this@MapBoxBannerInstructions.distanceAlongGeometry = instructions?.distanceAlongGeometry() ?: -1.0
+        this@MapBoxBannerInstructions.primary = MapBoxBannerText(instructions?.primary())
+        this@MapBoxBannerInstructions.secondary = MapBoxBannerText(instructions?.secondary())
+        this@MapBoxBannerInstructions.sub = MapBoxBannerText(instructions?.sub())
+        this@MapBoxBannerInstructions.view = MapBoxBannerView(instructions?.view())
     }
 
     override fun toJsonObject(): JsonObject {

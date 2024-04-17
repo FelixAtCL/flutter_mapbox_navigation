@@ -13,20 +13,18 @@ class MapBoxNavigationRoute : MapBoxParsable {
     private val upcomingRoadObjects: MutableList<MapBoxUpcomingRoadObject> = mutableListOf()
     private val waypoints: MutableList<MapBoxDirectionsWaypoint> = mutableListOf()
 
-    constructor(
-        navigationRoute: NavigationRoute
-    ) {
-        this@MapBoxNavigationRoute.routeIndex = navigationRoute.routeIndex
-        this@MapBoxNavigationRoute.directionsResponse = MapBoxDirectionsResponse(navigationRoute.directionsResponse)
-        this@MapBoxNavigationRoute.routeOptions = MapBoxRouteOptions(navigationRoute.routeOptions)
-        this@MapBoxNavigationRoute.directionsRoute = MapBoxDirectionsRoute(navigationRoute.directionsRoute)
-        this@MapBoxNavigationRoute.id = navigationRoute.id
-        navigationRoute.upcomingRoadObjects.run {
+    constructor(navigationRoute: NavigationRoute?) {
+        this@MapBoxNavigationRoute.routeIndex = navigationRoute?.routeIndex ?: -1
+        this@MapBoxNavigationRoute.directionsResponse = MapBoxDirectionsResponse(navigationRoute?.directionsResponse)
+        this@MapBoxNavigationRoute.routeOptions = MapBoxRouteOptions(navigationRoute?.routeOptions)
+        this@MapBoxNavigationRoute.directionsRoute = MapBoxDirectionsRoute(navigationRoute?.directionsRoute)
+        this@MapBoxNavigationRoute.id = navigationRoute?.id ?: ""
+        navigationRoute?.upcomingRoadObjects?.run {
             forEach{
                 this@MapBoxNavigationRoute.upcomingRoadObjects.add(MapBoxUpcomingRoadObject(it))
             }
         }
-        navigationRoute.waypoints?.run {
+        navigationRoute?.waypoints?.run {
             forEach {
                 this@MapBoxNavigationRoute.waypoints.add(MapBoxDirectionsWaypoint(it))
             }
