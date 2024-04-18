@@ -13,6 +13,8 @@ class MapBoxRouteStepProgress: MapBoxParsable {
     private val distanceTraveled: Float
     private val fractionTraveled: Float
     private val durationRemaining: Double
+    private var currentIntersection: MapBoxStepIntersection? = null
+    private var upcomingIntersection: MapBoxStepIntersection? = null
 
     constructor(progress: RouteStepProgress?) {
         this@MapBoxRouteStepProgress.stepIndex = progress?.stepIndex ?: 0
@@ -28,6 +30,14 @@ class MapBoxRouteStepProgress: MapBoxParsable {
         this@MapBoxRouteStepProgress.distanceTraveled = progress?.distanceTraveled ?: 0.0f
         this@MapBoxRouteStepProgress.fractionTraveled = progress?.fractionTraveled ?: 0.0f
         this@MapBoxRouteStepProgress.durationRemaining = progress?.durationRemaining ?: 0.0
+        if(progress?.intersectionIndex != null && progress.step != null && progress.step?.intersections() != null) {
+            if(progress.intersectionIndex <= progress.step!!.intersections()!!.count()) {
+                this@MapBoxRouteStepProgress.currentIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex))
+            }
+            if(progress.intersectionIndex < progress.step!!.intersections()!!.count()) {
+                this@MapBoxRouteStepProgress.upcomingIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex + 1))
+            }
+        }
     }
 
     override fun toJsonObject(): JsonObject {
@@ -42,6 +52,8 @@ class MapBoxRouteStepProgress: MapBoxParsable {
         addProperty(json, "distanceTraveled", distanceTraveled)
         addProperty(json, "fractionTraveled", fractionTraveled)
         addProperty(json, "durationRemaining", durationRemaining)
+        addProperty(json, "currentIntersection", currentIntersection)
+        addProperty(json, "upcomingIntersection", upcomingIntersection)
 
         return json
     }

@@ -93,3 +93,18 @@ part 'src/pigeons/polyline_annotation_messager.dart';
 part 'src/pigeons/map_interfaces.dart';
 part 'src/pigeons/settings.dart';
 part 'src/pigeons/gesture_listeners.dart';
+
+part 'src/models/route_progress.dart';
+part 'src/models/helpers/geometry.dart';
+part 'src/models/helpers/road_object.dart';
+part 'src/models/helpers/route_options.dart';
+part 'src/models/helpers/road_alert.dart';
+part 'src/models/helpers/waypoint.dart';
+part 'src/models/helpers/route_leg.dart';
+part 'src/models/helpers/route_leg_progress.dart';
+part 'src/models/helpers/leg_step.dart';
+part 'src/models/helpers/driving_side.dart';
+part 'src/models/helpers/route_step_progress.dart';
+part 'src/models/helpers/maneuver.dart';
+part 'src/models/helpers/intersection.dart';
+part 'src/models/helpers/intersection_lane.dart';
