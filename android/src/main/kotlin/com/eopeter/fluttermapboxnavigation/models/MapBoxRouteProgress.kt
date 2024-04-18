@@ -12,14 +12,14 @@ class MapBoxRouteProgress: MapBoxParsable {
     private val voiceInstructions: MapBoxVoiceInstructions
     private val currentState: String
     private val currentLegProgress: MapBoxRouteLegProgress
-    private val upcomingStepPoints: MutableList<MapBoxPoint> = mutableListOf()
+    private val upcomingStepPoints: MutableList<MapBoxPoint?> = mutableListOf()
     private val inTunnel: Boolean
     private val distanceRemaining: Float
     private val distanceTraveled: Float
     private val durationRemaining: Double
     private val fractionTraveled: Float
     private val remainingWaypoints: Int
-    private val upcomingRoadObjects: MutableList<MapBoxUpcomingRoadObject> = mutableListOf()
+    private val upcomingRoadObjects: MutableList<MapBoxUpcomingRoadObject?> = mutableListOf()
     private val stale: Boolean
     private val routeAlternativeId: String
     private val currentRouteGeometryIndex: Int

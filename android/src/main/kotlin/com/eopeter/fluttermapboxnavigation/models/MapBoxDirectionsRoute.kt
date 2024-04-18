@@ -11,12 +11,12 @@ class MapBoxDirectionsRoute: MapBoxParsable {
     private val geometry: String
     private val weight: Double
     private val weightName: String
-    private val legs: MutableList<MapBoxRouteLeg> = mutableListOf()
-    private val waypoints: MutableList<MapBoxDirectionsWaypoint> = mutableListOf()
+    private val legs: MutableList<MapBoxRouteLeg?> = mutableListOf()
+    private val waypoints: MutableList<MapBoxDirectionsWaypoint?> = mutableListOf()
     private val routeOptions: MapBoxRouteOptions
     private val voiceLanguage: String
     private val requestUuid: String
-    private val tollCosts: MutableList<MapBoxTollCost> = mutableListOf()
+    private val tollCosts: MutableList<MapBoxTollCost?> = mutableListOf()
 
     constructor(route: DirectionsRoute?) {
         this@MapBoxDirectionsRoute.routeIndex = route?.routeIndex() ?: ""

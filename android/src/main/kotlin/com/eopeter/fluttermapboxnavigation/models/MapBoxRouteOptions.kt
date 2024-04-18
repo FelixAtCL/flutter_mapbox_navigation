@@ -8,47 +8,47 @@ class MapBoxRouteOptions : MapBoxParsable {
     private val user: String
     private val profile: String
     private val coordinates: String
-    private val coordinatesList: MutableList<MapBoxPoint> = mutableListOf()
+    private val coordinatesList: MutableList<MapBoxPoint?> = mutableListOf()
     private val alternatives: Boolean
     private val language: String
     private val radiuses: String
-    private val radiusesList: MutableList<Double> = mutableListOf()
+    private val radiusesList: MutableList<Double?> = mutableListOf()
     private val bearings: String
-    private val bearingsList: MutableList<MapBoxBearing> = mutableListOf()
+    private val bearingsList: MutableList<MapBoxBearing?> = mutableListOf()
     private val avoidManeuverRadius: Double
     private val layers: String
-    private val layersList: MutableList<Int> = mutableListOf()
+    private val layersList: MutableList<Int?> = mutableListOf()
     private val continueStraight: Boolean
     private val roundaboutExists: Boolean
     private val geometries: String
     private val overview: String
     private val steps: Boolean
     private val annotations: String
-    private val annotationsList: MutableList<String> = mutableListOf()
+    private val annotationsList: MutableList<String?> = mutableListOf()
     private val exclude: String
-    private val excludeList: MutableList<String> = mutableListOf()
+    private val excludeList: MutableList<String?> = mutableListOf()
     private val excludeObject: MapBoxExclude
     private val include: String
-    private val includeList: MutableList<String> = mutableListOf()
+    private val includeList: MutableList<String?> = mutableListOf()
     private val voiceInstructions: Boolean
     private val bannerInstructions: Boolean
     private val voiceUnits: String
     private val approaches: String
-    private val approachesList: MutableList<String> = mutableListOf()
+    private val approachesList: MutableList<String?> = mutableListOf()
     private val waypointIndices: String
-    private val waypointIndicesList: MutableList<Int> = mutableListOf()
+    private val waypointIndicesList: MutableList<Int?> = mutableListOf()
     private val waypointNames: String
-    private val waypointNamesList: MutableList<String> = mutableListOf()
+    private val waypointNamesList: MutableList<String?> = mutableListOf()
     private val waypointTargets: String
-    private val waypointTargetsList: MutableList<MapBoxPoint> = mutableListOf()
+    private val waypointTargetsList: MutableList<MapBoxPoint?> = mutableListOf()
     private val waypointsPerRoute: Boolean
     private val alleyBias: Double
     private val walkingSpeed: Double
     private val walkwayBias: Double
     private val snappingIncludeClosures: String
     private val snappingIncludeStaticClosures: String
-    private val snappingIncludeClosuresList: MutableList<Boolean> = mutableListOf()
-    private val snappingIncludeStaticClosuresList: MutableList<Boolean> = mutableListOf()
+    private val snappingIncludeClosuresList: MutableList<Boolean?> = mutableListOf()
+    private val snappingIncludeStaticClosuresList: MutableList<Boolean?> = mutableListOf()
     private val arriveBy: String
     private val departAt: String
     private val maxHeight: Double
@@ -58,7 +58,7 @@ class MapBoxRouteOptions : MapBoxParsable {
     private val computeTollCost: Boolean
     private val metadata: Boolean
     private val paymantMethods: String
-    private val paymentMethodsList: MutableList<String> = mutableListOf()
+    private val paymentMethodsList: MutableList<String?> = mutableListOf()
     private val suppressVoiceInstructionLocalNames: Boolean
 
     constructor(options: RouteOptions?) {

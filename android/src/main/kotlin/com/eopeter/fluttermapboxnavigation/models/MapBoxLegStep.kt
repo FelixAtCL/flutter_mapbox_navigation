@@ -18,11 +18,11 @@ class MapBoxLegStep: MapBoxParsable {
     private val rotaryName: String
     private val rotaryPronunciation: String
     private val maneuver: MapBoxStepManeuver
-    private val voiceInstructions: MutableList<MapBoxVoiceInstructions> = mutableListOf()
-    private val bannerInstructions: MutableList<MapBoxBannerInstructions> = mutableListOf()
+    private val voiceInstructions: MutableList<MapBoxVoiceInstructions?> = mutableListOf()
+    private val bannerInstructions: MutableList<MapBoxBannerInstructions?> = mutableListOf()
     private val drivingSide: String
     private val weight: Double
-    private val intersections: MutableList<MapBoxStepIntersection> = mutableListOf()
+    private val intersections: MutableList<MapBoxStepIntersection?> = mutableListOf()
     private val exits: String
 
     constructor(step: LegStep?) {

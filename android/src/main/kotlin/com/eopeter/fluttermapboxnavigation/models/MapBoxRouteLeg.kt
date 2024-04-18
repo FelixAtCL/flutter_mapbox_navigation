@@ -8,8 +8,8 @@ class MapBoxRouteLeg: MapBoxParsable {
     private val duration: Double
     private val durationTypical: Double
     private val summary: String
-    private val admins: MutableList<MapBoxAdmin> = mutableListOf()
-    private val steps: MutableList<MapBoxLegStep> = mutableListOf()
+    private val admins: MutableList<MapBoxAdmin?> = mutableListOf()
+    private val steps: MutableList<MapBoxLegStep?> = mutableListOf()
 
     constructor(leg: RouteLeg?) {
         this@MapBoxRouteLeg.distance = leg?.distance() ?: 0.0

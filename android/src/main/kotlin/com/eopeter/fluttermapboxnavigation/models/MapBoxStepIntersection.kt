@@ -5,12 +5,12 @@ import com.mapbox.api.directions.v5.models.StepIntersection
 
 class MapBoxStepIntersection: MapBoxParsable {
     private val location: MapBoxPoint
-    private val bearings: MutableList<Int> = mutableListOf()
-    private val classes: MutableList<String> = mutableListOf()
-    private val entry: MutableList<Boolean> = mutableListOf()
+    private val bearings: MutableList<Int?> = mutableListOf()
+    private val classes: MutableList<String?> = mutableListOf()
+    private val entry: MutableList<Boolean?> = mutableListOf()
     private val inside: Int
     private val outside: Int
-    private val lanes: MutableList<MapBoxIntersectionLanes> = mutableListOf()
+    private val lanes: MutableList<MapBoxIntersectionLanes?> = mutableListOf()
     private val geometryIndex: Int
     private val isUrban: Boolean
     private val adminIndex: Int

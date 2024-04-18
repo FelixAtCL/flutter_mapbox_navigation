@@ -4,8 +4,8 @@ import com.google.gson.JsonObject
 import com.mapbox.api.directions.v5.models.Exclude
 
 class MapBoxExclude : MapBoxParsable {
-    private var criteria: MutableList<String> = mutableListOf()
-    private var points: MutableList<MapBoxPoint> = mutableListOf()
+    private var criteria: MutableList<String?> = mutableListOf()
+    private var points: MutableList<MapBoxPoint?> = mutableListOf()
 
     constructor(exclude: Exclude?) {
         exclude?.criteria()?.run {

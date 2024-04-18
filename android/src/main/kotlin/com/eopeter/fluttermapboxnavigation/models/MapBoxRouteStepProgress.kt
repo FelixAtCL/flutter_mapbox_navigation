@@ -8,7 +8,7 @@ class MapBoxRouteStepProgress: MapBoxParsable {
     private val intersectionIndex: Int
     private val instructionIndex: Int
     private val step: MapBoxLegStep
-    private val stepPoints: MutableList<MapBoxPoint> = mutableListOf()
+    private val stepPoints: MutableList<MapBoxPoint?> = mutableListOf()
     private val distanceRemaining: Float
     private val distanceTraveled: Float
     private val fractionTraveled: Float

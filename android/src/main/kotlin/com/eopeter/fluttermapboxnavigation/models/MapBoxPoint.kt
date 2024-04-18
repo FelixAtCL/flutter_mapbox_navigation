@@ -6,7 +6,7 @@ import com.mapbox.geojson.Point
 class MapBoxPoint : MapBoxParsable {
     val type: String
     var bbox: MapBoxBoundingBox? = null
-    val coordinates: List<Double>
+    val coordinates: List<Double?>
 
     constructor(point: Point?) {
         this@MapBoxPoint.type = point?.type() ?: "Unknown"

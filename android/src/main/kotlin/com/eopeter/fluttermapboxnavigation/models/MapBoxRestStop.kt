@@ -6,7 +6,7 @@ import com.mapbox.api.directions.v5.models.RestStop
 class MapBoxRestStop: MapBoxParsable {
     private val type: String
     private val name: String
-    private val amenities: MutableList<MapBoxAmenity> = mutableListOf()
+    private val amenities: MutableList<MapBoxAmenity?> = mutableListOf()
     private val guideMap: String
 
     constructor(stop: RestStop?) {

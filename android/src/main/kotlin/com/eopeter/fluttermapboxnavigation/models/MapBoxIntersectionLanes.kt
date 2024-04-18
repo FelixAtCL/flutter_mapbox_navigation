@@ -7,8 +7,8 @@ class MapBoxIntersectionLanes: MapBoxParsable {
     private val valid: Boolean
     private val active: Boolean
     private val validIndication: String
-    private val indications: MutableList<String> = mutableListOf()
-    private val paymentMethods: MutableList<String> = mutableListOf()
+    private val indications: MutableList<String?> = mutableListOf()
+    private val paymentMethods: MutableList<String?> = mutableListOf()
 
     constructor(lanes: IntersectionLanes?) {
         this@MapBoxIntersectionLanes.valid = lanes?.valid() ?: false

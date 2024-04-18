@@ -10,8 +10,8 @@ class MapBoxNavigationRoute : MapBoxParsable {
     private val directionsRoute: MapBoxDirectionsRoute
     private val id: String
     // origin => Not logically parsable with current information
-    private val upcomingRoadObjects: MutableList<MapBoxUpcomingRoadObject> = mutableListOf()
-    private val waypoints: MutableList<MapBoxDirectionsWaypoint> = mutableListOf()
+    private val upcomingRoadObjects: MutableList<MapBoxUpcomingRoadObject?> = mutableListOf()
+    private val waypoints: MutableList<MapBoxDirectionsWaypoint?> = mutableListOf()
 
     constructor(navigationRoute: NavigationRoute?) {
         this@MapBoxNavigationRoute.routeIndex = navigationRoute?.routeIndex ?: -1

@@ -6,8 +6,8 @@ import com.mapbox.api.directions.v5.models.DirectionsResponse
 class MapBoxDirectionsResponse: MapBoxParsable {
     private val code: String
     private val message: String
-    private val waypoints: MutableList<MapBoxDirectionsWaypoint> = mutableListOf()
-    private val routes: MutableList<MapBoxDirectionsRoute> = mutableListOf()
+    private val waypoints: MutableList<MapBoxDirectionsWaypoint?> = mutableListOf()
+    private val routes: MutableList<MapBoxDirectionsRoute?> = mutableListOf()
     private val uuid: String
     private val metadata: Map<String, String>
 

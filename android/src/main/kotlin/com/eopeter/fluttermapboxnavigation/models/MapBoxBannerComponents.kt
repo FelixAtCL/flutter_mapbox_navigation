@@ -12,26 +12,26 @@ class MapBoxBannerComponents: MapBoxParsable {
     private val imageBaseUrl: String
     private val mapboxShield: MapBoxMapboxShield
     private val imageUrl: String
-    private val directions: MutableList<String> = mutableListOf()
+    private val directions: MutableList<String?> = mutableListOf()
     private val active: Boolean
     private val activeDirection: String
 
-    constructor(components: BannerComponents) {
-        this@MapBoxBannerComponents.text = components.text()
-        this@MapBoxBannerComponents.type = components.type()
-        this@MapBoxBannerComponents.subType = components.subType() ?: ""
-        this@MapBoxBannerComponents.abbreviation = components.abbreviation() ?: ""
-        this@MapBoxBannerComponents.abbreviationPriority = components.abbreviationPriority() ?: 0
-        this@MapBoxBannerComponents.imageBaseUrl = components.imageBaseUrl() ?: ""
-        this@MapBoxBannerComponents.mapboxShield = MapBoxMapboxShield(components.mapboxShield())
-        this@MapBoxBannerComponents.imageUrl = components.imageUrl() ?: ""
-        components.directions()?.run {
+    constructor(components: BannerComponents?) {
+        this@MapBoxBannerComponents.text = components?.text() ?: ""
+        this@MapBoxBannerComponents.type = components?.type() ?: ""
+        this@MapBoxBannerComponents.subType = components?.subType() ?: ""
+        this@MapBoxBannerComponents.abbreviation = components?.abbreviation() ?: ""
+        this@MapBoxBannerComponents.abbreviationPriority = components?.abbreviationPriority() ?: 0
+        this@MapBoxBannerComponents.imageBaseUrl = components?.imageBaseUrl() ?: ""
+        this@MapBoxBannerComponents.mapboxShield = MapBoxMapboxShield(components?.mapboxShield())
+        this@MapBoxBannerComponents.imageUrl = components?.imageUrl() ?: ""
+        components?.directions()?.run {
             forEach {
                 this@MapBoxBannerComponents.directions.add(it)
             }
         }
-        this@MapBoxBannerComponents.active = components.active() ?: false
-        this@MapBoxBannerComponents.activeDirection = components.activeDirection() ?: ""
+        this@MapBoxBannerComponents.active = components?.active() ?: false
+        this@MapBoxBannerComponents.activeDirection = components?.activeDirection() ?: ""
     }
 
     override fun toJsonObject(): JsonObject {

@@ -5,7 +5,7 @@ import com.mapbox.api.directions.v5.models.BannerText
 
 class MapBoxBannerText: MapBoxParsable {
     private val text: String
-    private val components: MutableList<MapBoxBannerComponents> = mutableListOf()
+    private val components: MutableList<MapBoxBannerComponents?> = mutableListOf()
     private val type: String
     private val modifier: String
     private val degrees: Double

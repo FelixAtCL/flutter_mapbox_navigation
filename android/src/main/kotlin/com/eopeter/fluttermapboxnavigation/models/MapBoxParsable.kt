@@ -77,7 +77,7 @@ abstract class MapBoxParsable {
         }
     }
 
-    protected fun addPropertyLS(json: JsonObject, prop: String, value: List<String>) {
+    protected fun addPropertyLS(json: JsonObject, prop: String, value: List<String?>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -87,7 +87,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addPropertyLD(json: JsonObject, prop: String, value: List<Double>) {
+    protected fun addPropertyLD(json: JsonObject, prop: String, value: List<Double?>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -97,7 +97,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addPropertyLI(json: JsonObject, prop: String, value: List<Int>) {
+    protected fun addPropertyLI(json: JsonObject, prop: String, value: List<Int?>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -107,7 +107,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addPropertyLB(json: JsonObject, prop: String, value: List<Boolean>) {
+    protected fun addPropertyLB(json: JsonObject, prop: String, value: List<Boolean?>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -117,17 +117,17 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addPropertyLMP(json: JsonObject, prop: String, value: List<MapBoxParsable>) {
+    protected fun addPropertyLMP(json: JsonObject, prop: String, value: List<MapBoxParsable?>) {
         val array = JsonArray()
         value.run {
             forEach {
-                array.add(it.toJsonObject())
+                array.add(it?.toJsonObject())
             }
         }
         json.add(prop, array)
     }
 
-    protected fun addPropertyLJ(json: JsonObject, prop: String, value: List<JsonObject>) {
+    protected fun addPropertyLJ(json: JsonObject, prop: String, value: List<JsonObject?>) {
         val array = JsonArray()
         value.run {
             forEach {
