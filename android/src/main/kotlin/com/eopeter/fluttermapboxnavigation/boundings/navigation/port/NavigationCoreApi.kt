@@ -369,7 +369,11 @@ class NavigationCoreApi:
 
     private fun sendEvent(event: MapBoxEvents, data: String = "") {
         val jsonString =
-            if (MapBoxEvents.MILESTONE_EVENT == event || event == MapBoxEvents.USER_OFF_ROUTE || event == MapBoxEvents.ROUTE_BUILT || event == MapBoxEvents.ON_MAP_TAP) "{" +
+            if (event == MapBoxEvents.PROGRESS_CHANGE ||
+                event == MapBoxEvents.MILESTONE_EVENT ||
+                event == MapBoxEvents.USER_OFF_ROUTE ||
+                event == MapBoxEvents.ROUTE_BUILT ||
+                event == MapBoxEvents.ON_MAP_TAP) "{" +
                     "  \"eventType\": \"${event.value}\"," +
                     "  \"data\": $data" +
                     "}" else "{" +

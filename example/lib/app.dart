@@ -117,150 +117,146 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
         body: Center(
           child: Column(children: <Widget>[
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 10,
+                child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text('Running on: $_platformVersion\n'),
+                  Container(
+                    color: Colors.grey,
+                    width: double.infinity,
+                    child: const Padding(
+                      padding: EdgeInsets.all(10),
+                      child: (Text(
+                        "Embedded Navigation",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      )),
                     ),
-                    Text('Running on: $_platformVersion\n'),
-                    Container(
-                      color: Colors.grey,
-                      width: double.infinity,
-                      child: const Padding(
-                        padding: EdgeInsets.all(10),
-                        child: (Text(
-                          "Embedded Navigation",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        )),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: _isNavigating
-                              ? null
-                              : () {
-                                  if (_routeBuilt) {
-                                    _controller?.navigationCore.clear();
-                                    setState(() {
-                                      _routeBuilt = false;
-                                      _isNavigating = false;
-                                    });
-                                  } else {
-                                    var wayPoints = <WayPoint>[];
-                                    wayPoints.add(_origin);
-                                    // wayPoints.add(_stop1);
-                                    // wayPoints.add(_stop2);
-                                    wayPoints.add(_stop3);
-                                    _isMultipleStop = wayPoints.length > 2;
-                                    _controller?.navigationCore
-                                        .addStringListener((value) {
-                                      print("event: ${value}");
-                                    });
-                                    _controller?.navigationCore.build(
-                                        wayPoints: wayPoints,
-                                        options: _navigationOption);
-                                    setState(() {
-                                      _routeBuilt = true;
-                                    });
-                                  }
-                                },
-                          child: Text(_routeBuilt && !_isNavigating
-                              ? "Clear Route"
-                              : "Build Route"),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ElevatedButton(
-                          onPressed: _routeBuilt && !_isNavigating
-                              ? () {
-                                  _controller?.navigationCore.start();
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: _isNavigating
+                            ? null
+                            : () {
+                                if (_routeBuilt) {
+                                  _controller?.navigationCore.clear();
                                   setState(() {
-                                    _isNavigating = true;
-                                  });
-                                }
-                              : null,
-                          child: const Text('Start '),
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        ElevatedButton(
-                          onPressed: _isNavigating
-                              ? () {
-                                  _controller?.navigationCore.finish();
-                                  MapBoxNavigation.instance.finishNavigation();
-                                  setState(() {
+                                    _routeBuilt = false;
                                     _isNavigating = false;
                                   });
+                                } else {
+                                  var wayPoints = <WayPoint>[];
+                                  wayPoints.add(_origin);
+                                  // wayPoints.add(_stop1);
+                                  // wayPoints.add(_stop2);
+                                  wayPoints.add(_stop3);
+                                  _isMultipleStop = wayPoints.length > 2;
+                                  _controller?.navigationCore
+                                      .addRouteEventNotifier((value) {
+                                    print("event: ${value.data}");
+                                  });
+                                  _controller?.navigationCore.build(
+                                      wayPoints: wayPoints,
+                                      options: _navigationOption);
+                                  setState(() {
+                                    _routeBuilt = true;
+                                  });
                                 }
-                              : null,
-                          child: const Text('Cancel '),
-                        )
-                      ],
+                              },
+                        child: Text(_routeBuilt && !_isNavigating
+                            ? "Clear Route"
+                            : "Build Route"),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: _routeBuilt && !_isNavigating
+                            ? () {
+                                _controller?.navigationCore.start();
+                                setState(() {
+                                  _isNavigating = true;
+                                });
+                              }
+                            : null,
+                        child: const Text('Start '),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                        onPressed: _isNavigating
+                            ? () {
+                                _controller?.navigationCore.finish();
+                                MapBoxNavigation.instance.finishNavigation();
+                                setState(() {
+                                  _isNavigating = false;
+                                });
+                              }
+                            : null,
+                        child: const Text('Cancel '),
+                      )
+                    ],
+                  ),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ElevatedButton(
+                      onPressed: _inFreeDrive
+                          ? null
+                          : () async {
+                              var uri =
+                                  await _controller?.style.getStyleURI() ?? "";
+                              print(uri);
+                              var state = await _controller?.camera.getState();
+                              print(state?.encode());
+                              var bounds = await _controller?.camera
+                                  .getCoordinateBounds(CameraOptions(
+                                      zoom: 10,
+                                      center: Point(
+                                          coordinates: Position(
+                                        -122.4194,
+                                        37.7749,
+                                      )).toJson() // San Francisco
+                                      ));
+                              print(bounds?.encode());
+                              await _loadMarker();
+                            },
+                      child: const Text("Test Style"),
                     ),
-                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                      ElevatedButton(
-                        onPressed: _inFreeDrive
-                            ? null
-                            : () async {
-                                var uri =
-                                    await _controller?.style.getStyleURI() ??
-                                        "";
-                                print(uri);
-                                var state =
-                                    await _controller?.camera.getState();
-                                print(state?.encode());
-                                var bounds = await _controller?.camera
-                                    .getCoordinateBounds(CameraOptions(
-                                        zoom: 10,
-                                        center: Point(
-                                            coordinates: Position(
-                                          -122.4194,
-                                          37.7749,
-                                        )).toJson() // San Francisco
-                                        ));
-                                print(bounds?.encode());
-                                await _loadMarker();
-                              },
-                        child: const Text("Test Style"),
-                      ),
-                      ElevatedButton(
-                        onPressed: _inFreeDrive
-                            ? null
-                            : () async {
-                                await _testSettings();
-                              },
-                        child: const Text("Test Settings"),
-                      ),
-                      ElevatedButton(
-                        onPressed: _inFreeDrive
-                            ? null
-                            : () async {
-                                _inFreeDrive =
-                                    await _controller?.startFreeDrive() ??
-                                        false;
-                              },
-                        child: const Text("Free Drive "),
-                      ),
-                    ]),
-                    const Center(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: Text(
-                          "Long-Press Embedded Map to Set Destination",
-                          textAlign: TextAlign.center,
-                        ),
+                    ElevatedButton(
+                      onPressed: _inFreeDrive
+                          ? null
+                          : () async {
+                              await _testSettings();
+                            },
+                      child: const Text("Test Settings"),
+                    ),
+                    ElevatedButton(
+                      onPressed: _inFreeDrive
+                          ? null
+                          : () async {
+                              _inFreeDrive =
+                                  await _controller?.startFreeDrive() ?? false;
+                            },
+                      child: const Text("Free Drive "),
+                    ),
+                  ]),
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Text(
+                        "Long-Press Embedded Map to Set Destination",
+                        textAlign: TextAlign.center,
                       ),
                     ),
-                  ],
-                ),
-              )
-            ),
+                  ),
+                ],
+              ),
+            )),
             SizedBox(
               height: 500,
               child: Container(
