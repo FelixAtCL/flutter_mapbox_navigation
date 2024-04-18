@@ -34,7 +34,7 @@ class MapBoxRouteStepProgress: MapBoxParsable {
             if(progress.intersectionIndex < progress.step!!.intersections()!!.count()) {
                 this@MapBoxRouteStepProgress.currentIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex))
             }
-            if(progress.intersectionIndex - 1 < progress.step!!.intersections()!!.count()) {
+            if(progress.intersectionIndex + 1 < progress.step!!.intersections()!!.count()) {
                 this@MapBoxRouteStepProgress.upcomingIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex + 1))
             }
         }

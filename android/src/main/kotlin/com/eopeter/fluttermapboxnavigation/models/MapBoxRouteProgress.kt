@@ -73,7 +73,7 @@ class MapBoxRouteProgress: MapBoxParsable {
                     progress.navigationRoute.directionsRoute.legs()!!.elementAt(progress.currentLegProgress!!.legIndex)
                 )
             }
-            if(progress.currentLegProgress!!.legIndex - 1 < progress.navigationRoute.directionsRoute.legs()!!.count()) {
+            if(progress.currentLegProgress!!.legIndex + 1 < progress.navigationRoute.directionsRoute.legs()!!.count()) {
                 this@MapBoxRouteProgress.upcomingLeg = MapBoxRouteLeg(
                     progress.navigationRoute.directionsRoute.legs()!!.elementAt(progress.currentLegProgress!!.legIndex + 1)
                 )
