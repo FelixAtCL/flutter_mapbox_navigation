@@ -202,7 +202,7 @@ class NavigationCoreAPI {
 
   RouteEvent _parseRouteEvent(String jsonString) {
     final map = json.decode(jsonString) as Map<String, dynamic>;
-    final event = RouteEvent(data: map, eventType: MapBoxEvent.progress_change);
+    final event = RouteEvent.fromJson(map);
     _onProgressData(event);
     return event;
   }
