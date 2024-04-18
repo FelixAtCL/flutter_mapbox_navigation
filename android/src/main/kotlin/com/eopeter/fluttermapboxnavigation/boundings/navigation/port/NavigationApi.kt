@@ -49,7 +49,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.EventChannel
 import java.util.HashMap
 
-class NavigationApi:
+class NavigationCoreApi:
     MethodChannel.MethodCallHandler,
     EventChannel.StreamHandler,
     Application.ActivityLifecycleCallbacks
@@ -95,25 +95,25 @@ class NavigationApi:
         viewId: Int,
         context: Context,
         activity: Activity) {
-        this@NavigationApi.messenger = messenger
-        this@NavigationApi.viewId = viewId
-        this@NavigationApi.context = context
-        this@NavigationApi.binding = binding
-        this@NavigationApi.activity = activity
+        this@NavigationCoreApi.messenger = messenger
+        this@NavigationCoreApi.viewId = viewId
+        this@NavigationCoreApi.context = context
+        this@NavigationCoreApi.binding = binding
+        this@NavigationCoreApi.activity = activity
     }
 
     fun init() {
         this.methodChannel =
             MethodChannel(
                 this.messenger,
-                "flutter_mapbox_navigation/navigation/${this.viewId}"
+                "flutter_mapbox_navigation/navigation/core/${this.viewId}"
             )
         this.methodChannel?.setMethodCallHandler(this)
 
         eventChannel =
             EventChannel(
                 this.messenger,
-                "flutter_mapbox_navigation/navigation/${viewId}/events"
+                "flutter_mapbox_navigation/navigation/core/${viewId}/events"
             )
         this.eventChannel?.setStreamHandler(this)
     }

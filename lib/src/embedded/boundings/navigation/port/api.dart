@@ -1,14 +1,15 @@
 part of mapbox_navigation_flutter;
 
 /// Interface for managing the Navigation of the `map`.
-class NavigationAPI {
-  /// Constructor for [NavigationAPI].
-  NavigationAPI(int id) {
-    _methodChannel = MethodChannel('flutter_mapbox_navigation/navigation/$id');
+class NavigationCoreAPI {
+  /// Constructor for [NavigationCoreAPI].
+  NavigationCoreAPI(int id) {
+    _methodChannel =
+        MethodChannel('flutter_mapbox_navigation/navigation/core/$id');
     _methodChannel.setMethodCallHandler(_handleMethod);
 
     _eventChannel =
-        EventChannel('flutter_mapbox_navigation/navigation/$id/events');
+        EventChannel('flutter_mapbox_navigation/navigation/core/$id/events');
   }
 
   late MethodChannel _methodChannel;

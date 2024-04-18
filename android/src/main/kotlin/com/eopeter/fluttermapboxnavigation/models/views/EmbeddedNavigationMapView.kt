@@ -14,6 +14,7 @@ import com.eopeter.fluttermapboxnavigation.boundings.location.port.LocationApi
 import com.eopeter.fluttermapboxnavigation.boundings.logo.port.LogoApi
 import com.eopeter.fluttermapboxnavigation.boundings.map.port.MapApi
 import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.NavigationApi
+import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.NavigationCoreApi
 import com.eopeter.fluttermapboxnavigation.boundings.scaleBar.port.ScaleBarApi
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -38,9 +39,9 @@ class EmbeddedNavigationMapView(
     private var attribution: AttributionApi? = null
     private var camera: CameraApi? = null
     private var compass: CompassApi? = null
+    private var core: NavigationCoreApi? = null
     private var gesture: GestureApi? = null
     private var map: MapApi? = null
-    private var navigation: NavigationApi? = null
     private var location: LocationApi? = null
     private var logo: LogoApi? = null
     private var scalebar: ScaleBarApi? = null
@@ -112,6 +113,16 @@ class EmbeddedNavigationMapView(
             compass.init()
             this@EmbeddedNavigationMapView.compass = compass
 
+            val core = NavigationCoreApi(
+                this@EmbeddedNavigationMapView.messenger,
+                this@EmbeddedNavigationMapView.binding,
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context,
+                this@EmbeddedNavigationMapView.activity
+            )
+            core.init()
+            this@EmbeddedNavigationMapView.core = core
+
             val gesture = GestureApi(
                 this@EmbeddedNavigationMapView.messenger,
                 mapView,
@@ -147,16 +158,6 @@ class EmbeddedNavigationMapView(
             )
             map.init()
             this@EmbeddedNavigationMapView.map = map
-
-            val navigation = NavigationApi(
-                this@EmbeddedNavigationMapView.messenger,
-                this@EmbeddedNavigationMapView.binding,
-                this@EmbeddedNavigationMapView.viewId,
-                this@EmbeddedNavigationMapView.context,
-                this@EmbeddedNavigationMapView.activity
-            )
-            navigation.init()
-            this@EmbeddedNavigationMapView.navigation = navigation
 
             val scalebar = ScaleBarApi(
                 this@EmbeddedNavigationMapView.messenger,
