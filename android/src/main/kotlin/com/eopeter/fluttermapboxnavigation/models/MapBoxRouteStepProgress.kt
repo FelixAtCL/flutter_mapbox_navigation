@@ -31,10 +31,10 @@ class MapBoxRouteStepProgress: MapBoxParsable {
         this@MapBoxRouteStepProgress.fractionTraveled = progress?.fractionTraveled ?: 0.0f
         this@MapBoxRouteStepProgress.durationRemaining = progress?.durationRemaining ?: 0.0
         if(progress?.intersectionIndex != null && progress.step != null && progress.step?.intersections() != null) {
-            if(progress.intersectionIndex <= progress.step!!.intersections()!!.count()) {
+            if(progress.intersectionIndex < progress.step!!.intersections()!!.count()) {
                 this@MapBoxRouteStepProgress.currentIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex))
             }
-            if(progress.intersectionIndex < progress.step!!.intersections()!!.count()) {
+            if(progress.intersectionIndex - 1 < progress.step!!.intersections()!!.count()) {
                 this@MapBoxRouteStepProgress.upcomingIntersection = MapBoxStepIntersection(progress.step!!.intersections()!!.elementAt(progress.intersectionIndex + 1))
             }
         }
