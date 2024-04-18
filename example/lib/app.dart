@@ -259,7 +259,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                     ),
                   ],
                 ),
-              ),
+              )
             ),
             SizedBox(
               height: 500,

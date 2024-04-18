@@ -18,7 +18,7 @@ class MapBoxDirectionsWaypoint : MapBoxParsable {
         val json = JsonObject()
 
         addProperty(json, "name", name)
-        json.add("location", location.toJsonObject())
+        addProperty(json,"location", location)
         addProperty(json, "distance", distance)
 
         return json

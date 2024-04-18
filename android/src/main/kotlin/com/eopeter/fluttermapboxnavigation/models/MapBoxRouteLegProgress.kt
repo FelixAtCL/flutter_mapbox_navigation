@@ -29,6 +29,19 @@ class MapBoxRouteLegProgress: MapBoxParsable {
     }
 
     override fun toJsonObject(): JsonObject {
-        TODO("Not yet implemented")
+        val json = JsonObject()
+
+        addProperty(json, "legIndex", legIndex)
+        addProperty(json, "routeLeg", routeLeg)
+        addProperty(json, "distanceTraveled", distanceTraveled)
+        addProperty(json, "distanceRemaining", distanceRemaining)
+        addProperty(json, "durationRemaining", durationRemaining)
+        addProperty(json, "fractionTraveled", fractionTraveled)
+        addProperty(json, "currentStepProgress", currentStepProgress)
+        addProperty(json, "upcomingStep", upcomingStep)
+        addProperty(json, "geometryIndex", geometryIndex)
+        addProperty(json, "legDestination", legDestination)
+
+        return json
     }
 }
