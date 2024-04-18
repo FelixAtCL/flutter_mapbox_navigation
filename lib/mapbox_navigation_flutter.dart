@@ -95,6 +95,7 @@ part 'src/pigeons/settings.dart';
 part 'src/pigeons/gesture_listeners.dart';
 
 part 'src/models/route_progress.dart';
+part 'src/models/route_event.dart';
 part 'src/models/helpers/geometry.dart';
 part 'src/models/helpers/road_object.dart';
 part 'src/models/helpers/route_options.dart';

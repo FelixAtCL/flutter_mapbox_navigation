@@ -1,7 +1,4 @@
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
+part of mapbox_navigation_flutter;
 
 /// Represents an event sent by the navigation service
 class RouteEvent {
@@ -23,7 +20,9 @@ class RouteEvent {
     final dataJson = json['data'];
     if (eventType == MapBoxEvent.progress_change) {
       eventType = MapBoxEvent.progress_change;
-      data = RouteProgressEvent.fromJson(dataJson as Map<String, dynamic>);
+      data = Platform.isAndroid
+          ? RouteProgress.fromAndroid(dataJson as Map<String, dynamic>)
+          : RouteProgress.fromIOS(dataJson as Map<String, dynamic>);
     } else if (eventType == MapBoxEvent.navigation_finished &&
         (dataJson as String).isNotEmpty) {
       data =

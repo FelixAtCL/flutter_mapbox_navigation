@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 import 'package:flutter_mapbox_navigation/src/flutter_mapbox_navigation_method_channel.dart';
 import 'package:flutter_mapbox_navigation/src/models/models.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';

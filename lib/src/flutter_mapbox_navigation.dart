@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 import 'package:flutter_mapbox_navigation/src/flutter_mapbox_navigation_platform_interface.dart';
 import 'package:flutter_mapbox_navigation/src/models/models.dart';
 

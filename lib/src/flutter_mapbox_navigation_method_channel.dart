@@ -5,6 +5,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 import 'package:flutter_mapbox_navigation/src/flutter_mapbox_navigation_platform_interface.dart';
 import 'package:flutter_mapbox_navigation/src/models/models.dart';
 
