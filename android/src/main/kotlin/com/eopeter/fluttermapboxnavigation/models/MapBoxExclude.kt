@@ -25,7 +25,7 @@ class MapBoxExclude : MapBoxParsable {
         val json = JsonObject()
 
         addPropertyLS(json, "criteria", criteria)
-        addPropertyLJ(json, "points", points.map{it.toJsonObject()})
+        addPropertyLMP(json, "points", points)
 
         return json
     }
