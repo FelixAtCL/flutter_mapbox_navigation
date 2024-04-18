@@ -24,7 +24,6 @@ class MapBoxNavigationViewController {
     _methodChannel = MethodChannel('flutter_mapbox_navigation/$id');
     _methodChannel.setMethodCallHandler(_handleMethod);
 
-    _eventChannel = EventChannel('flutter_mapbox_navigation/$id/events');
     _routeEventNotifier = onRouteEvent;
 
     attribution = AttributionAPI(id);
@@ -117,7 +116,6 @@ class MapBoxNavigationViewController {
   late StyleAPI style;
 
   late MethodChannel _methodChannel;
-  late EventChannel _eventChannel;
 
   /// Invoked when the requested style has been fully loaded, including the style, specified sprite and sources' metadata.
   final OnStyleLoadedListener? onStyleLoadedListener;
@@ -229,7 +227,6 @@ class MapBoxNavigationViewController {
     if (options != null) args = options.toMap();
     args['wayPoints'] = wayPointMap;
 
-    _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
     return _methodChannel
         .invokeMethod('buildRoute', args)
         .then((dynamic result) => result as bool);
@@ -272,15 +269,9 @@ class MapBoxNavigationViewController {
     if (options != null) args = options.toMap();
     args['wayPoints'] = wayPointMap;
 
-    _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
     return _methodChannel
         .invokeMethod('drawRoute', args)
         .then((dynamic result) => result as bool);
-  }
-
-  /// starts listening for events
-  Future<void> initialize() async {
-    _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
   }
 
   /// Clear the built route and resets the map
@@ -326,26 +317,5 @@ class MapBoxNavigationViewController {
 
   void _onProgressData(RouteEvent event) {
     if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
-  }
-
-  Stream<RouteEvent>? get _streamRouteEvent {
-    return _eventChannel
-        .receiveBroadcastStream()
-        .map((dynamic event) => _parseRouteEvent(event as String));
-  }
-
-  RouteEvent _parseRouteEvent(String jsonString) {
-    RouteEvent event;
-    final map = json.decode(jsonString) as Map<String, dynamic>;
-    final progressEvent = RouteProgressEvent.fromJson(map);
-    if (progressEvent.isProgressEvent!) {
-      event = RouteEvent(
-        eventType: MapBoxEvent.progress_change,
-        data: progressEvent,
-      );
-    } else {
-      event = RouteEvent.fromJson(map);
-    }
-    return event;
   }
 }
