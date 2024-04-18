@@ -217,18 +217,18 @@ class NavigationCoreAPI {
   RouteEvent _parseRouteEvent(String jsonString) {
     RouteEvent event =
         RouteEvent(data: "", eventType: MapBoxEvent.progress_change);
-    _onProgressStringData(jsonString);
-    // final map = json.decode(jsonString) as Map<String, dynamic>;
-    // final progressEvent = RouteProgressEvent.fromJson(map);
-    // if (progressEvent.isProgressEvent!) {
-    //   event = RouteEvent(
-    //     eventType: MapBoxEvent.progress_change,
-    //     data: progressEvent,
-    //   );
-    // } else {
-    //   event = RouteEvent.fromJson(map);
-    // }
-    // _onProgressData(event);
+    // _onProgressStringData(jsonString);
+    final map = json.decode(jsonString) as Map<String, dynamic>;
+    final progressEvent = RouteProgressEvent.fromJson(map);
+    if (progressEvent.isProgressEvent!) {
+      event = RouteEvent(
+        eventType: MapBoxEvent.progress_change,
+        data: progressEvent,
+      );
+    } else {
+      event = RouteEvent.fromJson(map);
+    }
+    _onProgressData(event);
     return event;
   }
 
