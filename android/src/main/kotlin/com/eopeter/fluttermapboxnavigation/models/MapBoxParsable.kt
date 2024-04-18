@@ -71,8 +71,10 @@ abstract class MapBoxParsable {
         json.add(prop, map)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: MapBoxParsable) {
-        json.add(prop, value.toJsonObject())
+    protected fun addProperty(json: JsonObject, prop: String, value: MapBoxParsable?) {
+        if(value != null) {
+            json.add(prop, value.toJsonObject())
+        }
     }
 
     protected fun addPropertyLS(json: JsonObject, prop: String, value: List<String>) {

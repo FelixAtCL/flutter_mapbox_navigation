@@ -5,13 +5,15 @@ import com.mapbox.geojson.Point
 
 class MapBoxPoint : MapBoxParsable {
     val type: String
-    val bbox: MapBoxBoundingBox
+    var bbox: MapBoxBoundingBox? = null
     val coordinates: List<Double>
 
     constructor(point: Point?) {
         this@MapBoxPoint.type = point?.type() ?: "Unknown"
         this@MapBoxPoint.coordinates = point?.coordinates() ?: emptyList()
-        this@MapBoxPoint.bbox = MapBoxBoundingBox(point?.bbox())
+        if(point?.bbox() != null) {
+            this@MapBoxPoint.bbox = MapBoxBoundingBox(point.bbox())
+        }
     }
 
     override fun toJsonObject(): JsonObject {
