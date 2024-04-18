@@ -144,7 +144,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                               ? null
                               : () {
                                   if (_routeBuilt) {
-                                    _controller?.navigation.clear();
+                                    _controller?.navigationCore.clear();
                                     setState(() {
                                       _routeBuilt = false;
                                       _isNavigating = false;
@@ -156,11 +156,11 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                     // wayPoints.add(_stop2);
                                     wayPoints.add(_stop3);
                                     _isMultipleStop = wayPoints.length > 2;
-                                    _controller?.navigation
+                                    _controller?.navigationCore
                                         .addStringListener((value) {
                                       print("event: ${value}");
                                     });
-                                    _controller?.navigation.build(
+                                    _controller?.navigationCore.build(
                                         wayPoints: wayPoints,
                                         options: _navigationOption);
                                     setState(() {
@@ -178,7 +178,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         ElevatedButton(
                           onPressed: _routeBuilt && !_isNavigating
                               ? () {
-                                  _controller?.navigation.start();
+                                  _controller?.navigationCore.start();
                                   setState(() {
                                     _isNavigating = true;
                                   });
@@ -192,7 +192,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                         ElevatedButton(
                           onPressed: _isNavigating
                               ? () {
-                                  _controller?.navigation.finish();
+                                  _controller?.navigationCore.finish();
                                   MapBoxNavigation.instance.finishNavigation();
                                   setState(() {
                                     _isNavigating = false;

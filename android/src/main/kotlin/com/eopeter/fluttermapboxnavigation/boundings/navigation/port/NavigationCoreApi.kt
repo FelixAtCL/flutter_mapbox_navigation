@@ -1,20 +1,16 @@
 package com.eopeter.fluttermapboxnavigation.boundings.navigation.port
 
-import android.Manifest
 import android.app.Activity
 import android.app.Application
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
 import androidx.transition.Fade
 import androidx.transition.Scene
 import androidx.transition.TransitionManager
 import com.eopeter.fluttermapboxnavigation.R
-import com.eopeter.fluttermapboxnavigation.activity.NavigationLauncher
 import com.eopeter.fluttermapboxnavigation.core.*
 import com.eopeter.fluttermapboxnavigation.databinding.EmptyTripProgressBinding
 import com.eopeter.fluttermapboxnavigation.databinding.NavigationActivityBinding
@@ -23,7 +19,6 @@ import com.eopeter.fluttermapboxnavigation.models.MapBoxRouteProgress
 import com.eopeter.fluttermapboxnavigation.models.Waypoint
 import com.eopeter.fluttermapboxnavigation.models.WaypointSet
 import com.eopeter.fluttermapboxnavigation.utilities.CustomInfoPanelEndNavButtonBinder
-import com.google.android.material.navigation.NavigationView
 import com.google.gson.Gson
 import com.mapbox.api.directions.v5.DirectionsCriteria
 import com.mapbox.api.directions.v5.models.RouteOptions
@@ -42,7 +37,6 @@ import com.mapbox.navigation.dropin.infopanel.InfoPanelBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIBinder
 import com.mapbox.navigation.ui.base.lifecycle.UIComponent
 import com.mapbox.navigation.ui.voice.api.MapboxAudioGuidance
-import com.mapbox.navigation.ui.voice.internal.MapboxAudioGuidanceVoice
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -245,17 +239,17 @@ class NavigationCoreApi:
                     routes: List<NavigationRoute>,
                     routerOrigin: RouterOrigin
                 ) {
-                    this@NavigationApi.currentRoutes = routes
+                    this@NavigationCoreApi.currentRoutes = routes
                     sendEvent(
                         MapBoxEvents.ROUTE_BUILT,
                         Gson().toJson(routes.map { it.directionsRoute.toJson() })
                     )
-                    this@NavigationApi.binding.navigationView.api.routeReplayEnabled(
-                        this@NavigationApi.simulateRoute
+                    this@NavigationCoreApi.binding.navigationView.api.routeReplayEnabled(
+                        this@NavigationCoreApi.simulateRoute
                     )
                     MapboxNavigationApp.current()!!.setRoutesPreview(routes)
 
-                    this@NavigationApi.binding.navigationView.customizeViewBinders {
+                    this@NavigationCoreApi.binding.navigationView.customizeViewBinders {
                         if(disableInfoPanel) {
                             infoPanelBinder = EmptyInfoPanelBinder()
                         }
@@ -324,9 +318,9 @@ class NavigationCoreApi:
         if (this.mapStyleUrlDay == null) this.mapStyleUrlDay = Style.MAPBOX_STREETS
         if (this.mapStyleUrlNight == null) this.mapStyleUrlNight = Style.DARK
 
-        this@NavigationApi.binding.navigationView.customizeViewOptions {
-            mapStyleUriDay = this@NavigationApi.mapStyleUrlDay
-            mapStyleUriNight = this@NavigationApi.mapStyleUrlNight
+        this@NavigationCoreApi.binding.navigationView.customizeViewOptions {
+            mapStyleUriDay = this@NavigationCoreApi.mapStyleUrlDay
+            mapStyleUriNight = this@NavigationCoreApi.mapStyleUrlNight
         }
 
         this.initialLatitude = arguments["initialLatitude"] as? Double
