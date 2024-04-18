@@ -28,7 +28,7 @@ class MapBoxLegWaypoint:MapBoxParsable {
         addProperty(json, "name", name)
         addProperty(json, "target", target)
         addProperty(json, "type", type)
-        addProperty(json, "metadata", metadata)
+        addPropertyMSJ(json, "metadata", metadata)
 
         return json
     }

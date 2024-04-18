@@ -39,8 +39,8 @@ class MapBoxNavigationRoute : MapBoxParsable {
         addProperty(json, "routeOptions", routeOptions)
         addProperty(json, "directionsRoute", directionsRoute)
         addProperty(json, "id", id)
-        addProperty(json, "upcomingRoadObjects", upcomingRoadObjects)
-        addProperty(json, "waypoints", waypoints)
+        addPropertyLMP(json, "upcomingRoadObjects", upcomingRoadObjects)
+        addPropertyLMP(json, "waypoints", waypoints)
 
         return json
     }

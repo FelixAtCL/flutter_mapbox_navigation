@@ -77,11 +77,11 @@ class MapBoxLegStep: MapBoxParsable {
         addProperty(json, "rotaryName",rotaryName)
         addProperty(json, "rotaryPronunciation", rotaryPronunciation)
         addProperty(json, "maneuver", maneuver)
-        addProperty(json, "voiceInstructions", voiceInstructions)
-        addProperty(json, "bannerInstructions", bannerInstructions)
+        addPropertyLMP(json, "voiceInstructions", voiceInstructions)
+        addPropertyLMP(json, "bannerInstructions", bannerInstructions)
         addProperty(json, "drivingSide", drivingSide)
         addProperty(json, "weight", weight)
-        addProperty(json, "intersections", intersections)
+        addPropertyLMP(json, "intersections", intersections)
         addProperty(json, "exits", exits)
 
         return json

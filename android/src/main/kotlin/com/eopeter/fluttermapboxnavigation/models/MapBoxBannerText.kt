@@ -28,7 +28,7 @@ class MapBoxBannerText: MapBoxParsable {
         val json = JsonObject()
 
         addProperty(json, "text", text)
-        addProperty(json, "components", components)
+        addPropertyLMP(json, "components", components)
         addProperty(json, "type", type)
         addProperty(json, "modifier", modifier)
         addProperty(json, "degrees", degrees)

@@ -45,7 +45,7 @@ class MapBoxBannerComponents: MapBoxParsable {
         addProperty(json, "imageBaseUrl", imageBaseUrl)
         addProperty(json, "mapboxShield", mapboxShield)
         addProperty(json, "imageUrl", imageUrl)
-        addProperty(json, "directions", directions)
+        addPropertyLS(json, "directions", directions)
         addProperty(json, "active", active)
         addProperty(json, "activeDirection", activeDirection)
 

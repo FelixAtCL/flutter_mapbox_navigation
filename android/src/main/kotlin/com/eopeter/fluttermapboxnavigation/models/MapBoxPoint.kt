@@ -19,7 +19,7 @@ class MapBoxPoint : MapBoxParsable {
 
         addProperty(json, "type", type)
         addProperty(json, "bbox", bbox)
-        addProperty(json, "coordinates", coordinates)
+        addPropertyLD(json, "coordinates", coordinates)
 
         return json
     }

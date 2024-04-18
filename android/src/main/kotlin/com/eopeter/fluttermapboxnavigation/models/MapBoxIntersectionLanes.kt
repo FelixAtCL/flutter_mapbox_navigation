@@ -32,8 +32,8 @@ class MapBoxIntersectionLanes: MapBoxParsable {
         addProperty(json, "valid", valid)
         addProperty(json, "active", active)
         addProperty(json, "validIndication", validIndication)
-        addProperty(json, "indications", indications)
-        addProperty(json, "paymentMethods", paymentMethods)
+        addPropertyLS(json, "indications", indications)
+        addPropertyLS(json, "paymentMethods", paymentMethods)
 
         return json
     }

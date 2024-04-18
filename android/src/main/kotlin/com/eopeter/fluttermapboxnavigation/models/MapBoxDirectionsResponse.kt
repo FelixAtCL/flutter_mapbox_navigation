@@ -33,10 +33,10 @@ class MapBoxDirectionsResponse: MapBoxParsable {
 
         addProperty(json, "code", code)
         addProperty(json, "message", message)
-        addProperty(json, "waypoints", waypoints)
-        addProperty(json, "routes", routes)
+        addPropertyLMP(json, "waypoints", waypoints)
+        addPropertyLMP(json, "routes", routes)
         addProperty(json, "uuid", uuid)
-        addProperty(json, "metadata", metadata)
+        addPropertyMSS(json, "metadata", metadata)
 
         return json
     }

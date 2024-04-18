@@ -1,6 +1,5 @@
 package com.eopeter.fluttermapboxnavigation.models
 
-import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.mapbox.api.directions.v5.models.RouteLeg
 
@@ -36,8 +35,8 @@ class MapBoxRouteLeg: MapBoxParsable {
         addProperty(json, "duration", duration)
         addProperty(json, "durationTypical", durationTypical)
         addProperty(json, "summary", summary)
-        addProperty(json, "admins", admins)
-        addProperty(json, "steps", steps)
+        addPropertyLMP(json, "admins", admins)
+        addPropertyLMP(json, "steps", steps)
 
         return json
     }

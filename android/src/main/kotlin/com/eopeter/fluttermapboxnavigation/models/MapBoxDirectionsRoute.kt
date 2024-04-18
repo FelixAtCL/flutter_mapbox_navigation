@@ -56,12 +56,12 @@ class MapBoxDirectionsRoute: MapBoxParsable {
         addProperty(json, "geometry", geometry)
         addProperty(json, "weight", weight)
         addProperty(json, "weightName", weightName)
-        addProperty(json, "legs", legs.map{it.toJsonObject()})
-        addProperty(json, "waypoints", waypoints)
+        addPropertyLJ(json, "legs", legs.map{it.toJsonObject()})
+        addPropertyLMP(json, "waypoints", waypoints)
         addProperty(json, "routeOptions", routeOptions)
         addProperty(json, "voiceLanguage", voiceLanguage)
         addProperty(json, "requestUuid", requestUuid)
-        addProperty(json, "tollCosts", tollCosts)
+        addPropertyLMP(json, "tollCosts", tollCosts)
 
 
         return json

@@ -2,7 +2,6 @@ package com.eopeter.fluttermapboxnavigation.models
 
 import com.google.gson.JsonObject
 import com.mapbox.api.directions.v5.models.StepIntersection
-import com.mapbox.api.directions.v5.models.TollCollection
 
 class MapBoxStepIntersection: MapBoxParsable {
     private val location: MapBoxPoint
@@ -71,12 +70,12 @@ class MapBoxStepIntersection: MapBoxParsable {
         val json = JsonObject()
 
         addProperty(json, "location", location)
-        addProperty(json, "bearings", bearings)
-        addProperty(json, "classes", classes)
-        addProperty(json, "entry", entry)
+        addPropertyLI(json, "bearings", bearings)
+        addPropertyLS(json, "classes", classes)
+        addPropertyLB(json, "entry", entry)
         addProperty(json, "inside", inside)
         addProperty(json, "outside", outside)
-        addProperty(json, "lanes", lanes)
+        addPropertyLMP(json, "lanes", lanes)
         addProperty(json, "geometryIndex", geometryIndex)
         addProperty(json, "isUrban", isUrban)
         addProperty(json, "adminIndex", adminIndex)

@@ -38,7 +38,7 @@ abstract class MapBoxParsable {
         }
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: Map<String,String>) {
+    protected fun addPropertyMSS(json: JsonObject, prop: String, value: Map<String,String>) {
         val map = JsonObject()
         value.run {
             forEach {
@@ -49,7 +49,7 @@ abstract class MapBoxParsable {
         json.add(prop, map)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: Map<String,JsonElement>) {
+    protected fun addPropertyMSJ(json: JsonObject, prop: String, value: Map<String,JsonElement>) {
         val map = JsonObject()
         value.run {
             forEach {
@@ -60,7 +60,7 @@ abstract class MapBoxParsable {
         json.add(prop, map)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: Map<String,MapBoxParsable>) {
+    protected fun addPropertyMSMP(json: JsonObject, prop: String, value: Map<String,MapBoxParsable>) {
         val map = JsonObject()
         value.run {
             forEach {
@@ -75,7 +75,7 @@ abstract class MapBoxParsable {
         json.add(prop, value.toJsonObject())
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<String>) {
+    protected fun addPropertyLS(json: JsonObject, prop: String, value: List<String>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -85,7 +85,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<Double>) {
+    protected fun addPropertyLD(json: JsonObject, prop: String, value: List<Double>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -95,7 +95,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<Int>) {
+    protected fun addPropertyLI(json: JsonObject, prop: String, value: List<Int>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -105,7 +105,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<Boolean>) {
+    protected fun addPropertyLB(json: JsonObject, prop: String, value: List<Boolean>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -115,7 +115,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<MapBoxParsable>) {
+    protected fun addPropertyLMP(json: JsonObject, prop: String, value: List<MapBoxParsable>) {
         val array = JsonArray()
         value.run {
             forEach {
@@ -125,7 +125,7 @@ abstract class MapBoxParsable {
         json.add(prop, array)
     }
 
-    protected fun addProperty(json: JsonObject, prop: String, value: List<JsonObject>) {
+    protected fun addPropertyLJ(json: JsonObject, prop: String, value: List<JsonObject>) {
         val array = JsonArray()
         value.run {
             forEach {

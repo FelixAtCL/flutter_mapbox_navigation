@@ -37,7 +37,7 @@ class MapBoxRouteStepProgress: MapBoxParsable {
         addProperty(json, "intersectionIndex", intersectionIndex)
         addProperty(json, "instructionIndex", instructionIndex)
         addProperty(json, "step", step)
-        addProperty(json, "stepPoints", stepPoints)
+        addPropertyLMP(json, "stepPoints", stepPoints)
         addProperty(json, "distanceRemaining", distanceRemaining)
         addProperty(json, "distanceTraveled", distanceTraveled)
         addProperty(json, "fractionTraveled", fractionTraveled)

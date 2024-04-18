@@ -1,13 +1,10 @@
 package com.eopeter.fluttermapboxnavigation.models
 
 import com.google.gson.JsonObject
-import com.mapbox.api.directions.v5.models.BannerInstructions
 import com.mapbox.navigation.base.ExperimentalPreviewMapboxNavigationAPI
 import com.mapbox.navigation.base.internal.extensions.internalAlternativeRouteIndices
-import com.mapbox.navigation.base.route.NavigationRoute
 import com.mapbox.navigation.base.trip.model.RouteProgress
 import com.mapbox.navigation.base.trip.model.RouteProgressState
-import okhttp3.Route
 
 class MapBoxRouteProgress: MapBoxParsable {
     private val navigationRoute: MapBoxNavigationRoute
@@ -71,18 +68,18 @@ class MapBoxRouteProgress: MapBoxParsable {
         addProperty(json, "voiceInstructions", voiceInstructions)
         addProperty(json, "currentState", currentState)
         addProperty(json, "currentLegProgress", currentLegProgress)
-        addProperty(json, "upcomingStepPoints", upcomingStepPoints)
+        addPropertyLMP(json, "upcomingStepPoints", upcomingStepPoints)
         addProperty(json, "inTunnel", inTunnel)
         addProperty(json, "distanceRemaining", distanceRemaining)
         addProperty(json, "distanceTraveled", distanceTraveled)
         addProperty(json, "fractionTraveled", fractionTraveled)
         addProperty(json, "remainingWaypoints", remainingWaypoints)
-        addProperty(json, "upcomingRoadObjects", upcomingRoadObjects)
+        addPropertyLMP(json, "upcomingRoadObjects", upcomingRoadObjects)
         addProperty(json, "stale", stale)
         addProperty(json, "routeAlternativeId", routeAlternativeId)
         addProperty(json, "currentRouteGeometryIndex", currentRouteGeometryIndex)
         addProperty(json, "inParkingAisle", inParkingAisle)
-        addProperty(json, "alternativeRouteIndices", alternativeRouteIndices)
+        addPropertyMSMP(json, "alternativeRouteIndices", alternativeRouteIndices)
 
         return json
     }

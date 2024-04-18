@@ -25,7 +25,7 @@ class MapBoxRestStop: MapBoxParsable {
 
         addProperty(json, "type", type)
         addProperty(json, "name", name)
-        addProperty(json, "amenities", amenities)
+        addPropertyLMP(json, "amenities", amenities)
         addProperty(json, "guideMap", guideMap)
 
         return json
