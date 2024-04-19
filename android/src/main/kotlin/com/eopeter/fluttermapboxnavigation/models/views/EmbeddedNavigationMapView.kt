@@ -202,6 +202,7 @@ class EmbeddedNavigationMapView(
             this@EmbeddedNavigationMapView.logo = null
             this@EmbeddedNavigationMapView.map = null
             this@EmbeddedNavigationMapView.navigationCore = null
+            this@EmbeddedNavigationMapView.navigationView = null
             this@EmbeddedNavigationMapView.scalebar = null
             this@EmbeddedNavigationMapView.style = null
         }

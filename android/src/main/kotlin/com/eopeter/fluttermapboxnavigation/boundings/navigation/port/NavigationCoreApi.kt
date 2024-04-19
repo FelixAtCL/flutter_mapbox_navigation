@@ -45,8 +45,7 @@ import java.util.HashMap
 
 class NavigationCoreApi:
     MethodChannel.MethodCallHandler,
-    EventChannel.StreamHandler,
-    Application.ActivityLifecycleCallbacks
+    EventChannel.StreamHandler
 {
     private var methodChannel: MethodChannel? = null
     private var eventChannel: EventChannel? = null
@@ -432,33 +431,5 @@ class NavigationCoreApi:
                     "  \"data\": \"$data\"" +
                     "}"
         eventSink?.success(jsonString)
-    }
-
-    override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
-        Log.d("Embedded", "onActivityCreated not implemented")
-    }
-
-    override fun onActivityStarted(activity: Activity) {
-        Log.d("Embedded", "onActivityStarted not implemented")
-    }
-
-    override fun onActivityResumed(activity: Activity) {
-        Log.d("Embedded", "onActivityResumed not implemented")
-    }
-
-    override fun onActivityPaused(activity: Activity) {
-        Log.d("Embedded", "onActivityPaused not implemented")
-    }
-
-    override fun onActivityStopped(activity: Activity) {
-        Log.d("Embedded", "onActivityStopped not implemented")
-    }
-
-    override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {
-        Log.d("Embedded", "onActivitySaveInstanceState not implemented")
-    }
-
-    override fun onActivityDestroyed(activity: Activity) {
-        Log.d("Embedded", "onActivityDestroyed not implemented")
     }
 }

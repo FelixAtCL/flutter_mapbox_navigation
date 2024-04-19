@@ -18,19 +18,13 @@ import com.mapbox.navigation.core.arrival.ArrivalObserver
 import com.mapbox.navigation.core.directions.session.RoutesObserver
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
 import com.mapbox.navigation.core.trip.session.*
-import io.flutter.plugin.common.EventChannel
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
-import java.util.*
 
 open class TurnByTurn(
     ctx: Context,
     act: Activity,
     bind: NavigationActivityBinding,
     accessToken: String
-) : MethodChannel.MethodCallHandler,
-    EventChannel.StreamHandler,
-    Application.ActivityLifecycleCallbacks {
+) :    Application.ActivityLifecycleCallbacks {
 
 
     open fun initNavigation() {
@@ -44,32 +38,6 @@ open class TurnByTurn(
 
         // initialize navigation trip observers
         this.registerObservers()
-    }
-
-    override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
-        when (methodCall.method) {
-            "getPlatformVersion" -> {
-                result.success("Android ${android.os.Build.VERSION.RELEASE}")
-            }
-            "enableOfflineRouting" -> {
-                // downloadRegionForOfflineRouting(call, result)
-            }
-            "startFreeDrive" -> {
-                FlutterMapboxNavigationPlugin.enableFreeDriveMode = true
-                this.startFreeDrive()
-            }
-            "getDistanceRemaining" -> {
-                result.success(this.distanceRemaining)
-            }
-            "getDurationRemaining" -> {
-                result.success(this.durationRemaining)
-            }
-            else -> result.notImplemented()
-        }
-    }
-
-    private fun startFreeDrive() {
-        this.binding.navigationView.api.startFreeDrive()
     }
 
     open fun registerObservers() {
@@ -94,19 +62,9 @@ open class TurnByTurn(
         MapboxNavigationApp.current()?.unregisterArrivalObserver(this.arrivalObserver)
     }
 
-    // Flutter stream listener delegate methods
-    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
-        FlutterMapboxNavigationPlugin.eventSink = events
-    }
-
-    override fun onCancel(arguments: Any?) {
-        FlutterMapboxNavigationPlugin.eventSink = null
-    }
-
     open val context: Context = ctx
     val activity: Activity = act
     val token: String = accessToken
-    open var methodChannel: MethodChannel? = null
     private var lastLocation: Location? = null
 
     private var distanceRemaining: Float? = null
