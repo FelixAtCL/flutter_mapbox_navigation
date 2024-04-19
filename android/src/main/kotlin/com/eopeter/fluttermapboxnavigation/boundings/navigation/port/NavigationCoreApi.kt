@@ -155,7 +155,11 @@ class NavigationCoreApi:
     }
 
     private fun setup(methodCall: MethodCall, result: MethodChannel.Result) {
-        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        val arguments = methodCall.arguments as? Map<*, *>
+        if(arguments == null) {
+            result.success(false)
+            return
+        }
         this.setOptions(arguments)
         result.success(null)
     }
