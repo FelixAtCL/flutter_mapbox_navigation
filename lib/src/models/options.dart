@@ -184,42 +184,44 @@ class MapBoxOptions {
       }
     }
 
-    addIfNonNull('initialLatitude', initialLatitude);
-    addIfNonNull('initialLongitude', initialLongitude);
-    addIfNonNull('language', language);
-    addIfNonNull('animateBuildRoute', animateBuildRoute);
-    addIfNonNull('longPressDestinationEnabled', longPressDestinationEnabled);
-    addIfNonNull('zoom', zoom);
-    addIfNonNull('bearing', bearing);
-    addIfNonNull('tilt', tilt);
-    addIfNonNull('alternatives', alternatives);
-    addIfNonNull('mode', mode?.toString().split('.').last);
-    addIfNonNull('units', units?.toString().split('.').last);
-    addIfNonNull('allowsUTurnAtWayPoints', allowsUTurnAtWayPoints);
-    addIfNonNull('enableRefresh', enableRefresh);
-    addIfNonNull('voiceInstructionsEnabled', voiceInstructionsEnabled);
-    addIfNonNull('bannerInstructionsEnabled', bannerInstructionsEnabled);
-    addIfNonNull('simulateRoute', simulateRoute);
-    addIfNonNull('isOptimized', isOptimized);
-    addIfNonNull('mapStyleUrlDay', mapStyleUrlDay);
-    addIfNonNull('mapStyleUrlNight', mapStyleUrlNight);
-    addIfNonNull('padding', <double?>[
-      padding?.top,
-      padding?.left,
-      padding?.bottom,
-      padding?.right,
-    ]);
-    addIfNonNull('showReportFeedbackButton', showReportFeedbackButton);
-    addIfNonNull('showEndOfRouteFeedback', showEndOfRouteFeedback);
-    addIfNonNull('enableOnMapTapCallback', enableOnMapTapCallback);
-    addIfNonNull('withSteps', withSteps);
-    addIfNonNull('waypointsPerRouteEnabled', waypointsPerRouteEnabled);
-    addIfNonNull('withMetadata', withMetadata);
-    addIfNonNull('computeTollCost', computeTollCost);
-    addIfNonNull('roundaboutExitsSeparated', roundaboutExitsSeparated);
-    addIfNonNull('maxHeight', maxHeight);
-    addIfNonNull('maxWidth', maxWidth);
-    addIfNonNull('maxWeight', maxWeight);
+    // addIfNonNull('initialLatitude', initialLatitude);
+    // addIfNonNull('initialLongitude', initialLongitude);
+    // addIfNonNull('language', language);
+    // addIfNonNull('animateBuildRoute', animateBuildRoute);
+    // addIfNonNull('longPressDestinationEnabled', longPressDestinationEnabled);
+    // addIfNonNull('zoom', zoom);
+    // addIfNonNull('bearing', bearing);
+    // addIfNonNull('tilt', tilt);
+    // addIfNonNull('alternatives', alternatives);
+    // addIfNonNull('mode', mode?.toString().split('.').last);
+    // addIfNonNull('units', units?.toString().split('.').last);
+    // addIfNonNull('allowsUTurnAtWayPoints', allowsUTurnAtWayPoints);
+    // addIfNonNull('enableRefresh', enableRefresh);
+    // addIfNonNull('voiceInstructionsEnabled', voiceInstructionsEnabled);
+    // addIfNonNull('bannerInstructionsEnabled', bannerInstructionsEnabled);
+    // addIfNonNull('simulateRoute', simulateRoute);
+    // addIfNonNull('isOptimized', isOptimized);
+    // addIfNonNull('mapStyleUrlDay', mapStyleUrlDay);
+    // addIfNonNull('mapStyleUrlNight', mapStyleUrlNight);
+    // if (padding != null) {
+    //   addIfNonNull('padding', <double>[
+    //     padding!.top,
+    //     padding!.left,
+    //     padding!.bottom,
+    //     padding!.right,
+    //   ]);
+    // }
+    // addIfNonNull('showReportFeedbackButton', showReportFeedbackButton);
+    // addIfNonNull('showEndOfRouteFeedback', showEndOfRouteFeedback);
+    // addIfNonNull('enableOnMapTapCallback', enableOnMapTapCallback);
+    // addIfNonNull('withSteps', withSteps);
+    // addIfNonNull('waypointsPerRouteEnabled', waypointsPerRouteEnabled);
+    // addIfNonNull('withMetadata', withMetadata);
+    // addIfNonNull('computeTollCost', computeTollCost);
+    // addIfNonNull('roundaboutExitsSeparated', roundaboutExitsSeparated);
+    // addIfNonNull('maxHeight', maxHeight);
+    // addIfNonNull('maxWidth', maxWidth);
+    // addIfNonNull('maxWeight', maxWeight);
 
     return optionsMap;
   }

@@ -121,7 +121,7 @@ class NavigationCoreApi:
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
             "setup" -> {
-                result.success(null)
+                this.setup(methodCall, result)
             }
             "build" -> {
                 this.build(methodCall, result)
@@ -141,7 +141,7 @@ class NavigationCoreApi:
             "unmute" -> {
                 this.unmute(methodCall, result)
             }
-            else -> result.success(false)
+            else -> result.notImplemented()
         }
     }
 
