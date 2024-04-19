@@ -123,7 +123,7 @@ class NavigationViewApi :
             "clear" -> {
                 this.clear(methodCall, result)
             }
-            else -> result.notImplemented()
+            else -> result.success(false)
         }
     }
 

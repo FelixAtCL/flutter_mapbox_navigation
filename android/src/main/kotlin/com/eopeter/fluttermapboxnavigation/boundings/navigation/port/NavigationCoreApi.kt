@@ -141,7 +141,7 @@ class NavigationCoreApi:
             "unmute" -> {
                 this.unmute(methodCall, result)
             }
-            else -> result.notImplemented()
+            else -> result.success(false)
         }
     }
 
