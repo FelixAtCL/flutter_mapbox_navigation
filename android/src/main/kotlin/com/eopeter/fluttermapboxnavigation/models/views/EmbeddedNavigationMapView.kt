@@ -51,7 +51,8 @@ class EmbeddedNavigationMapView(
     open fun initialize() {
         initNavigation()
 
-        if(!(this.arguments?.get("longPressDestinationEnabled") as Boolean)) {
+        val longpressEnabled = this.arguments["longPressDestinationEnabled"] as? Boolean
+        if(longpressEnabled == false) {
             this.binding.navigationView.customizeViewOptions {
                 enableMapLongClickIntercept = false;
             }
