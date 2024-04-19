@@ -39,7 +39,7 @@ class NavigationViewAPI {
   /// ```
   Future<void> setup(MapBoxOptions options) async {
     final args = options.toMap();
-    final result = await _methodChannel.invokeMethod('setup', null);
+    final result = await _methodChannel.invokeMethod('setup', args);
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
