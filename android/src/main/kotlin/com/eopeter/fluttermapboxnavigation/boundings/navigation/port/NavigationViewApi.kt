@@ -24,6 +24,7 @@ import com.mapbox.navigation.base.route.NavigationRouterCallback
 import com.mapbox.navigation.base.route.RouterFailure
 import com.mapbox.navigation.base.route.RouterOrigin
 import com.mapbox.navigation.core.lifecycle.MapboxNavigationApp
+import com.mapbox.navigation.core.trip.session.RouteProgressObserver
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -100,6 +101,12 @@ class NavigationViewApi :
                         "flutter_mapbox_navigation/navigation/view/${viewId}/events"
                 )
         this.eventChannel?.setStreamHandler(this)
+
+        this.registerObserver()
+    }
+
+    fun close() {
+        this.unregisterObserver()
     }
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
@@ -132,6 +139,13 @@ class NavigationViewApi :
         this.eventSink = null
     }
 
+    private fun registerObserver() {
+        MapboxNavigationApp.current()?.registerRouteProgressObserver(this.routeProgressObserver)
+    }
+
+    private fun unregisterObserver() {
+        MapboxNavigationApp.current()?.unregisterRouteProgressObserver(this.routeProgressObserver)
+    }
 
     private fun build(methodCall: MethodCall, result: MethodChannel.Result) {
         this.isNavigationCanceled = false
@@ -165,12 +179,6 @@ class NavigationViewApi :
         this.setOptions(arguments)
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
-        MapboxNavigationApp.current()!!.registerRouteProgressObserver(
-                routeProgressObserver = {
-                    val json = Gson().toJson(MapBoxRouteProgress(it).toJsonObject())
-                    sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
-                }
-        )
         this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         result.success(null)
     }
@@ -383,6 +391,11 @@ class NavigationViewApi :
         if (maxWeight != null) {
             this.maxWeight = maxWeight
         }
+    }
+
+    private val routeProgressObserver = RouteProgressObserver {
+        val json = Gson().toJson(MapBoxRouteProgress(it).toJsonObject())
+                sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
     }
 
     private fun sendEvent(event: MapBoxEvents, data: String = "") {
