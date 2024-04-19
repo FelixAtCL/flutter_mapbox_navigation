@@ -31,20 +31,14 @@ class NavigationCoreAPI {
   ///
   /// This method initializes the navigation API and prepares it for use.
   /// It should be called before any other navigation-related methods are called.
+  /// [options] options used to generate the route and used while navigating
   ///
   /// Example usage:
   /// ```dart
   /// await setUp();
   /// ```
-  Future<void> setUp({
-    bool? disableInfoPanel,
-    bool? disableTripProgressPanel,
-    bool? disableHeaderPanel,
-  }) async {
-    final args = <String, dynamic>{};
-    args['disableInfoPanel'] = disableInfoPanel ?? false;
-    args['disableTripProgressPanel'] = disableTripProgressPanel ?? false;
-    args['disableHeaderPanel'] = disableHeaderPanel ?? false;
+  Future<void> setUp(MapBoxOptions options) async {
+    final args = options.toMap();
     final result = await _methodChannel.invokeMethod('setUp', args);
     if (result != null) {
       throw PlatformException(
@@ -59,22 +53,9 @@ class NavigationCoreAPI {
   /// [wayPoints] must not be null. A collection of [WayPoint](longitude,
   /// latitude and name). Must be at least 2 or at most 25. Cannot use
   /// drivingWithTraffic mode if more than 3-waypoints.
-  /// [options] options used to generate the route and used while navigating
   ///
-  Future<void> build({
-    required List<WayPoint> wayPoints,
-    MapBoxOptions? options,
-  }) async {
+  Future<void> build(List<WayPoint> wayPoints) async {
     assert(wayPoints.length > 1, 'Error: WayPoints must be at least 2');
-    if (Platform.isIOS && wayPoints.length > 3 && options?.mode != null) {
-      assert(
-        options!.mode != MapBoxNavigationMode.drivingWithTraffic,
-        '''
-          Error: Cannot use drivingWithTraffic Mode 
-          when you have more than 3 Stops
-        ''',
-      );
-    }
     final pointList = <Map<String, Object?>>[];
 
     for (var i = 0; i < wayPoints.length; i++) {
@@ -94,10 +75,9 @@ class NavigationCoreAPI {
     }
 
     var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
+    final wayPointMap = {for (final e in pointList) i++: e};
 
-    var args = <String, dynamic>{};
-    if (options != null) args = options.toMap();
+    final args = <String, dynamic>{};
     args['wayPoints'] = wayPointMap;
 
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);

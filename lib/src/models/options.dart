@@ -128,7 +128,6 @@ class MapBoxOptions {
   /// same as 'not continueStraight' on Android
   bool? allowsUTurnAtWayPoints;
 
-  bool? enableRefresh;
   // if true voice instruction is enabled
   bool? voiceInstructionsEnabled;
   //if true, banner instruction is shown and returned
@@ -181,6 +180,42 @@ class MapBoxOptions {
   /// and can style your own component on top of the map
   bool? isBottomBarDisabled;
 
+  /// Whether to return steps and turn-by-turn instructions (true) or not (false if null, default). If steps
+  /// is set to true, the following guidance-related parameters will be available: bannerInstructions(),
+  /// language(), roundaboutExits(), voiceInstructions(), voiceUnits(), waypointNames(),
+  /// waypointNamesList(), waypointTargets(), waypointTargetsList(), waypointIndices(),
+  /// waypointIndicesList(), alleyBias()
+  bool? withSteps;
+
+  /// Whether the routes should be refreshable via the directions refresh API.
+  /// If false, the refresh requests will fail. Defaults to false if null.
+  bool? enableRefresh;
+
+  /// If true, the waypoints array is returned within the route object, else its returned at the root of the
+  /// response body. Defaults to false if unspecified. Setting `waypoints_per_route` to true is necessary
+  /// when asking for an EV-optimized route with alternatives, since each alternative route may produce
+  /// separate sets of waypoints (charging stations).
+  bool? waypointsPerRouteEnabled;
+
+  /// Whether the response should contain metadata holding versioning information.
+  bool? withMetadata;
+
+  /// Whether to return calculated toll cost for the route, if data is available.
+  /// Default is false.
+  bool? computeTollCost;
+
+  /// Whether to emit instructions at roundabout exits (true) or not (false, default if null). Without this
+  /// parameter, roundabout maneuvers are given as a single instruction that includes both entering and
+  /// exiting the roundabout. With roundabout_exits=true, this maneuver becomes two instructions, one
+  /// for entering the roundabout and one for exiting it. Must be used in conjunction with steps()=true.
+  bool? roundaboutExitsSeparated;
+
+  double? maxHeight;
+
+  double? maxWidth;
+
+  double? maxWeight;
+
   Map<String, dynamic> toMap() {
     final optionsMap = <String, dynamic>{};
     void addIfNonNull(String fieldName, dynamic value) {
@@ -194,53 +229,39 @@ class MapBoxOptions {
     addIfNonNull('language', language);
     addIfNonNull('animateBuildRoute', animateBuildRoute);
     addIfNonNull('longPressDestinationEnabled', longPressDestinationEnabled);
-
-    if (zoom != null) optionsMap['zoom'] = zoom;
-    if (bearing != null) optionsMap['bearing'] = bearing;
-    if (tilt != null) optionsMap['tilt'] = tilt;
-    if (alternatives != null) {
-      optionsMap['alternatives'] = alternatives;
-    }
-    if (mode != null) {
-      optionsMap['mode'] = mode?.toString().split('.').last;
-    }
-    if (units != null) {
-      optionsMap['units'] = units?.toString().split('.').last;
-    }
-    if (allowsUTurnAtWayPoints != null) {
-      optionsMap['allowsUTurnAtWayPoints'] = allowsUTurnAtWayPoints;
-    }
-    if (enableRefresh != null) {
-      optionsMap['enableRefresh'] = enableRefresh;
-    }
-
+    addIfNonNull('zoom', zoom);
+    addIfNonNull('bearing', bearing);
+    addIfNonNull('tilt', tilt);
+    addIfNonNull('alternatives', alternatives);
+    addIfNonNull('mode', mode?.toString().split('.').last);
+    addIfNonNull('units', units?.toString().split('.').last);
+    addIfNonNull('allowsUTurnAtWayPoints', allowsUTurnAtWayPoints);
+    addIfNonNull('enableRefresh', enableRefresh);
     addIfNonNull('voiceInstructionsEnabled', voiceInstructionsEnabled);
     addIfNonNull('bannerInstructionsEnabled', bannerInstructionsEnabled);
-
-    if (mapStyleUrlDay != null) {
-      optionsMap['mapStyleUrlDay'] = mapStyleUrlDay;
-    }
-    if (mapStyleUrlNight != null) {
-      optionsMap['mapStyleUrlNight'] = mapStyleUrlNight;
-    }
-    if (simulateRoute != null) {
-      optionsMap['simulateRoute'] = simulateRoute;
-    }
-    if (isOptimized != null) optionsMap['isOptimized'] = isOptimized;
-
+    addIfNonNull('simulateRoute', simulateRoute);
+    addIfNonNull('isOptimized', isOptimized);
+    addIfNonNull('mapStyleUrlDay', mapStyleUrlDay);
+    addIfNonNull('mapStyleUrlNight', mapStyleUrlNight);
     addIfNonNull('padding', <double?>[
       padding?.top,
       padding?.left,
       padding?.bottom,
       padding?.right,
     ]);
-
     addIfNonNull('showReportFeedbackButton', showReportFeedbackButton);
     addIfNonNull('showEndOfRouteFeedback', showEndOfRouteFeedback);
     addIfNonNull('enableOnMapTapCallback', enableOnMapTapCallback);
-
     addIfNonNull('isTopBarDisabled', isTopBarDisabled);
     addIfNonNull('isBottomBarDisabled', isBottomBarDisabled);
+    addIfNonNull('withSteps', withSteps);
+    addIfNonNull('waypointsPerRouteEnabled', waypointsPerRouteEnabled);
+    addIfNonNull('withMetadata', withMetadata);
+    addIfNonNull('computeTollCost', computeTollCost);
+    addIfNonNull('roundaboutExitsSeparated', roundaboutExitsSeparated);
+    addIfNonNull('maxHeight', maxHeight);
+    addIfNonNull('maxWidth', maxWidth);
+    addIfNonNull('maxWeight', maxWeight);
 
     return optionsMap;
   }

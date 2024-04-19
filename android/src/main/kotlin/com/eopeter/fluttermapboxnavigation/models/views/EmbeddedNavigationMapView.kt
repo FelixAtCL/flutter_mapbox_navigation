@@ -14,6 +14,7 @@ import com.eopeter.fluttermapboxnavigation.boundings.location.port.LocationApi
 import com.eopeter.fluttermapboxnavigation.boundings.logo.port.LogoApi
 import com.eopeter.fluttermapboxnavigation.boundings.map.port.MapApi
 import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.NavigationCoreApi
+import com.eopeter.fluttermapboxnavigation.boundings.navigation.port.NavigationViewApi
 import com.eopeter.fluttermapboxnavigation.boundings.scaleBar.port.ScaleBarApi
 import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
@@ -43,6 +44,7 @@ class EmbeddedNavigationMapView(
     private var location: LocationApi? = null
     private var logo: LogoApi? = null
     private var navigationCore: NavigationCoreApi? = null
+    private var navigationView: NavigationViewApi? = null
     private var scalebar: ScaleBarApi? = null
     private var style: StyleApi? = null
 
@@ -157,6 +159,16 @@ class EmbeddedNavigationMapView(
             )
             navigationCore.init()
             this@EmbeddedNavigationMapView.navigationCore = navigationCore
+
+            val navigationView = NavigationViewApi(
+                this@EmbeddedNavigationMapView.messenger,
+                this@EmbeddedNavigationMapView.binding,
+                this@EmbeddedNavigationMapView.viewId,
+                this@EmbeddedNavigationMapView.context,
+                this@EmbeddedNavigationMapView.activity
+            )
+            navigationView.init()
+            this@EmbeddedNavigationMapView.navigationView = navigationView
 
             val scalebar = ScaleBarApi(
                 this@EmbeddedNavigationMapView.messenger,
