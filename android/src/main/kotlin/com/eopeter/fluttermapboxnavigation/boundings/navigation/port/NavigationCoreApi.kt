@@ -177,14 +177,14 @@ class NavigationCoreApi:
         }
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         this.setOptions(arguments)
-        MapboxNavigationApp.current()!!.setNavigationRoutes(this.currentRoutes!!)
-        MapboxNavigationApp.current()!!.setRoutesPreview(emptyList())
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         MapboxNavigationApp.current()!!.registerRouteProgressObserver(routeProgressObserver =  {
             val json = Gson().toJson(MapBoxRouteProgress(it).toJsonObject())
             sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
         })
+        MapboxNavigationApp.current()!!.setNavigationRoutes(this.currentRoutes!!)
+        MapboxNavigationApp.current()!!.setRoutesPreview(emptyList())
         result.success(null)
     }
 

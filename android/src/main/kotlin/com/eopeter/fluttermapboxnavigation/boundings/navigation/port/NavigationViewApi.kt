@@ -163,7 +163,6 @@ class NavigationViewApi :
         }
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         this.setOptions(arguments)
-        this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
         MapboxNavigationApp.current()!!.registerRouteProgressObserver(
@@ -172,6 +171,7 @@ class NavigationViewApi :
                     sendEvent(MapBoxEvents.PROGRESS_CHANGE, json)
                 }
         )
+        this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         result.success(null)
     }
 
