@@ -153,7 +153,9 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                       .addRouteEventNotifier((value) {
                                     print("event: ${value.data}");
                                   });
-                                  _controller?.navigationView.build(wayPoints);
+                                  _controller?.navigationView.build(
+                                      wayPoints: wayPoints,
+                                      options: _navigationOption);
                                   setState(() {
                                     _routeBuilt = true;
                                   });
@@ -169,7 +171,8 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                       ElevatedButton(
                         onPressed: _routeBuilt && !_isNavigating
                             ? () {
-                                _controller?.navigationCore.start();
+                                _controller?.navigationCore
+                                    .start(options: _navigationOption);
                                 setState(() {
                                   _isNavigating = true;
                                   _inFreeDrive = false;
@@ -260,7 +263,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                     onCreated:
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
-                      _controller?.navigationCore.setup(_navigationOption);
                       _listenOnTap();
                       _listenOnCameraChange();
                     }),

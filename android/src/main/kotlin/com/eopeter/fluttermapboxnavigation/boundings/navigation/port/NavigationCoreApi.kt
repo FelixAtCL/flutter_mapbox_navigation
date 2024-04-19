@@ -156,7 +156,7 @@ class NavigationCoreApi:
         val arguments = methodCall.arguments as? Map<*, *> ?: return
         this.setOptions(arguments)
         this.addedWaypoints.clear()
-        val points = arguments?.get("wayPoints") as HashMap<*, *>
+        val points = arguments["wayPoints"] as HashMap<*, *>
         for (item in points) {
             val point = item.value as HashMap<*, *>
             val latitude = point["Latitude"] as Double

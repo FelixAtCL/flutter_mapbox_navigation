@@ -59,7 +59,7 @@ class NavigationCoreAPI {
     var i = 0;
     final wayPointMap = {for (final e in pointList) i++: e};
 
-    final args = <String, dynamic>{};
+    final args = options.toMap();
     args['wayPoints'] = wayPointMap;
 
     _routeEventSubscription = _streamRouteEvent!.listen(_onProgressData);
