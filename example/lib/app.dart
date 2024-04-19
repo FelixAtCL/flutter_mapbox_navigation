@@ -260,7 +260,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                     onCreated:
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
-                      _controller?.navigationView.setUp(_navigationOption);
+                      _controller?.navigationCore.setUp(_navigationOption);
                       _listenOnTap();
                       _listenOnCameraChange();
                     }),

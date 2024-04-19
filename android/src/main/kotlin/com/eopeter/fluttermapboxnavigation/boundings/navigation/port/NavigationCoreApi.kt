@@ -120,8 +120,8 @@ class NavigationCoreApi:
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "setUp" -> {
-                this.setUp(methodCall, result)
+            "setup" -> {
+                this.setup(methodCall, result)
             }
             "build" -> {
                 this.build(methodCall, result)
@@ -154,9 +154,9 @@ class NavigationCoreApi:
         this.eventSink = null
     }
 
-    private fun setUp(methodCall: MethodCall, result: MethodChannel.Result) {
-        val arguments = methodCall.arguments as? Map<*, *>
-        if (arguments != null) this.setOptions(arguments)
+    private fun setup(methodCall: MethodCall, result: MethodChannel.Result) {
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        this.setOptions(arguments)
         result.success(null)
     }
 

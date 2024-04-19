@@ -37,9 +37,9 @@ class NavigationCoreAPI {
   /// ```dart
   /// await setUp();
   /// ```
-  Future<void> setUp(MapBoxOptions options) async {
+  Future<void> setup(MapBoxOptions options) async {
     final args = options.toMap();
-    final result = await _methodChannel.invokeMethod('setUp', args);
+    final result = await _methodChannel.invokeMethod('setup', args);
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',
