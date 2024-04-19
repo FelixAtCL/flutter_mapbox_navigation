@@ -6,7 +6,6 @@ class MapBoxNavigationViewController {
   /// Constructor
   MapBoxNavigationViewController({
     required int id,
-    ValueSetter<RouteEvent>? onRouteEvent,
     this.onStyleLoadedListener,
     this.onCameraChangeListener,
     this.onMapIdleListener,
@@ -21,15 +20,11 @@ class MapBoxNavigationViewController {
     this.onStyleImageMissingListener,
     this.onStyleImageUnusedListener,
   }) {
-    _methodChannel = MethodChannel('flutter_mapbox_navigation/$id');
-    _methodChannel.setMethodCallHandler(_handleMethod);
-
-    _routeEventNotifier = onRouteEvent;
-
     attribution = AttributionAPI(id);
     camera = CameraAPI(id);
     compass = CompassAPI(id);
     navigationCore = NavigationCoreAPI(id);
+    navigationView = NavigationViewAPI(id);
     gesture = GestureAPI(id);
     location = LocationAPI(id);
     logo = LogoAPI(id);
@@ -108,6 +103,7 @@ class MapBoxNavigationViewController {
   late CameraAPI camera;
   late CompassAPI compass;
   late NavigationCoreAPI navigationCore;
+  late NavigationViewAPI navigationView;
   late GestureAPI gesture;
   late LocationAPI location;
   late LogoAPI logo;
@@ -171,151 +167,8 @@ class MapBoxNavigationViewController {
       .invokeMethod('getPlatformVersion')
       .then((dynamic result) => result as String);
 
-  ///Total distance remaining in meters along route.
-  Future<double> get distanceRemaining => _methodChannel
-      .invokeMethod<double>('getDistanceRemaining')
-      .then((dynamic result) => result as double);
-
-  ///Total seconds remaining on all legs.
-  Future<double> get durationRemaining => _methodChannel
-      .invokeMethod<double>('getDurationRemaining')
-      .then((dynamic result) => result as double);
-
-  ///Build the Route Used for the Navigation
-  ///
-  /// [wayPoints] must not be null. A collection of [WayPoint](longitude,
-  /// latitude and name). Must be at least 2 or at most 25. Cannot use
-  /// drivingWithTraffic mode if more than 3-waypoints.
-  /// [options] options used to generate the route and used while navigating
-  ///
-  Future<bool> buildRoute({
-    required List<WayPoint> wayPoints,
-    MapBoxOptions? options,
-  }) async {
-    assert(wayPoints.length > 1, 'Error: WayPoints must be at least 2');
-    if (Platform.isIOS && wayPoints.length > 3 && options?.mode != null) {
-      assert(
-        options!.mode != MapBoxNavigationMode.drivingWithTraffic,
-        '''
-          Error: Cannot use drivingWithTraffic Mode 
-          when you have more than 3 Stops
-        ''',
-      );
-    }
-    final pointList = <Map<String, Object?>>[];
-
-    for (var i = 0; i < wayPoints.length; i++) {
-      final wayPoint = wayPoints[i];
-      assert(wayPoint.name != null, 'Error: waypoints need name');
-      assert(wayPoint.latitude != null, 'Error: waypoints need latitude');
-      assert(wayPoint.longitude != null, 'Error: waypoints need longitude');
-
-      final pointMap = <String, dynamic>{
-        'Order': i,
-        'Name': wayPoint.name,
-        'Latitude': wayPoint.latitude,
-        'Longitude': wayPoint.longitude,
-        'IsSilent': wayPoint.isSilent,
-      };
-      pointList.add(pointMap);
-    }
-
-    var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
-
-    var args = <String, dynamic>{};
-    if (options != null) args = options.toMap();
-    args['wayPoints'] = wayPointMap;
-
-    return _methodChannel
-        .invokeMethod('buildRoute', args)
-        .then((dynamic result) => result as bool);
-  }
-
-  /// Draws the Route on the Navigation MapView
-  ///
-  /// [wayPoints] must not be null. A collection of [WayPoint](longitude,
-  /// latitude and name). Must be at least 2 or at most 25. Cannot use
-  /// drivingWithTraffic mode if more than 3-waypoints.
-  /// [options] options used to generate the route and used while navigating
-  ///
-  Future<bool> drawRoute({
-    required List<WayPoint> wayPoints,
-    MapBoxOptions? options,
-  }) async {
-    assert(wayPoints.length > 1, 'Error: WayPoints must be at least 2');
-    final pointList = <Map<String, Object?>>[];
-
-    for (var i = 0; i < wayPoints.length; i++) {
-      final wayPoint = wayPoints[i];
-      assert(wayPoint.name != null, 'Error: waypoints need name');
-      assert(wayPoint.latitude != null, 'Error: waypoints need latitude');
-      assert(wayPoint.longitude != null, 'Error: waypoints need longitude');
-
-      final pointMap = <String, dynamic>{
-        'Order': i,
-        'Name': wayPoint.name,
-        'Latitude': wayPoint.latitude,
-        'Longitude': wayPoint.longitude,
-        'IsSilent': wayPoint.isSilent,
-      };
-      pointList.add(pointMap);
-    }
-
-    var i = 0;
-    final wayPointMap = {for (var e in pointList) i++: e};
-
-    var args = <String, dynamic>{};
-    if (options != null) args = options.toMap();
-    args['wayPoints'] = wayPointMap;
-
-    return _methodChannel
-        .invokeMethod('drawRoute', args)
-        .then((dynamic result) => result as bool);
-  }
-
-  /// Clear the built route and resets the map
-  Future<bool?> clearRoute() async {
-    return _methodChannel.invokeMethod('clearRoute', null);
-  }
-
-  /// Starts Free Drive Mode
-  Future<bool?> startFreeDrive({MapBoxOptions? options}) async {
-    Map<String, dynamic>? args;
-    if (options != null) args = options.toMap();
-    return _methodChannel.invokeMethod('startFreeDrive', args);
-  }
-
-  /// Starts the Navigation
-  Future<bool?> startNavigation({MapBoxOptions? options}) async {
-    Map<String, dynamic>? args;
-    if (options != null) args = options.toMap();
-    //_routeEventSubscription = _streamRouteEvent.listen(_onProgressData);
-    return _methodChannel.invokeMethod('startNavigation', args);
-  }
-
-  ///Ends Navigation and Closes the Navigation View
-  Future<bool?> finishNavigation() async {
-    final success = await _methodChannel.invokeMethod('finishNavigation', null);
-    return success as bool?;
-  }
-
-  /// Generic Handler for Messages sent from the Platform
-  Future<dynamic> _handleMethod(MethodCall call) async {
-    switch (call.method) {
-      case 'sendFromNative':
-        final text = call.arguments as String?;
-        return Future.value('Text from native: $text');
-    }
-  }
-
-  /// Call this to cancel the subscription to route events
-  /// Add here future disposing methods
   void dispose() {
-    _routeEventSubscription.cancel();
-  }
-
-  void _onProgressData(RouteEvent event) {
-    if (_routeEventNotifier != null) _routeEventNotifier?.call(event);
+    navigationCore.dispose();
+    navigationView.dispose();
   }
 }

@@ -179,4 +179,8 @@ class NavigationViewAPI {
         return Future.value('Text from native: $text');
     }
   }
+
+  void dispose() {
+    _routeEventSubscription.cancel();
+  }
 }

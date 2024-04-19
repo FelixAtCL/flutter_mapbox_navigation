@@ -10,58 +10,30 @@ import 'package:flutter_mapbox_navigation/src/models/voice_units.dart';
 /// 'do not change this configuration option'.
 ///
 class MapBoxOptions {
-  MapBoxOptions({
-    this.initialLatitude,
-    this.initialLongitude,
-    this.language,
-    this.zoom,
-    this.bearing,
-    this.tilt,
-    this.alternatives,
-    this.mode,
-    this.units,
-    this.allowsUTurnAtWayPoints,
-    this.enableRefresh,
-    this.voiceInstructionsEnabled,
-    this.bannerInstructionsEnabled,
-    this.longPressDestinationEnabled,
-    this.simulateRoute,
-    this.isOptimized,
-    this.mapStyleUrlDay,
-    this.mapStyleUrlNight,
-    this.padding,
-    this.animateBuildRoute,
-    this.showReportFeedbackButton = true,
-    this.showEndOfRouteFeedback = true,
-    this.enableOnMapTapCallback = false,
-    this.isTopBarDisabled = false,
-    this.isBottomBarDisabled = false,
-  });
-
-  MapBoxOptions.from(MapBoxOptions option) {
-    initialLatitude = option.initialLatitude;
-    initialLongitude = option.initialLongitude;
-    language = option.language;
-    zoom = option.zoom;
-    bearing = option.bearing;
-    tilt = option.tilt;
-    alternatives = option.alternatives;
-    mode = option.mode;
-    units = option.units;
-    allowsUTurnAtWayPoints = option.allowsUTurnAtWayPoints;
-    enableRefresh = option.enableRefresh;
-    voiceInstructionsEnabled = option.voiceInstructionsEnabled;
-    bannerInstructionsEnabled = option.bannerInstructionsEnabled;
-    longPressDestinationEnabled = option.longPressDestinationEnabled;
-    simulateRoute = option.simulateRoute;
-    isOptimized = option.isOptimized;
-    mapStyleUrlDay = option.mapStyleUrlDay;
-    mapStyleUrlNight = option.mapStyleUrlNight;
-    padding = option.padding;
-    animateBuildRoute = option.animateBuildRoute;
-    showReportFeedbackButton = option.showReportFeedbackButton;
-    showEndOfRouteFeedback = option.showEndOfRouteFeedback;
-  }
+  MapBoxOptions(
+      {this.initialLatitude,
+      this.initialLongitude,
+      this.language,
+      this.zoom,
+      this.bearing,
+      this.tilt,
+      this.alternatives,
+      this.mode,
+      this.units,
+      this.allowsUTurnAtWayPoints,
+      this.enableRefresh,
+      this.voiceInstructionsEnabled,
+      this.bannerInstructionsEnabled,
+      this.longPressDestinationEnabled,
+      this.simulateRoute,
+      this.isOptimized,
+      this.mapStyleUrlDay,
+      this.mapStyleUrlNight,
+      this.padding,
+      this.animateBuildRoute,
+      this.showReportFeedbackButton = true,
+      this.showEndOfRouteFeedback = true,
+      this.enableOnMapTapCallback = false});
 
   /// The initial Latitude of the Map View
   double? initialLatitude;
@@ -168,18 +140,6 @@ class MapBoxOptions {
   /// to where you tap on the map.
   bool? enableOnMapTapCallback;
 
-  /// Gives you the ability to disable the top bar
-  /// (where the ETA and the distance are displayed)
-  /// With this option you can still receive the callbacks from the onRouteEvent
-  /// and can style your own component on top of the map
-  bool? isTopBarDisabled;
-
-  /// Gives you the ability to disable the bottom bar
-  /// (where the maneuver arrow and the next road name are displayed)
-  /// With this option you can still receive the callbacks from the onRouteEvent
-  /// and can style your own component on top of the map
-  bool? isBottomBarDisabled;
-
   /// Whether to return steps and turn-by-turn instructions (true) or not (false if null, default). If steps
   /// is set to true, the following guidance-related parameters will be available: bannerInstructions(),
   /// language(), roundaboutExits(), voiceInstructions(), voiceUnits(), waypointNames(),
@@ -252,8 +212,6 @@ class MapBoxOptions {
     addIfNonNull('showReportFeedbackButton', showReportFeedbackButton);
     addIfNonNull('showEndOfRouteFeedback', showEndOfRouteFeedback);
     addIfNonNull('enableOnMapTapCallback', enableOnMapTapCallback);
-    addIfNonNull('isTopBarDisabled', isTopBarDisabled);
-    addIfNonNull('isBottomBarDisabled', isBottomBarDisabled);
     addIfNonNull('withSteps', withSteps);
     addIfNonNull('waypointsPerRouteEnabled', waypointsPerRouteEnabled);
     addIfNonNull('withMetadata', withMetadata);

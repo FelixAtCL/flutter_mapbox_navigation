@@ -25,7 +25,6 @@ class MapBoxNavigationView extends StatelessWidget {
     super.key,
     this.options,
     this.onCreated,
-    this.onRouteEvent,
     this.onStyleLoadedListener,
     this.onCameraChangeListener,
     this.onMapIdleListener,
@@ -48,9 +47,6 @@ class MapBoxNavigationView extends StatelessWidget {
 
   /// Callback when view is created
   final OnNavigationViewCreatedCallBack? onCreated;
-
-  /// Value setter for RouteEvents
-  final ValueSetter<RouteEvent>? onRouteEvent;
 
   /// Invoked when the requested style has been fully loaded, including the style, specified sprite and sources' metadata.
   final OnStyleLoadedListener? onStyleLoadedListener;
@@ -148,7 +144,6 @@ class MapBoxNavigationView extends StatelessWidget {
     onCreated?.call(
       MapBoxNavigationViewController(
         id: id,
-        onRouteEvent: onRouteEvent,
         onStyleLoadedListener: onStyleLoadedListener,
         onCameraChangeListener: onCameraChangeListener,
         onMapIdleListener: onMapIdleListener,

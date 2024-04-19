@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_mapbox_navigation/flutter_mapbox_navigation.dart';
 import 'package:flutter_mapbox_navigation/mapbox_navigation_flutter.dart';
 
@@ -87,12 +86,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     _navigationOption = MapBoxNavigation.instance.getDefaultOptions();
     _navigationOption.simulateRoute = true;
     _navigationOption.language = "en";
-    _navigationOption.isBottomBarDisabled = false;
-    _navigationOption.isTopBarDisabled = false;
-
-    //_navigationOption.initialLatitude = 36.1175275;
-    //_navigationOption.initialLongitude = -115.1839524;
-    MapBoxNavigation.instance.registerRouteEventListener(_onEmbeddedRouteEvent);
 
     String? platformVersion;
     // Platform messages may fail, so we use a try/catch PlatformException.
@@ -160,9 +153,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                       .addRouteEventNotifier((value) {
                                     print("event: ${value.data}");
                                   });
-                                  _controller?.navigationCore.build(
-                                      wayPoints: wayPoints,
-                                      options: _navigationOption);
+                                  _controller?.navigationCore.build(wayPoints);
                                   setState(() {
                                     _routeBuilt = true;
                                   });
@@ -181,6 +172,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                 _controller?.navigationCore.start();
                                 setState(() {
                                   _isNavigating = true;
+                                  _inFreeDrive = false;
                                 });
                               }
                             : null,
@@ -239,8 +231,10 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                       onPressed: _inFreeDrive
                           ? null
                           : () async {
-                              _inFreeDrive =
-                                  await _controller?.startFreeDrive() ?? false;
+                              await _controller?.navigationView.freeDrive();
+                              setState(() {
+                                _inFreeDrive = true;
+                              });
                             },
                       child: const Text("Free Drive "),
                     ),
@@ -263,7 +257,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                 color: Colors.grey,
                 child: MapBoxNavigationView(
                     options: _navigationOption,
-                    onRouteEvent: _onEmbeddedRouteEvent,
                     onCreated:
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
@@ -352,7 +345,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
       case MapBoxEvent.on_arrival:
         if (!_isMultipleStop) {
           await Future.delayed(const Duration(seconds: 3));
-          await _controller?.finishNavigation();
+          await _controller?.navigationView.finish();
         } else {}
         break;
       case MapBoxEvent.navigation_finished:
