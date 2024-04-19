@@ -119,9 +119,6 @@ class NavigationCoreApi:
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "setup" -> {
-                this.setup(methodCall, result)
-            }
             "build" -> {
                 this.build(methodCall, result)
             }
@@ -153,20 +150,11 @@ class NavigationCoreApi:
         this.eventSink = null
     }
 
-    private fun setup(methodCall: MethodCall, result: MethodChannel.Result) {
-        val arguments = methodCall.arguments as? Map<*, *>
-        if(arguments == null) {
-            result.success(false)
-            return
-        }
-        this.setOptions(arguments)
-        result.success(null)
-    }
-
     private fun build(methodCall: MethodCall, result: MethodChannel.Result) {
         this.isNavigationCanceled = false
 
-        val arguments = methodCall.arguments as? Map<*, *>
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        this.setOptions(arguments)
         this.addedWaypoints.clear()
         val points = arguments?.get("wayPoints") as HashMap<*, *>
         for (item in points) {
@@ -187,6 +175,8 @@ class NavigationCoreApi:
             result.success("No route initialized!")
             return
         }
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        this.setOptions(arguments)
         MapboxNavigationApp.current()!!.setNavigationRoutes(this.currentRoutes!!)
         MapboxNavigationApp.current()!!.setRoutesPreview(emptyList())
         this.isNavigationCanceled = false

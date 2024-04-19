@@ -27,34 +27,16 @@ class NavigationCoreAPI {
     _routeEventNotifier = notifier;
   }
 
-  /// Sets up the navigation API.
-  ///
-  /// This method initializes the navigation API and prepares it for use.
-  /// It should be called before any other navigation-related methods are called.
-  /// [options] options used to generate the route and used while navigating
-  ///
-  /// Example usage:
-  /// ```dart
-  /// await setUp();
-  /// ```
-  Future<void> setup(MapBoxOptions options) async {
-    final args = options.toMap();
-    final result = await _methodChannel.invokeMethod('setup', args);
-    if (result != null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel. $result',
-      );
-    }
-  }
-
   ///Build the Route Used for the Navigation
   ///
   /// [wayPoints] must not be null. A collection of [WayPoint](longitude,
   /// latitude and name). Must be at least 2 or at most 25. Cannot use
   /// drivingWithTraffic mode if more than 3-waypoints.
   ///
-  Future<void> build(List<WayPoint> wayPoints) async {
+  Future<void> build({
+    required List<WayPoint> wayPoints,
+    required MapBoxOptions options,
+  }) async {
     assert(wayPoints.length > 1, 'Error: WayPoints must be at least 2');
     final pointList = <Map<String, Object?>>[];
 
@@ -95,8 +77,11 @@ class NavigationCoreAPI {
   /// This method invokes the 'start' method on the method channel to initiate the navigation process.
   /// It returns a [Future] that completes when the navigation process is started.
   /// If an error occurs during the process, a [PlatformException] is thrown with the error details.
-  Future<void> start() async {
-    final result = await _methodChannel.invokeMethod('start', null);
+  Future<void> start({
+    required MapBoxOptions options,
+  }) async {
+    final args = options.toMap();
+    final result = await _methodChannel.invokeMethod('start', args);
     if (result != null) {
       throw PlatformException(
         code: 'channel-error',

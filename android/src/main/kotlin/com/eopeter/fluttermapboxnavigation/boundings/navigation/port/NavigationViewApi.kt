@@ -104,9 +104,6 @@ class NavigationViewApi :
 
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
-            "setup" -> {
-                this.setup(methodCall, result)
-            }
             "build" -> {
                 this.build(methodCall, result)
             }
@@ -135,22 +132,14 @@ class NavigationViewApi :
         this.eventSink = null
     }
 
-    private fun setup(methodCall: MethodCall, result: MethodChannel.Result) {
-        val arguments = methodCall.arguments as? Map<*, *>
-        if(arguments == null) {
-            result.success(false)
-            return
-        }
-        this.setOptions(arguments)
-        result.success(null)
-    }
 
     private fun build(methodCall: MethodCall, result: MethodChannel.Result) {
         this.isNavigationCanceled = false
 
-        val arguments = methodCall.arguments as? Map<*, *>
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        this.setOptions(arguments)
         this.addedWaypoints.clear()
-        val points = arguments?.get("wayPoints") as HashMap<*, *>
+        val points = arguments.get("wayPoints") as HashMap<*, *>
         for (item in points) {
             val point = item.value as HashMap<*, *>
             val latitude = point["Latitude"] as Double
@@ -172,6 +161,8 @@ class NavigationViewApi :
             result.success("No route initialized!")
             return
         }
+        val arguments = methodCall.arguments as? Map<*, *> ?: return
+        this.setOptions(arguments)
         this.binding.navigationView.api.startActiveGuidance(this.currentRoutes!!)
         this.isNavigationCanceled = false
         sendEvent(MapBoxEvents.NAVIGATION_RUNNING)
