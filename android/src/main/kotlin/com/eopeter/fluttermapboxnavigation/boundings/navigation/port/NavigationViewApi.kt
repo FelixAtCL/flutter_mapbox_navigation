@@ -106,7 +106,7 @@ class NavigationViewApi :
     override fun onMethodCall(methodCall: MethodCall, result: MethodChannel.Result) {
         when (methodCall.method) {
             "setup" -> {
-                this.setup(methodCall, result)
+                result.success(null)
             }
             "build" -> {
                 this.build(methodCall, result)

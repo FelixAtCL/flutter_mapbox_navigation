@@ -260,7 +260,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                     onCreated:
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
-                      _controller?.navigationCore.setUp(_navigationOption);
+                      _controller?.navigationCore.setup(_navigationOption);
                       _listenOnTap();
                       _listenOnCameraChange();
                     }),
@@ -314,52 +314,6 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
     print("location settings: $locationSettings");
     await _controller?.location
         .updateSettings(LocationComponentSettings(enabled: false));
-  }
-
-  Future<void> _onEmbeddedRouteEvent(e) async {
-    _distanceRemaining = await MapBoxNavigation.instance.getDistanceRemaining();
-    _durationRemaining = await MapBoxNavigation.instance.getDurationRemaining();
-
-    switch (e.eventType) {
-      case MapBoxEvent.progress_change:
-        var progressEvent = e.data as RouteProgressEvent;
-        if (progressEvent.currentStepInstruction != null) {
-          _instruction = progressEvent.currentStepInstruction;
-        }
-        break;
-      case MapBoxEvent.route_building:
-      case MapBoxEvent.route_built:
-        setState(() {
-          _routeBuilt = true;
-        });
-        break;
-      case MapBoxEvent.route_build_failed:
-        setState(() {
-          _routeBuilt = false;
-        });
-        break;
-      case MapBoxEvent.navigation_running:
-        setState(() {
-          _isNavigating = true;
-        });
-        break;
-      case MapBoxEvent.on_arrival:
-        if (!_isMultipleStop) {
-          await Future.delayed(const Duration(seconds: 3));
-          await _controller?.navigationView.finish();
-        } else {}
-        break;
-      case MapBoxEvent.navigation_finished:
-      case MapBoxEvent.navigation_cancelled:
-        setState(() {
-          _routeBuilt = false;
-          _isNavigating = false;
-        });
-        break;
-      default:
-        break;
-    }
-    setState(() {});
   }
 
   Future<void> _loadMarker() async {
