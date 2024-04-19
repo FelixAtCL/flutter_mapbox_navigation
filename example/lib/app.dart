@@ -149,11 +149,11 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                                   // wayPoints.add(_stop2);
                                   wayPoints.add(_stop3);
                                   _isMultipleStop = wayPoints.length > 2;
-                                  _controller?.navigationCore
+                                  _controller?.navigationView
                                       .addRouteEventNotifier((value) {
                                     print("event: ${value.data}");
                                   });
-                                  _controller?.navigationCore.build(wayPoints);
+                                  _controller?.navigationView.build(wayPoints);
                                   setState(() {
                                     _routeBuilt = true;
                                   });
@@ -260,6 +260,7 @@ class _SampleNavigationAppState extends State<SampleNavigationApp> {
                     onCreated:
                         (MapBoxNavigationViewController controller) async {
                       _controller = controller;
+                      _controller?.navigationView.setUp(_navigationOption);
                       _listenOnTap();
                       _listenOnCameraChange();
                     }),
