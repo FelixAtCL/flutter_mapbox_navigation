@@ -61,7 +61,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 33
+        targetSdkVersion flutter.targetSdkVersion
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
